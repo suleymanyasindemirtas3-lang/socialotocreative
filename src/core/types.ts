@@ -9,7 +9,7 @@ export type PostStatus =
   | 'failed';
 
 export interface MediaAsset {
-  kind: 'image';
+  kind: 'image' | 'video';
   path: string;
   alt: string;
   mime: string;
@@ -104,6 +104,12 @@ export interface PlatformDef {
   id: string;
   label: string;
   limits: { text: number; media: number };
+  /**
+   * Bu platform yayin icin ne istiyor.
+   * 'video' olanlar (YouTube, TikTok) metin+gorselle beslenemez; uretim
+   * asamasi bunu bilmeden dogru medyayi hazirlayamaz.
+   */
+  needs: 'none' | 'image' | 'video';
   fields: CredentialField[];
   setupUrl?: string;
   setupHint?: string;

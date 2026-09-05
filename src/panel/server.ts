@@ -227,7 +227,9 @@ async function serveMedia(res: ServerResponse, path: string): Promise<void> {
   if (file !== root && !file.startsWith(root + sep)) return send(res, 403, { error: 'yasak' });
   try {
     const buf = await readFile(file);
-    const type = extname(file) === '.png' ? 'image/png' : 'image/jpeg';
+    const ext = extname(file).toLowerCase();
+    const type =
+      ext === '.png' ? 'image/png' : ext === '.mp4' ? 'video/mp4' : ext === '.mp3' ? 'audio/mpeg' : 'image/jpeg';
     res.writeHead(200, { 'content-type': type, 'cache-control': 'no-store' });
     res.end(buf);
   } catch {

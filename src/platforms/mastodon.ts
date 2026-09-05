@@ -9,6 +9,7 @@ export const mastodon: PlatformDef = {
   id: 'mastodon',
   label: 'Mastodon',
   limits: { text: 500, media: 4 },
+  needs: 'none',
   setupUrl: 'https://mastodon.social/settings/applications',
   setupHint: 'Ayarlar > Development > New application. Yetki: write:statuses, write:media.',
   fields: [
@@ -28,7 +29,7 @@ export const mastodon: PlatformDef = {
     const head = { accountId: '', platform: 'mastodon', at };
     try {
       const mediaIds: string[] = [];
-      for (const m of post.media.slice(0, 4)) {
+      for (const m of post.media.filter((m) => m.kind === 'image').slice(0, 4)) {
         const form = new FormData();
         form.set('file', new Blob([await readFile(m.path)], { type: m.mime }), basename(m.path));
         form.set('description', m.alt);

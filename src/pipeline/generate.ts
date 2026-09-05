@@ -5,6 +5,7 @@ import { accounts } from '../core/accounts.ts';
 import { getLlm } from '../providers/llm/index.ts';
 import { getImage, imageEnabled } from '../providers/image/index.ts';
 import { platform } from '../platforms/index.ts';
+import { compose } from '../media/video.ts';
 import { brandVoice } from './ideate.ts';
 import { inspect, tidy } from './quality.ts';
 import type { Post } from '../core/types.ts';
@@ -48,13 +49,47 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
         post.variants[id] = clean;
       }
 
-      if (imageEnabled()) {
+      // Hedeflerin en agir medya ihtiyaci neyse ona gore uret: video > image > none.
+      const needs = [...platformIds].map((id) => platform(id)?.needs ?? 'none');
+      const wantsVideo = needs.includes('video');
+      const wantsImage = wantsVideo || needs.includes('image') || imageEnabled();
+
+      if (wantsImage) {
+        if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
         const img = getImage();
         const promptText = await llm.complete(
           `Su post icin ingilizce, tek cumlelik bir gorsel uretim promptu yaz. Metin/yazi icermesin.\n\n${post.topic}`,
           { maxTokens: 120 },
         );
         post.media = [await img.generate(promptText.trim(), `data/media/${post.id}.jpg`)];
+      }
+
+      if (wantsVideo) {
+        const still = post.media[0];
+        if (!still) throw new Error('video icin gorsel uretilemedi');
+
+        // Seslendirme metni post metninden ayri uretilir: konusma dili yazi
+        // dilinden farkli, ve caption'i okumak izleyiciyi kaybettiriyor.
+        const narration = tidy(
+          await llm.complete(
+            [
+              `Konu: ${post.topic}`,
+              post.angle ? `Bakis acisi: ${post.angle}` : '',
+              'Bu konuyu 30-40 saniyede anlatan bir seslendirme metni yaz.',
+              'Konusma dili kullan. Tek fikri ac ve somut bitir.',
+              'Sadece seslendirilecek metni yaz; sahne yonergesi, baslik ya da etiket yazma.',
+            ].filter(Boolean).join('\n'),
+            { system: voice, maxTokens: 500 },
+          ),
+        );
+
+        const video = await compose({
+          imagePath: still.path,
+          narration,
+          outPath: `data/media/${post.id}.mp4`,
+          voice: cfg.video.voice,
+        });
+        post.media.push({ kind: 'video', path: video, alt: post.topic, mime: 'video/mp4' });
       }
 
       post.status = cfg.approval.auto ? 'approved' : 'pending_approval';

@@ -23,6 +23,16 @@ export const cfg = {
     height: Number(env('IMAGE_HEIGHT', '1024')),
   },
   approval: { auto: bool('AUTO_APPROVE', false) },
+  // Instagram medyayi public URL olarak ister; digerleri dogrudan yukleme alir.
+  mediaHost: {
+    provider: env('MEDIA_HOST', 'github'),
+    repo: env('MEDIA_REPO'),
+    branch: env('MEDIA_BRANCH', 'main'),
+    base: env('PUBLIC_MEDIA_BASE'),
+  },
+  video: {
+    voice: env('TTS_VOICE', 'tr-TR-AhmetNeural'),
+  },
   brand: {
     niche: env('BRAND_NICHE', 'yazilim ve yapay zeka'),
     language: env('BRAND_LANGUAGE', 'tr'),

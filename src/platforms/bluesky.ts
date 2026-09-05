@@ -23,6 +23,7 @@ export const bluesky: PlatformDef = {
   id: 'bluesky',
   label: 'Bluesky',
   limits: { text: 300, media: 4 },
+  needs: 'none',
   setupUrl: 'https://bsky.app/settings/app-passwords',
   setupHint: 'Ayarlar > App Passwords ile uygulama sifresi uret. Ana sifreni girme.',
   fields: [
@@ -47,7 +48,7 @@ export const bluesky: PlatformDef = {
       await rt.detectFacets(a);
 
       let embed;
-      const shots = post.media.slice(0, 4);
+      const shots = post.media.filter((m) => m.kind === 'image').slice(0, 4);
       if (shots.length) {
         const images = [];
         for (const m of shots) {

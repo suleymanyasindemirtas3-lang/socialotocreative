@@ -29,6 +29,7 @@ export const x: PlatformDef = {
   id: 'x',
   label: 'X (Twitter)',
   limits: { text: 280, media: 4 },
+  needs: 'none',
   setupUrl: 'https://developer.x.com/en/portal/dashboard',
   setupHint:
     'Portal > proje/app ac > User authentication settings: Read and write. ' +
@@ -54,7 +55,7 @@ export const x: PlatformDef = {
     const head = { accountId: '', platform: 'x', at };
     try {
       const mediaIds: string[] = [];
-      for (const m of post.media.slice(0, 4)) mediaIds.push(await upload(m.path, m.mime, creds));
+      for (const m of post.media.filter((m) => m.kind === 'image').slice(0, 4)) mediaIds.push(await upload(m.path, m.mime, creds));
 
       const url = `${API}/2/tweets`;
       const res = await fetch(url, {

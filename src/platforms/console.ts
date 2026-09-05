@@ -6,6 +6,7 @@ export const consolePlatform: PlatformDef = {
   id: 'console',
   label: 'Konsol (test)',
   limits: { text: 5000, media: 10 },
+  needs: 'none',
   setupHint: 'Kimlik istemez. Yayin yerine terminale yazar.',
   fields: [],
 

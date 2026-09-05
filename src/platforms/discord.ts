@@ -7,6 +7,7 @@ export const discord: PlatformDef = {
   id: 'discord',
   label: 'Discord (webhook)',
   limits: { text: 2000, media: 10 },
+  needs: 'none',
   setupUrl: 'https://support.discord.com/hc/en-us/articles/228383668',
   setupHint: 'Kanal ayarlari > Integrations > Webhooks > New Webhook > Copy URL.',
   fields: [
@@ -32,7 +33,7 @@ export const discord: PlatformDef = {
       const url = `${creds['webhookUrl']}?wait=true`;
       const form = new FormData();
       form.set('payload_json', JSON.stringify({ content: text.slice(0, 2000) }));
-      for (const [i, m] of post.media.slice(0, 10).entries()) {
+      for (const [i, m] of post.media.filter((m) => m.kind === 'image').slice(0, 10).entries()) {
         form.set(`files[${i}]`, new Blob([await readFile(m.path)], { type: m.mime }), basename(m.path));
       }
       const res = await fetch(url, { method: 'POST', body: form });

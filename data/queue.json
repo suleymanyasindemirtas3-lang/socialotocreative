@@ -50,5 +50,19 @@
       }
     ],
     "fingerprint": "1ae1c381d1679fe2"
+  },
+  {
+    "id": "dd9067a8",
+    "createdAt": "2026-09-05T21:44:04.153Z",
+    "topic": "Yazılım ve yapay zekanın gelecekteki potansiyel birleşimi",
+    "angle": "Birleştirilmiş teknolojinin hayata geçirilebilir uygulamaları",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "console-82ecde"
+    ],
+    "results": [],
+    "fingerprint": "8455e1756c053d11"
   }
 ]

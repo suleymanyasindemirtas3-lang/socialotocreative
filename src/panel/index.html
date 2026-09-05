@@ -46,7 +46,7 @@
   label{display:block;margin:10px 0 4px;font-size:12px;color:var(--muted)}
   .variant{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
   .variant h4{margin:0 0 6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-  img.preview{max-width:220px;border-radius:10px;border:1px solid var(--line);display:block;margin-top:10px}
+  img.preview,video.preview{max-width:220px;border-radius:10px;border:1px solid var(--line);display:block;margin-top:10px}
   .targets{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0}
   .targets label{display:flex;gap:6px;align-items:center;margin:0;font-size:13px;color:var(--ink)}
   .targets input{width:auto}
@@ -146,7 +146,12 @@ function renderQueue() {
         ${p.targets.includes(a.id) ? 'checked' : ''} ${a.enabled ? '' : 'disabled'}>
         ${esc(a.label)} <span class="muted small">${esc(a.platform)}</span></label>`).join('');
 
-    const media = p.media.map((m) => `<img class="preview" src="/media/${encodeURIComponent(m.path.split('/').pop())}" alt="${esc(m.alt)}">`).join('');
+    const media = p.media.map((m) => {
+      const src = `/media/${encodeURIComponent(m.path.split('/').pop())}`;
+      return m.kind === 'video'
+        ? `<video class="preview" src="${src}" controls preload="metadata"></video>`
+        : `<img class="preview" src="${src}" alt="${esc(m.alt)}">`;
+    }).join('');
 
     const results = p.results.length ? `<div class="small muted" style="margin-top:8px">` + p.results.map((r) =>
       `${r.ok ? '✓' : '✗'} ${esc(accountOf(r.accountId)?.label ?? r.platform)}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 120)) : ''}`
