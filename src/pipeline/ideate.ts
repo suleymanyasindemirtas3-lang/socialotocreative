@@ -29,7 +29,7 @@ export async function ideate(count = cfg.safety.maxPerRun): Promise<Post[]> {
     '[{"topic":"tek cumlelik konu","angle":"bakis acisi"}]',
   ].filter(Boolean).join('\n\n');
 
-  const raw = await llm.complete(prompt, { system: await brandVoice(), maxTokens: 1200 });
+  const raw = await llm.complete(prompt, { system: await brandVoice(), maxTokens: 1200, json: true });
   const json = raw.slice(raw.indexOf('['), raw.lastIndexOf(']') + 1);
 
   let ideas: { topic: string; angle: string }[];

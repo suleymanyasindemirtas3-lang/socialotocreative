@@ -41,11 +41,18 @@ export interface Post {
   fingerprint: string;
 }
 
+export interface LlmOptions {
+  system?: string;
+  maxTokens?: number;
+  /** Kucuk modeller serbest metinde JSON'u bozuyor; destekleyen uc zorlar. */
+  json?: boolean;
+}
+
 /** MOTTO 1: Her uretici bir arayuz. Ucretsiz/ucretli fark etmez. */
 export interface LlmProvider {
   id: string;
   isConfigured(): boolean;
-  complete(prompt: string, opts?: { system?: string; maxTokens?: number }): Promise<string>;
+  complete(prompt: string, opts?: LlmOptions): Promise<string>;
 }
 
 export interface ImageProvider {

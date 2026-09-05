@@ -38,7 +38,10 @@ const gemini: LlmProvider = {
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         ...(opts?.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
-        generationConfig: { maxOutputTokens: opts?.maxTokens ?? 1024 },
+        generationConfig: {
+          maxOutputTokens: opts?.maxTokens ?? 1024,
+          ...(opts?.json ? { responseMimeType: 'application/json' } : {}),
+        },
       }),
     });
     if (!res.ok) throw new Error(`gemini ${res.status}: ${await res.text()}`);
@@ -81,6 +84,8 @@ const ollama: LlmProvider = {
       body: JSON.stringify({
         model: cfg.llm.ollama.model,
         stream: false,
+        ...(opts?.json ? { format: 'json' } : {}),
+        options: { num_predict: opts?.maxTokens ?? 1024 },
         messages: [
           ...(opts?.system ? [{ role: 'system', content: opts.system }] : []),
           { role: 'user', content: prompt },
