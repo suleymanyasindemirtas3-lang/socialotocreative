@@ -5,6 +5,7 @@ import { getLlm } from '../providers/llm/index.ts';
 import { getImage, imageEnabled } from '../providers/image/index.ts';
 import { platform } from '../platforms/index.ts';
 import { brandVoice } from './ideate.ts';
+import { inspect, tidy } from './quality.ts';
 import type { Post } from '../core/types.ts';
 
 /** Adim 2: her hedef platform icin metin + gorsel uret. */
@@ -28,7 +29,14 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
           ].filter(Boolean).join('\n'),
           { system: voice, maxTokens: 700 },
         );
-        post.variants[id] = text.trim().replace(/^["']|["']$/g, '').slice(0, limitChars);
+        const clean = tidy(text);
+        const issues = inspect(clean, limitChars);
+        if (issues.length) {
+          throw new Error(
+            `kalite kapisi (${id}): ` + issues.map((i) => `${i.code}=${i.detail}`).join(', '),
+          );
+        }
+        post.variants[id] = clean;
       }
 
       if (imageEnabled()) {
