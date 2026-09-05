@@ -48,6 +48,15 @@ kaybı demek. Bir platformun resmi API'si yoksa o platform bu projede yok.
 `content/brand.md` bu projenin en değerli dosyası. Kodun ne kadar temiz olduğu
 içeriğin kalitesini belirlemez; marka sesi belirler. Zamanın çoğunu oraya ayır.
 
+## 8. Tek sağlayıcıya bağımlı kalma
+
+`LLM_PROVIDER` bir zincirdir: `ollama,pollinations,gemini`. İlki çökerse ya da
+kotasını doldurursa sıradakine geçilir. Ücretsiz uçlar tanım gereği güvenilmezdir;
+mimari bunu bir arıza değil, normal işletme koşulu olarak kabul eder.
+
+Zincire `mock` **koyma**. Sağlayıcıların hepsi düştüğünde hat gürültüyle durmalı,
+sessizce çöp içerik yayınlamamalı — bu Motto 2'nin devamıdır.
+
 ---
 
 ## Teknik kısıtlar

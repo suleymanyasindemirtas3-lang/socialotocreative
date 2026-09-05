@@ -1,4 +1,5 @@
 import { cfg } from '../../core/config.ts';
+import { log } from '../../core/logger.ts';
 import type { LlmProvider } from '../../core/types.ts';
 
 // OpenAI uyumlu uclar (Groq dahil) tek govdeyi paylasir.
@@ -92,6 +93,30 @@ const ollama: LlmProvider = {
   },
 };
 
+/**
+ * Anahtarsiz gercek uretim. Tek ucretsiz yol GET; POST ucu paraya baglandi.
+ * Bu yuzden sistem talimati prompt'un basina katlanir ve uzunluk sinirlanir.
+ */
+const pollinations: LlmProvider = {
+  id: 'pollinations',
+  isConfigured: () => true,
+  async complete(prompt, opts) {
+    const full = opts?.system ? `${opts.system}\n\n---\n\n${prompt}` : prompt;
+    // URL uzunluk siniri: sistem talimati uzarsa sondan kirp.
+    const body = full.length > 3500 ? full.slice(0, 3500) : full;
+    const url = `https://text.pollinations.ai/${encodeURIComponent(body)}?model=openai`;
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const res = await fetch(url, { headers: { 'user-agent': 'socialmediai/0.1' } });
+      const text = await res.text();
+      if (res.ok && !text.startsWith('{"error"')) return text;
+      if (attempt === 3) throw new Error(`pollinations ${res.status}: ${text.slice(0, 200)}`);
+      await new Promise((r) => setTimeout(r, attempt * 3000));
+    }
+    return '';
+  },
+};
+
 /** Anahtarsiz calisir; hattin ucdan uca test edilmesi icin. */
 const mock: LlmProvider = {
   id: 'mock',
@@ -109,6 +134,7 @@ const mock: LlmProvider = {
 };
 
 const registry: Record<string, LlmProvider> = {
+  [pollinations.id]: pollinations,
   [gemini.id]: gemini,
   [claude.id]: claude,
   [ollama.id]: ollama,
@@ -116,9 +142,42 @@ const registry: Record<string, LlmProvider> = {
   groq: openAiCompatible('groq', 'https://api.groq.com/openai/v1', cfg.llm.groq.key, cfg.llm.groq.model),
 };
 
+export function resolveChain(): LlmProvider[] {
+  const chain: LlmProvider[] = [];
+  for (const id of cfg.llm.chain) {
+    const p = registry[id];
+    if (!p) throw new Error(`Bilinmeyen LLM_PROVIDER: ${id}. Secenekler: ${Object.keys(registry).join(', ')}`);
+    if (p.isConfigured()) chain.push(p);
+    else log.warn(`${id} yapilandirilmamis, zincirden cikarildi`);
+  }
+  if (!chain.length) throw new Error(`Calisir LLM yok. LLM_PROVIDER=${cfg.llm.chain.join(',')}`);
+  return chain;
+}
+
+/**
+ * MOTTO 8: Tek saglayiciya bagimli kalma.
+ * Ucretsiz uclar kota doldurur ya da cover; zincirdeki bir sonrakine gecilir.
+ */
 export function getLlm(): LlmProvider {
-  const p = registry[cfg.llm.provider];
-  if (!p) throw new Error(`Bilinmeyen LLM_PROVIDER: ${cfg.llm.provider}. Secenekler: ${Object.keys(registry).join(', ')}`);
-  if (!p.isConfigured()) throw new Error(`${p.id} yapilandirilmamis (.env icindeki anahtari doldur).`);
-  return p;
+  const chain = resolveChain();
+  if (chain.length === 1) return chain[0]!;
+
+  return {
+    id: chain.map((p) => p.id).join('>'),
+    isConfigured: () => true,
+    async complete(prompt, opts) {
+      let last: unknown;
+      for (const p of chain) {
+        try {
+          const out = await p.complete(prompt, opts);
+          if (out.trim()) return out;
+          last = new Error(`${p.id} bos yanit dondurdu`);
+        } catch (e) {
+          last = e;
+          log.warn(`${p.id} basarisiz, siradakine geciliyor: ${String(e).slice(0, 140)}`);
+        }
+      }
+      throw last instanceof Error ? last : new Error(String(last));
+    },
+  };
 }

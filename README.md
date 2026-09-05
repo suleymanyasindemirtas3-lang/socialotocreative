@@ -46,9 +46,13 @@ npm run dev
 
 ## Sağlayıcı seçimi
 
+`LLM_PROVIDER` virgullu bir zincirdir; ilki çökerse sıradakine geçilir:
+`LLM_PROVIDER=ollama,pollinations,gemini`
+
+
 | Katman | Ücretsiz | Ücretli geçiş |
 |---|---|---|
-| LLM | `mock`, `ollama` (yerel), `gemini`, `groq` | `claude` |
+| LLM | `ollama` (yerel, sinirsiz), `pollinations` (anahtarsiz), `gemini`, `groq` | `claude` |
 | Görsel | `pollinations` (anahtarsız) | fal / replicate adaptörü yaz |
 | Depo | `JsonStore` (repo içi) | `SupabaseStore` yaz |
 | Compute | GitHub Actions cron | kalıcı VM |

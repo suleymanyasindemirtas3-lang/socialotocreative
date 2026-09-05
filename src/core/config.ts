@@ -10,7 +10,8 @@ const list = (k: string, d: string[] = []): string[] => {
 
 export const cfg = {
   llm: {
-    provider: env('LLM_PROVIDER', 'mock'),
+    // Virgulle ayrilmis zincir: ilki cokerse sonraki denenir.
+    chain: list('LLM_PROVIDER', ['mock']),
     gemini: { key: env('GEMINI_API_KEY'), model: env('GEMINI_MODEL', 'gemini-2.0-flash') },
     groq: { key: env('GROQ_API_KEY'), model: env('GROQ_MODEL', 'llama-3.3-70b-versatile') },
     claude: { key: env('ANTHROPIC_API_KEY'), model: env('ANTHROPIC_MODEL', 'claude-sonnet-5') },

@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Saglayici-bagimsiz otomatik sosyal medya uretim ve yayin hatti",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "node --env-file=.env --experimental-strip-types src/index.ts",
     "ideate": "node --env-file=.env --experimental-strip-types src/index.ts ideate",
@@ -13,7 +15,8 @@
     "publish": "node --env-file=.env --experimental-strip-types src/index.ts publish",
     "status": "node --env-file=.env --experimental-strip-types src/index.ts status",
     "doctor": "node --env-file=.env --experimental-strip-types src/index.ts doctor",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "start": "node --env-file=.env src/runner.ts"
   },
   "dependencies": {
     "@atproto/api": "^0.13.35"

@@ -25,7 +25,7 @@ async function status(): Promise<void> {
 
 function doctor(): void {
   log.step('AYARLAR');
-  console.log(`LLM          : ${cfg.llm.provider}`);
+  console.log(`LLM zinciri  : ${cfg.llm.chain.join(' > ')}`);
   console.log(`Gorsel       : ${cfg.image.provider}`);
   console.log(`Hedefler     : ${cfg.targets.join(', ')}`);
   console.log(`DRY_RUN      : ${cfg.safety.dryRun}`);
