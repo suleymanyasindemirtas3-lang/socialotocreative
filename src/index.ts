@@ -2,7 +2,7 @@ import { cfg } from './core/config.ts';
 import { log } from './core/logger.ts';
 import { store } from './core/store.ts';
 import { allPlatforms, activePlatforms } from './platforms/index.ts';
-import { getLlm } from './providers/llm/index.ts';
+import { resolveChain } from './providers/llm/index.ts';
 import { ideate } from './pipeline/ideate.ts';
 import { generate } from './pipeline/generate.ts';
 import { requestApproval, collectApprovals } from './pipeline/approve.ts';
@@ -23,7 +23,7 @@ async function status(): Promise<void> {
   }
 }
 
-function doctor(): void {
+async function doctor(): Promise<void> {
   log.step('AYARLAR');
   console.log(`LLM zinciri  : ${cfg.llm.chain.join(' > ')}`);
   console.log(`Gorsel       : ${cfg.image.provider}`);
@@ -39,11 +39,24 @@ function doctor(): void {
   const active = activePlatforms().map((p) => p.id);
   console.log(`\nEtkin hedef: ${active.length ? active.join(', ') : 'YOK'}`);
 
-  log.step('URETICI');
+  log.step('URETICI (canli test)');
+  let chain;
   try {
-    console.log(`${getLlm().id} hazir.`);
+    chain = resolveChain();
   } catch (e) {
-    console.log(`sorun: ${e instanceof Error ? e.message : String(e)}`);
+    console.log(`zincir kurulamadi: ${e instanceof Error ? e.message : String(e)}`);
+    return;
+  }
+  // Ayar okumak yeterli degil: her ucu gercekten cagirip yanit aliyor muyuz bak.
+  for (const p of chain) {
+    const t0 = Date.now();
+    try {
+      const out = await p.complete('Sadece su kelimeyi yaz: tamam', { maxTokens: 12 });
+      const ms = Date.now() - t0;
+      console.log(`[calisiyor] ${p.id.padEnd(13)} ${ms}ms  "${out.trim().slice(0, 40)}"`);
+    } catch (e) {
+      console.log(`[cokuyor]   ${p.id.padEnd(13)} ${String(e).slice(0, 90)}`);
+    }
   }
 }
 
@@ -66,7 +79,7 @@ switch (cmd) {
     await status();
     break;
   case 'doctor':
-    doctor();
+    await doctor();
     break;
   case 'run':
     log.step('TAM HAT');
