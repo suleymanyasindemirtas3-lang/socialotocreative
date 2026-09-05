@@ -4,6 +4,7 @@ import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { fingerprint } from '../core/fingerprint.ts';
+import { extractObjects, str } from '../core/json.ts';
 import { getLlm } from '../providers/llm/index.ts';
 import type { Post } from '../core/types.ts';
 
