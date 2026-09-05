@@ -22,9 +22,12 @@ açık bir hamle gerekir; zarardan kaçınmak için hiçbir şey gerekmez.
 
 ## 3. İnsan kapısı silinmez, sadece kapatılır
 
-Telegram onayı devre dışı bırakılabilir ama koddan kaldırılmaz. Otomasyona
-güvenin arttığında `AUTO_APPROVE=true` yaparsın; iş ters gittiğinde aynı satırı
-geri alıp kontrolü anında geri alırsın. Kill-switch her zaman elinin altında.
+Onay kapısı devre dışı bırakılabilir ama koddan kaldırılmaz. Otomasyona güvenin
+arttığında `AUTO_APPROVE=true` yaparsın; iş ters gittiğinde aynı satırı geri alıp
+kontrolü anında geri alırsın. Kill-switch her zaman elinin altında.
+
+Onay iki yerden verilir — panel ve `npm run review` — ama ikisi de aynı kuyruğu
+ve aynı durumları kullanır. Onay mantığı asla kanal başına çoğaltılmaz.
 
 ## 4. Sıfır altyapı
 

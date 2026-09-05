@@ -30,11 +30,7 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           IMAGE_PROVIDER: ${{ vars.IMAGE_PROVIDER }}
-          TARGETS: ${{ vars.TARGETS }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
-          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          ACCOUNTS_JSON: ${{ secrets.ACCOUNTS_JSON }}
           BRAND_NICHE: ${{ vars.BRAND_NICHE }}
           AUTO_APPROVE: ${{ vars.AUTO_APPROVE }}
           DRY_RUN: ${{ vars.DRY_RUN }}

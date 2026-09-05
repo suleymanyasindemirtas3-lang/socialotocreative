@@ -22,14 +22,7 @@ export const cfg = {
     width: Number(env('IMAGE_WIDTH', '1024')),
     height: Number(env('IMAGE_HEIGHT', '1024')),
   },
-  targets: list('TARGETS', ['console']),
-  bluesky: {
-    identifier: env('BLUESKY_IDENTIFIER'),
-    password: env('BLUESKY_APP_PASSWORD'),
-    service: env('BLUESKY_SERVICE', 'https://bsky.social'),
-  },
-  telegram: { token: env('TELEGRAM_BOT_TOKEN'), chatId: env('TELEGRAM_CHAT_ID') },
-  approval: { auto: bool('AUTO_APPROVE', false), channel: env('APPROVAL_CHANNEL', 'telegram') },
+  approval: { auto: bool('AUTO_APPROVE', false) },
   brand: {
     niche: env('BRAND_NICHE', 'yazilim ve yapay zeka'),
     language: env('BRAND_LANGUAGE', 'tr'),

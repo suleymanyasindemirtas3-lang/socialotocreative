@@ -2,7 +2,6 @@ import { cfg } from './core/config.ts';
 import { log } from './core/logger.ts';
 import { ideate } from './pipeline/ideate.ts';
 import { generate } from './pipeline/generate.ts';
-import { requestApproval, collectApprovals } from './pipeline/approve.ts';
 import { publish } from './pipeline/publish.ts';
 
 /**
@@ -36,19 +35,18 @@ async function generateCycle(): Promise<void> {
   log.step('URETIM TURU');
   await guard('ideate', () => ideate());
   await guard('generate', () => generate());
-  await guard('approve', () => requestApproval());
 }
 
 async function publishCycle(): Promise<void> {
   if (stopping) return;
+  // Onay panelden ya da `npm run review` ile verilir; runner yalniz onaylilari alir.
   log.step('YAYIN TURU');
-  await guard('collect', () => collectApprovals());
   await guard('publish', () => publish());
 }
 
 log.step('RUNNER BASLADI');
 log.info(`uretim her ${GENERATE_EVERY / MIN} dk, yayin her ${PUBLISH_EVERY / MIN} dk`);
-log.info(`hedefler: ${cfg.targets.join(', ')} | DRY_RUN=${cfg.safety.dryRun} | AUTO_APPROVE=${cfg.approval.auto}`);
+log.info(`DRY_RUN=${cfg.safety.dryRun} | AUTO_APPROVE=${cfg.approval.auto}`);
 
 await generateCycle();
 await publishCycle();

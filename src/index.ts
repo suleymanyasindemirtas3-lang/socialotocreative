@@ -6,9 +6,7 @@ import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
 import { ideate } from './pipeline/ideate.ts';
 import { generate, retryFailed } from './pipeline/generate.ts';
-import { requestApproval, collectApprovals } from './pipeline/approve.ts';
 import { publish } from './pipeline/publish.ts';
-import { telegramSetup } from './tools/telegram-setup.ts';
 import { review } from './tools/review.ts';
 
 const cmd = process.argv[2] ?? 'run';
@@ -74,12 +72,7 @@ switch (cmd) {
   case 'generate':
     await generate();
     break;
-  case 'approve':
-    await collectApprovals();
-    await requestApproval();
-    break;
   case 'publish':
-    await collectApprovals();
     await publish();
     break;
   case 'retry':
@@ -88,9 +81,6 @@ switch (cmd) {
     break;
   case 'review':
     await review();
-    break;
-  case 'tgsetup':
-    await telegramSetup();
     break;
   case 'status':
     await status();
@@ -102,11 +92,9 @@ switch (cmd) {
     log.step('TAM HAT');
     await ideate();
     await generate();
-    await collectApprovals();
-    await requestApproval();
     await publish();
     await status();
     break;
   default:
-    console.log('Komutlar: ideate | generate | retry | approve | publish | run | review | status | doctor | tgsetup');
+    console.log('Komutlar: ideate | generate | retry | publish | run | review | status | doctor');
 }

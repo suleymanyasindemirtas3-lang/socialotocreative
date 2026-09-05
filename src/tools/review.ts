@@ -4,8 +4,7 @@ import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 
 /**
- * Terminalden onay. Telegram'a alternatif, hicbir dis servis istemez.
- * Telegram uzaktan/otomatik calisma icin; bu, bilgisayar basindayken icin.
+ * Terminalden onay. Panelin komut satiri esdegeri, hicbir dis servis istemez.
  * Ikisi de ayni kuyrugu ve ayni durumlari kullanir, mantik bolunmez.
  */
 export async function review(): Promise<void> {
