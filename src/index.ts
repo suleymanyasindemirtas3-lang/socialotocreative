@@ -8,6 +8,7 @@ import { generate, retryFailed } from './pipeline/generate.ts';
 import { requestApproval, collectApprovals } from './pipeline/approve.ts';
 import { publish } from './pipeline/publish.ts';
 import { telegramSetup } from './tools/telegram-setup.ts';
+import { review } from './tools/review.ts';
 
 const cmd = process.argv[2] ?? 'run';
 
@@ -80,6 +81,9 @@ switch (cmd) {
     await retryFailed();
     await generate();
     break;
+  case 'review':
+    await review();
+    break;
   case 'tgsetup':
     await telegramSetup();
     break;
@@ -99,5 +103,5 @@ switch (cmd) {
     await status();
     break;
   default:
-    console.log('Komutlar: ideate | generate | retry | approve | publish | run | status | doctor | tgsetup');
+    console.log('Komutlar: ideate | generate | retry | approve | publish | run | review | status | doctor | tgsetup');
 }
