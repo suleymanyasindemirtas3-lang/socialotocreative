@@ -18,7 +18,10 @@
     "start": "node --env-file=.env src/runner.ts",
     "retry": "node --env-file=.env src/index.ts retry",
     "review": "node --env-file=.env src/index.ts review",
-    "panel": "node --env-file=.env src/panel/server.ts"
+    "panel": "node --env-file=.env src/panel/server.ts",
+    "saglik": "node --env-file=.env src/index.ts saglik",
+    "temizle": "node --env-file=.env src/index.ts temizle",
+    "plan": "node --env-file=.env src/index.ts plan"
   },
   "dependencies": {
     "@atproto/api": "^0.13.35"

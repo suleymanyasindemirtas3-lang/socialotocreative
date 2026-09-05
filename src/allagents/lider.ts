@@ -38,8 +38,20 @@ async function sayim(): Promise<Record<Durum, number>> {
 }
 
 /**
- * Ihtiyac analizi. Kurallar bilinccli olarak basit ve okunabilir tutuldu:
+ * Ihtiyac analizi. Kurallar bilincli olarak basit ve okunabilir tutuldu:
  * gorunmeyen bir zeka degil, denetlenebilir bir politika olmali.
+ *
+ * ---------------------------------------------------------------------------
+ * MUDAHALE NOKTASI - Sistemin ne zaman ne yapacagi buradaki kurallarla belli.
+ *
+ * "Cok fazla/az uretiyor" dersen bakilacak yer burasi:
+ *   - uretim hizi        -> MAX_POSTS_PER_RUN (.env), asagida `birim`
+ *   - ne zaman yeni fikir-> `bekleyen < birim` kosulu
+ *   - hata toleransi     -> `n.failed >= 3` esigi
+ *
+ * Her `plan.push` bir kural. Yenisini eklemek icin ayni bicimde bir kosul
+ * yaz; `sebep` alanina NEDEN actigini yaz, panelde o gorunuyor.
+ * ---------------------------------------------------------------------------
  */
 export async function planla(): Promise<Gorev[]> {
   const n = await sayim();
@@ -71,6 +83,9 @@ export async function planla(): Promise<Gorev[]> {
   // Yeni fikir yalnizca hat bosalmaya baslayinca. Doluyken uretmek israf.
   const bekleyen = n.draft + n.scripted + n.pending_approval + n.approved;
   if (bekleyen < birim) {
+    // Gundem once toplanir; sonucu fikir-bul'a girdi olarak gecer.
+    // Dis istek yalniz gercekten fikir uretilecekse atilir.
+    plan.push({ tur: 'gundem-topla', adet: cfg.sources.limit, sebep: 'fikir uretimi icin gundem gerekli' });
     plan.push({
       tur: 'fikir-bul',
       adet: birim,
@@ -94,7 +109,14 @@ export async function calistir(): Promise<GorevSonucu[]> {
   for (const g of plan) log.info(`  ${g.tur.padEnd(13)} <- ${g.sebep}`);
 
   const sonuclar: GorevSonucu[] = [];
+  // Bir onceki gorevin ciktisi bir sonrakine girdi olur. Ekipler birbirini
+  // cagirmaz; veriyi tasiyan tek yer burasi.
+  let tasinan: unknown;
+
   for (const gorev of plan) {
+    if (tasinan !== undefined) gorev.girdi = tasinan;
+    tasinan = undefined;
+
     const ekip = ekipBul(gorev.tur);
     if (!ekip) {
       log.warn(`${gorev.tur} icin ekip yok, atlandi`);
@@ -105,6 +127,7 @@ export async function calistir(): Promise<GorevSonucu[]> {
     log.step(`${ekip.id} <- ${gorev.tur}`);
     const r = await ekip.run(gorev);
     sonuclar.push(r);
+    if (r.veri !== undefined) tasinan = r.veri;
     if (r.ok) log.ok(`${ekip.id}: ${r.ozet}`);
     else log.err(`${ekip.id}: ${r.error}`);
   }

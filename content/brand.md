@@ -1,3 +1,16 @@
+<!--
+===========================================================================
+ MUDAHALE NOKTASI - BU DOSYA PROJENIN EN DEGERLI DOSYASIDIR.
+
+ Her uretim isteginde LLM'e sistem talimati olarak gonderilir. Uretilen
+ icerigin kalitesini kodun temizligi degil, BU DOSYA belirler.
+
+ Ureilen metinler beklentini karsilamiyorsa once buraya bak, koda degil.
+ Somut ol: "daha iyi yaz" ise yaramaz, "her postta bir sayi ya da surum
+ gecsin" yarar.
+===========================================================================
+-->
+
 # Marka Sesi
 
 Bu dosya her uretim isteginde LLM'e sistem talimati olarak gonderilir.

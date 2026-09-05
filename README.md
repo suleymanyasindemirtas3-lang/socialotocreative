@@ -4,6 +4,8 @@ Sağlayıcı bağımsız otomatik sosyal medya üretim ve yayın hattı.
 Sıfır maliyetle çalışır; ücretli sağlayıcıya geçiş tek `.env` satırıdır.
 
 Tasarım gerekçeleri: [docs/PRINCIPLES.md](docs/PRINCIPLES.md)
+**Nereye müdahale edilir: [docs/MUDAHALE.md](docs/MUDAHALE.md)**
+Sağlayıcı ekleme: [docs/PROVIDERS.md](docs/PROVIDERS.md)
 
 ## Ajanlar
 
@@ -72,6 +74,9 @@ GitHub Actions'ta tek bir `ACCOUNTS_JSON` secret'indan okunur.
 | `npm run status` | kuyruğun durumu |
 | `npm run dev` | hepsini sırayla çalıştır |
 | `npm run panel` | web paneli (onay + hesap yonetimi) |
+| `npm run saglik` | sistem sagligi + ne yapman gerektigi |
+| `npm run plan` | liderin siradaki gorev plani |
+| `npm run temizle` | eski medya dosyalarini sil |
 | `npm run review` | terminalden onayla |
 | `npm run retry` | basarisiz taslaklari geri al |
 

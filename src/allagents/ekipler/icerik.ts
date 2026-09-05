@@ -20,12 +20,13 @@ import type { Post } from '../../core/types.ts';
  * uretilmemesini saglar.
  */
 
-async function fikirBul(adet: number): Promise<Post[]> {
+async function fikirBul(adet: number, gundem: { title: string; source: string }[]): Promise<Post[]> {
   const targets = (await enabledAccounts()).map((a) => a.id);
   const fikirler = await icerikBulma.run({
     count: adet,
     recent: (await store.all()).slice(-40).map((p) => p.topic),
     seen: await store.fingerprints(),
+    gundem,
   });
 
   const out: Post[] = [];
@@ -107,8 +108,16 @@ export const icerikEkibi: Ekip = {
     const head = { gorev, ekip: 'icerik' };
     try {
       if (gorev.tur === 'fikir-bul') {
-        const n = (await fikirBul(gorev.adet)).length;
-        return { ...head, ok: true, ozet: `${n} fikir bulundu` };
+        // Gundem liderden girdi olarak gelir; ekip disariya kendi istek atmaz.
+        const gundem = Array.isArray(gorev.girdi)
+          ? (gorev.girdi as { title: string; source: string }[])
+          : [];
+        const n = (await fikirBul(gorev.adet, gundem)).length;
+        return {
+          ...head,
+          ok: true,
+          ozet: `${n} fikir bulundu${gundem.length ? ` (${gundem.length} gundem maddesinden)` : ' (gundemsiz)'}`,
+        };
       }
       const n = await yaz(gorev.adet);
       return { ...head, ok: true, ozet: `${n} metin yazildi` };

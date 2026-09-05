@@ -13,18 +13,32 @@ import type { Agent, Fikir, FikirIstegi } from './types.ts';
  * uretilmis olanlari eler. Metin YAZMAZ - o senaryo ajaninin isi.
  *
  * Ayrilma sebebi: "ne anlatalim" ile "nasil anlatalim" farkli problemler.
- * Ilkinde ceset tekrar, ikincisinde uslup onemli.
+ * Ilkinde tekrar, ikincisinde uslup onemli.
+ *
+ * Fikirler GERCEK GUNDEME dayanir. Onceden modele "konu uydur" deniyordu ve
+ * cikan sey hep jenerikti; model gundemi bilmedigi icin genel gecer laf
+ * uretiyordu. Artik somut bir maddeyi yorumluyor.
+ *
+ * Gundem alinamazsa hat durmaz, model yine uretir - yalnizca kalitesi duser.
+ *
+ * Gundemi KENDISI TOPLAMAZ: arastirma ekibinden gelir. Dis dunyaya uzanan
+ * tek yer o ekip; boylece kaynak coktugunde nerede oldugu belli oluyor.
  */
 export const icerikBulma: Agent<FikirIstegi, Fikir[]> = {
   id: 'icerik-bulma',
   role: 'Konu havuzu cikarir, tekrar edenleri eler',
   uses: ['llm'],
 
-  async run({ count, recent, seen }): Promise<Fikir[]> {
+  async run({ count, recent, seen, gundem = [] }): Promise<Fikir[]> {
     const llm = getLlm();
 
     const prompt = [
       `Nis: ${cfg.brand.niche}. Dil: ${cfg.brand.language}.`,
+      gundem.length
+        ? 'Asagidaki GERCEK gundem maddelerinden yola cikarak fikir uret. ' +
+          'Her fikir bir maddeye dayansin; genel gecer konu uydurma.\n' +
+          gundem.map((g) => `- [${g.source}] ${g.title}`).join('\n')
+        : '',
       `${count * 2} adet ozgun sosyal medya post fikri uret.`,
       recent.length ? `Bunlara benzeme:\n${recent.map((t) => '- ' + t).join('\n')}` : '',
       'Yalnizca su semada JSON dizisi dondur, baska hicbir metin yazma:',

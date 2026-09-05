@@ -7,6 +7,7 @@ import { getImage, imageEnabled } from '../providers/image/index.ts';
 import { ses } from './ses.ts';
 import { videoUretim } from './video-uretim.ts';
 import { video } from './video.ts';
+import { isteKonulu } from './ekipler/arastirma.ts';
 import type { MediaAsset } from '../core/types.ts';
 
 /**
@@ -18,6 +19,19 @@ import type { MediaAsset } from '../core/types.ts';
  *
  * Lider'den farki: lider EKIPLER arasinda dagitim yapar, yonetmen kendi
  * ekibinin ICINDE sira kurar. Iki ayri olcek, ayni desen.
+ *
+ * ARASTIRMA EKIBIYLE ILISKI
+ * Yonetmen uretim sirasinda "bu konuda disarida ne var" diye sorabilir
+ * (`isteKonulu`). Tur beklemesi anlamsiz olurdu; onbellekli oldugu icin
+ * ayni turda tekrar dis istek atilmaz.
+ * Bu ayricalik yalnizca EKIP LIDERLERINE ait: ses, video-uretim ve video
+ * ajanlari disariya uzanamaz.
+ *
+ * ---------------------------------------------------------------------------
+ * MUDAHALE NOKTASI - Gorsel istemi konuyla alakasiz cikiyorsa buraya bak.
+ * Asagida gundem baglami gorsel istemine ekleniyor; istemin nasil
+ * zenginlestigini gormek icin `npm run status` ciktisindaki gorsele bak.
+ * ---------------------------------------------------------------------------
  */
 
 export async function uret(adet: number): Promise<number> {
@@ -43,7 +57,16 @@ export async function uret(adet: number): Promise<number> {
 
       if (wantsImage) {
         if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
-        media.push(await getImage().generate(script.visualPrompt, `data/media/${post.id}.jpg`));
+
+        // Gorsel istemi konudan kopuk kalabiliyordu (bir postta AI konusu icin
+        // alakasiz karakter cizimi cikti). Arastirma ekibinden konuyla ilgili
+        // baglam alinip isteme ekleniyor.
+        const ilgili = await isteKonulu(post.topic, 2).catch(() => []);
+        const zenginIstem = ilgili.length
+          ? `${script.visualPrompt}. Context: ${ilgili.map((i) => i.title).join('; ').slice(0, 160)}`
+          : script.visualPrompt;
+
+        media.push(await getImage().generate(zenginIstem, `data/media/${post.id}.jpg`));
       }
 
       if (wantsVideo) {

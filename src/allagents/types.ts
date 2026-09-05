@@ -33,6 +33,11 @@ export interface FikirIstegi {
   recent: string[];
   /** Daha once gorulmus parmak izleri. */
   seen: Set<string>;
+  /**
+   * Arastirma ekibinden gelen gercek gundem. Bos gelirse model konu uydurur
+   * ve icerik jeneriklesir - hat durmaz ama kalite duser.
+   */
+  gundem?: { title: string; source: string }[];
 }
 
 // ------------------------------------------------------------------- 5. senaryo
@@ -107,7 +112,13 @@ export interface YonetmenSonucu {
  * Gorev turleri. Lider bunlari uretir, ekipler bunlari yerine getirir.
  * Yeni bir ekip eklemek = yeni bir tur tanimlayip ekibi kayda eklemek.
  */
-export type GorevTuru = 'fikir-bul' | 'icerik-yaz' | 'medya-uret' | 'yayinla' | 'tekrar-dene';
+export type GorevTuru =
+  | 'gundem-topla'
+  | 'fikir-bul'
+  | 'icerik-yaz'
+  | 'medya-uret'
+  | 'yayinla'
+  | 'tekrar-dene';
 
 export interface Gorev {
   tur: GorevTuru;
@@ -115,6 +126,11 @@ export interface Gorev {
   adet: number;
   /** Liderin bu gorevi neden actigi. Log ve panelde gorunur. */
   sebep: string;
+  /**
+   * Onceki gorevin ciktisi. Ekipler arasi veri boyle akar: hicbir ekip
+   * baska bir ekibi cagirmaz, lider sonucu bir sonrakine girdi olarak verir.
+   */
+  girdi?: unknown;
 }
 
 export interface GorevSonucu {
@@ -123,6 +139,8 @@ export interface GorevSonucu {
   ok: boolean;
   ozet: string;
   error?: string;
+  /** Sonraki goreve aktarilacak veri. Liderin tasidigi tek yuk. */
+  veri?: unknown;
 }
 
 /**

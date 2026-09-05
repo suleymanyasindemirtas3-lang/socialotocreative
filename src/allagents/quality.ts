@@ -1,6 +1,16 @@
 /**
  * Kalite kapisi: LLM ciktisini yayin oncesi eler.
  * Motto 2'nin devami — supheli icerik sessizce gecmez, taslak reddedilir.
+ *
+ * ---------------------------------------------------------------------------
+ * MUDAHALE NOKTASI — "Bu metin nasil yayina gitmis?" dersen buraya kural ekle.
+ *
+ * TELLTALES dizisine [desen, aciklama] cifti ekle; yakalanan taslak reddedilir
+ * ve `npm run retry` ile yeniden uretilir.
+ *
+ * Tersi de gecerli: kapi cok siki elerse (surekli 'failed' goruyorsan)
+ * buradaki bir kurali gevset. `npm run status` hangi kurala takildigini yazar.
+ * ---------------------------------------------------------------------------
  */
 
 export interface QualityIssue {
@@ -17,6 +27,10 @@ const TELLTALES: [RegExp, string][] = [
   [/\b(lorem ipsum)\b/i, 'yer tutucu metin'],
   [/```/, 'kod bloğu isareti'],
   [/\bhttps?:\/\/(example\.com|link\.buraya)/i, 'sahte link'],
+  // Sosyal medya markdown islemez; **kalin** ve ## baslik ekranda ham gorunur.
+  // Panelde yayinlanmis bir postta "**Aciklama:**" goruldugu icin eklendi.
+  [/\*\*[^*]+\*\*|^#{1,6}\s/m, 'markdown isareti (sosyal medya islemez)'],
+  [/^\s*[-*]\s+.*\n\s*[-*]\s+/m, 'madde listesi (post degil, not gibi duruyor)'],
 ];
 
 export function inspect(text: string, limit: number): QualityIssue[] {

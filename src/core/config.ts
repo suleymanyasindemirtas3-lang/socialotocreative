@@ -23,6 +23,13 @@ export const cfg = {
     height: Number(env('IMAGE_HEIGHT', '1024')),
   },
   approval: { auto: bool('AUTO_APPROVE', false) },
+  // Gundem kaynaklari: fikirlerin gercek veriye dayanmasini saglar.
+  sources: {
+    chain: list('TREND_SOURCES', ['hackernews', 'devto', 'github']),
+    feeds: list('RSS_FEEDS'),
+    limit: Number(env('TREND_LIMIT', '20')),
+    cacheMs: Number(env('TREND_CACHE_DK', '30')) * 60_000,
+  },
   // Instagram medyayi public URL olarak ister; digerleri dogrudan yukleme alir.
   mediaHost: {
     provider: env('MEDIA_HOST', 'github'),
@@ -49,6 +56,11 @@ export const cfg = {
     niche: env('BRAND_NICHE', 'yazilim ve yapay zeka'),
     language: env('BRAND_LANGUAGE', 'tr'),
     tone: env('BRAND_TONE', 'net, iddiali, jargonsuz'),
+  },
+  saglik: {
+    sessizlikSaat: Number(env('SAGLIK_SESSIZLIK_SAAT', '48')),
+    medyaLimitMb: Number(env('SAGLIK_MEDYA_LIMIT_MB', '500')),
+    temizlikGun: Number(env('SAGLIK_TEMIZLIK_GUN', '14')),
   },
   safety: { dryRun: bool('DRY_RUN', true), maxPerRun: Number(env('MAX_POSTS_PER_RUN', '3')) },
 };

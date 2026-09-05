@@ -8,6 +8,7 @@ import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
 import { agents, kadro, planla, calistir, gorevYolla } from './allagents/index.ts';
 import { review } from './tools/review.ts';
+import { kontrol, temizle, ozet } from './saglik/index.ts';
 
 const cmd = process.argv[2] ?? 'run';
 
@@ -110,6 +111,19 @@ switch (cmd) {
   case 'review':
     await review();
     break;
+  case 'saglik': {
+    const bulgular = await kontrol();
+    log.step(`SAGLIK: ${ozet(bulgular).toUpperCase()}`);
+    for (const b of bulgular) {
+      const isaret = b.seviye === 'kritik' ? '[!!]' : b.seviye === 'uyari' ? '[! ]' : '[ok]';
+      console.log(`${isaret} ${b.konu.padEnd(14)} ${b.detay}`);
+      if (b.yapilacak) console.log(`     -> YAP: ${b.yapilacak}`);
+    }
+    break;
+  }
+  case 'temizle':
+    await temizle();
+    break;
   case 'status':
     await status();
     break;
@@ -121,5 +135,5 @@ switch (cmd) {
     await status();
     break;
   default:
-    console.log('Komutlar: plan | ideate | write | generate | retry | publish | run | review | status | doctor');
+    console.log('Komutlar: plan | ideate | write | generate | retry | publish | run | review | status | doctor | saglik | temizle');
 }

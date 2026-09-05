@@ -3,10 +3,11 @@ import { videoUretim } from './video-uretim.ts';
 import { ses } from './ses.ts';
 import { video } from './video.ts';
 import { senaryo } from './senaryo.ts';
+import { gundemToplayici } from './gundem.ts';
 import type { Agent } from './types.ts';
 
-export { icerikBulma, videoUretim, ses, video, senaryo };
-export { ekipler, ekipBul } from './ekipler/index.ts';
+export { icerikBulma, videoUretim, ses, video, senaryo, gundemToplayici };
+export { ekipler, ekipBul, gundemIste, isteKonulu } from './ekipler/index.ts';
 export { planla, calistir, gorevYolla, kadro } from './lider.ts';
 export * from './types.ts';
 
@@ -15,6 +16,7 @@ export * from './types.ts';
  * sirasini kuran merci; lider de ekipler arasinda dagitim yapan ust merci.
  */
 export const agents: Agent<never, unknown>[] = [
+  gundemToplayici,
   icerikBulma,
   senaryo,
   ses,
