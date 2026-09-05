@@ -61,3 +61,22 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
   }
   return done;
 }
+
+/**
+ * Basarisiz taslaklari yeniden uretime alir.
+ * Kalite kapisi ya da saglayici cokmesi kalici olmamali; model degisince
+ * ayni fikir tekrar denenebilmeli (Motto 5: tekrar calistirmak zararsiz).
+ */
+export async function retryFailed(limit = 10): Promise<number> {
+  const failed = (await store.byStatus('failed')).slice(0, limit);
+  for (const post of failed) {
+    post.status = 'draft';
+    post.variants = {};
+    post.media = [];
+    post.results = [];
+    delete post.approvalRef;
+    await store.upsert(post);
+    log.info(`yeniden kuyruga alindi ${post.id}: ${post.topic}`);
+  }
+  return failed.length;
+}

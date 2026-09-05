@@ -16,7 +16,9 @@
     "status": "node --env-file=.env --experimental-strip-types src/index.ts status",
     "doctor": "node --env-file=.env --experimental-strip-types src/index.ts doctor",
     "typecheck": "tsc --noEmit",
-    "start": "node --env-file=.env src/runner.ts"
+    "start": "node --env-file=.env src/runner.ts",
+    "retry": "node --env-file=.env src/index.ts retry",
+    "tgsetup": "node --env-file=.env src/index.ts tgsetup"
   },
   "dependencies": {
     "@atproto/api": "^0.13.35"

@@ -4,9 +4,10 @@ import { store } from './core/store.ts';
 import { allPlatforms, activePlatforms } from './platforms/index.ts';
 import { resolveChain } from './providers/llm/index.ts';
 import { ideate } from './pipeline/ideate.ts';
-import { generate } from './pipeline/generate.ts';
+import { generate, retryFailed } from './pipeline/generate.ts';
 import { requestApproval, collectApprovals } from './pipeline/approve.ts';
 import { publish } from './pipeline/publish.ts';
+import { telegramSetup } from './tools/telegram-setup.ts';
 
 const cmd = process.argv[2] ?? 'run';
 
@@ -75,6 +76,13 @@ switch (cmd) {
     await collectApprovals();
     await publish();
     break;
+  case 'retry':
+    await retryFailed();
+    await generate();
+    break;
+  case 'tgsetup':
+    await telegramSetup();
+    break;
   case 'status':
     await status();
     break;
@@ -91,5 +99,5 @@ switch (cmd) {
     await status();
     break;
   default:
-    console.log('Komutlar: ideate | generate | approve | publish | run | status | doctor');
+    console.log('Komutlar: ideate | generate | retry | approve | publish | run | status | doctor | tgsetup');
 }
