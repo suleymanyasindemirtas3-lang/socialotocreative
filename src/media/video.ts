@@ -2,8 +2,10 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
-import { speak, duration, VOICES } from './tts.ts';
+import { getTts, duration } from '../providers/tts/index.ts';
+import { getClipSource } from '../providers/clip/index.ts';
 
 const run = promisify(execFile);
 
@@ -56,18 +58,23 @@ ${lines.join('\n')}
 }
 
 export interface VideoSpec {
-  imagePath: string;
+  /** Goruntu kaynagina verilecek istem (ingilizce, gorsel betimleme). */
+  visualPrompt: string;
   narration: string;
   /** Ekranda yanan altyazi. Verilmezse narration kullanilir. */
   caption?: string;
   outPath: string;
   voice?: string;
+  /** Uretim asamasi zaten gorsel urettiyse tekrar uretilmesin. */
+  existingStill?: string;
 }
 
 /**
- * Gorsel + seslendirme -> dikey mp4.
- * Yavas zoom (Ken Burns) hareketsiz kareyi izlenebilir kiliyor; platformlar
- * tamamen statik videoyu dusuk kaliteli sayip erisimi kisiyor.
+ * Seslendirme + goruntu -> dikey mp4.
+ *
+ * Goruntu kaynagi takilabilir (durgun gorsel ya da ucretli AI video), ama ses,
+ * altyazi ve formatlama her zaman burada ve bedelsiz kalir. Boylece ucretli
+ * saglayiciya gecmek yalnizca goruntu maliyeti dogurur.
  */
 export async function compose(spec: VideoSpec): Promise<string> {
   await mkdir(dirname(spec.outPath), { recursive: true });
@@ -75,30 +82,49 @@ export async function compose(spec: VideoSpec): Promise<string> {
   const audioPath = `${stem}.mp3`;
   const assPath = `${stem}.ass`;
 
-  await speak(spec.narration, audioPath, spec.voice ?? VOICES.tr_male);
+  const tts = getTts();
+  await tts.speak(spec.narration, audioPath, spec.voice ?? cfg.tts.voice);
   const secs = await duration(audioPath);
+
+  const source = getClipSource();
+  const clip = await source.produce({
+    prompt: spec.visualPrompt,
+    seconds: secs,
+    outStem: stem,
+    ...(spec.existingStill ? { existingStill: spec.existingStill } : {}),
+  });
+  log.info(`ses=${tts.id} goruntu=${source.id} (${clip.motion ? 'hareketli' : 'durgun'}) ${secs.toFixed(1)}s`);
+
   await writeFile(assPath, buildAss(spec.caption ?? spec.narration, secs), 'utf8');
 
   const fps = 30;
   const frames = Math.ceil(secs * fps);
-  // ffmpeg filtre dizesinde ':' ayirac; Windows yolunu kacirmak yerine dosya
-  // adini goreli tutuyoruz (calisma dizini proje koku).
+  // ffmpeg filtre dizesinde ':' ayirac; yollar goreli tutuluyor.
   const assRef = assPath.replace(/\\/g, '/').replace(/:/g, '\\:');
 
-  const filter = [
-    `scale=${VERTICAL.w * 2}:${VERTICAL.h * 2}:force_original_aspect_ratio=increase`,
-    `crop=${VERTICAL.w * 2}:${VERTICAL.h * 2}`,
-    `zoompan=z='min(zoom+0.0006,1.18)':d=${frames}:s=${VERTICAL.w}x${VERTICAL.h}:fps=${fps}`,
-    `subtitles='${assRef}'`,
-    'format=yuv420p',
-  ].join(',');
+  // Hareketli klip zaten kendi hareketini tasiyor; zoompan eklemek titretir.
+  const motionStage = clip.motion
+    ? `scale=${VERTICAL.w}:${VERTICAL.h}:force_original_aspect_ratio=increase,crop=${VERTICAL.w}:${VERTICAL.h},fps=${fps}`
+    : [
+        `scale=${VERTICAL.w * 2}:${VERTICAL.h * 2}:force_original_aspect_ratio=increase`,
+        `crop=${VERTICAL.w * 2}:${VERTICAL.h * 2}`,
+        `zoompan=z='min(zoom+0.0006,1.18)':d=${frames}:s=${VERTICAL.w}x${VERTICAL.h}:fps=${fps}`,
+      ].join(',');
+
+  const filter = [motionStage, `subtitles='${assRef}'`, 'format=yuv420p'].join(',');
+
+  // Durgun gorsel loop'lanir; kisa klip ses bitene kadar tekrarlanir.
+  const inputArgs = clip.motion
+    ? ['-stream_loop', '-1', '-i', clip.path]
+    : ['-loop', '1', '-i', clip.path];
 
   await run(
     'ffmpeg',
     [
       '-y', '-loglevel', 'error',
-      '-loop', '1', '-i', spec.imagePath,
+      ...inputArgs,
       '-i', audioPath,
+      '-map', '0:v:0', '-map', '1:a:0',
       '-vf', filter,
       '-c:v', 'libx264', '-preset', 'medium', '-crf', '21',
       '-c:a', 'aac', '-b:a', '128k',
@@ -110,6 +136,8 @@ export async function compose(spec: VideoSpec): Promise<string> {
   );
 
   await rm(assPath, { force: true });
+  // Yalnizca bu cagri icin uretilen ara klip silinir; disaridan gelen gorsel kalir.
+  if (clip.motion) await rm(clip.path, { force: true });
   log.ok(`video hazir: ${spec.outPath} (${secs.toFixed(1)}s)`);
   return spec.outPath;
 }

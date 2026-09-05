@@ -54,20 +54,20 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
       const wantsVideo = needs.includes('video');
       const wantsImage = wantsVideo || needs.includes('image') || imageEnabled();
 
-      if (wantsImage) {
-        if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
-        const img = getImage();
-        const promptText = await llm.complete(
+      // Gorsel istemi bir kez uretilir; hem durgun gorsel hem video onu kullanir.
+      const visualPrompt = (
+        await llm.complete(
           `Su post icin ingilizce, tek cumlelik bir gorsel uretim promptu yaz. Metin/yazi icermesin.\n\n${post.topic}`,
           { maxTokens: 120 },
-        );
-        post.media = [await img.generate(promptText.trim(), `data/media/${post.id}.jpg`)];
+        )
+      ).trim();
+
+      if (wantsImage) {
+        if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
+        post.media = [await getImage().generate(visualPrompt, `data/media/${post.id}.jpg`)];
       }
 
       if (wantsVideo) {
-        const still = post.media[0];
-        if (!still) throw new Error('video icin gorsel uretilemedi');
-
         // Seslendirme metni post metninden ayri uretilir: konusma dili yazi
         // dilinden farkli, ve caption'i okumak izleyiciyi kaybettiriyor.
         const narration = tidy(
@@ -83,11 +83,13 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
           ),
         );
 
+        const still = post.media.find((m) => m.kind === 'image');
         const video = await compose({
-          imagePath: still.path,
+          visualPrompt,
           narration,
           outPath: `data/media/${post.id}.mp4`,
-          voice: cfg.video.voice,
+          // Ucretsiz kaynak bunu aynen kullanir; AI kaynagi yok sayip kendi klibini uretir.
+          ...(still ? { existingStill: still.path } : {}),
         });
         post.media.push({ kind: 'video', path: video, alt: post.topic, mime: 'video/mp4' });
       }

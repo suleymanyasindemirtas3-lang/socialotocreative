@@ -88,6 +88,53 @@ export interface LlmProvider {
   complete(prompt: string, opts?: LlmOptions): Promise<string>;
 }
 
+/**
+ * Saglayici sinifi. Panel ve doctor bunu gosterir; "0 maliyet zorunlu ama
+ * ucretli degerlendirilebilir" kisitinin kod tarafindaki karsiligi.
+ *   free   - sinirsiz/bedelsiz
+ *   credit - ucretsiz kredi verir, bitince durur
+ *   paid   - kullandikca oder
+ */
+export type Tier = 'free' | 'credit' | 'paid';
+
+export interface TtsProvider {
+  id: string;
+  tier: Tier;
+  isConfigured(): boolean;
+  /** Metni seslendirip ses dosyasi yolunu dondurur. */
+  speak(text: string, outPath: string, voice?: string): Promise<string>;
+}
+
+/**
+ * Videonun GORUNTU kaynagi. Ses, altyazi ve formatlama compose() icinde kalir.
+ * Bu ayrim onemli: ucretli AI video uretimi ffmpeg'in yerini almaz, yalnizca
+ * durgun gorselin yerini alir. Boylece pahali sagayici yalniz gorsel uretir,
+ * gerisi bedelsiz yerel islemede kalir.
+ */
+export interface ClipSource {
+  id: string;
+  tier: Tier;
+  isConfigured(): boolean;
+  produce(opts: ClipRequest): Promise<ClipResult>;
+}
+
+export interface ClipRequest {
+  prompt: string;
+  seconds: number;
+  outStem: string;
+  /**
+   * Cagiran zaten uygun bir durgun gorsel urettiyse yolu. Ucretsiz kaynak
+   * bunu aynen kullanir (ikinci kez uretmez); AI kaynagi yok sayar.
+   */
+  existingStill?: string;
+}
+
+export interface ClipResult {
+  path: string;
+  /** true ise hazir video klip, false ise durgun gorsel (Ken Burns uygulanir). */
+  motion: boolean;
+}
+
 export interface ImageProvider {
   id: string;
   isConfigured(): boolean;

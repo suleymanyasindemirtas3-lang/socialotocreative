@@ -30,8 +30,20 @@ export const cfg = {
     branch: env('MEDIA_BRANCH', 'main'),
     base: env('PUBLIC_MEDIA_BASE'),
   },
-  video: {
+  // Seslendirme: ucretsiz edge varsayilan, ucretli saglayici zincire eklenir.
+  tts: {
+    chain: list('TTS_PROVIDER', ['edge']),
     voice: env('TTS_VOICE', 'tr-TR-AhmetNeural'),
+    rate: env('TTS_RATE', '+8%'),
+    elevenKey: env('ELEVENLABS_API_KEY'),
+    elevenVoice: env('ELEVENLABS_VOICE_ID'),
+    elevenModel: env('ELEVENLABS_MODEL', 'eleven_multilingual_v2'),
+  },
+  // Videonun goruntu kaynagi: durgun gorsel (bedelsiz) ya da AI video (ucretli).
+  clip: {
+    chain: list('CLIP_SOURCE', ['still']),
+    falKey: env('FAL_API_KEY'),
+    falModel: env('FAL_MODEL', 'fal-ai/ltx-video'),
   },
   brand: {
     niche: env('BRAND_NICHE', 'yazilim ve yapay zeka'),

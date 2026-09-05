@@ -60,6 +60,15 @@ mimari bunu bir arıza değil, normal işletme koşulu olarak kabul eder.
 Zincire `mock` **koyma**. Sağlayıcıların hepsi düştüğünde hat gürültüyle durmalı,
 sessizce çöp içerik yayınlamamalı — bu Motto 2'nin devamıdır.
 
+## 9. Pahalı olan katman en dar tutulur
+
+Ücretli sağlayıcıya geçmek, o katmanın tamamını satın almak anlamına gelmemeli.
+AI video üretimi ffmpeg'in yerine geçmez — yalnızca görüntü kaynağının yerine
+geçer. Ses, altyazı ve formatlama bedelsiz yerel işlemede kalır.
+
+Aynı mantık her yerde geçerli: ücretli katmanı mümkün olan en küçük parçaya
+indir, gerisini ücretsiz tut.
+
 ---
 
 ## Teknik kısıtlar

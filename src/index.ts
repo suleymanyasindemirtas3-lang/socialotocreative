@@ -4,6 +4,8 @@ import { store } from './core/store.ts';
 import { platforms } from './platforms/index.ts';
 import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
+import { ttsRegistry, getTts } from './providers/tts/index.ts';
+import { clipRegistry, getClipSource } from './providers/clip/index.ts';
 import { ideate } from './pipeline/ideate.ts';
 import { generate, retryFailed } from './pipeline/generate.ts';
 import { publish } from './pipeline/publish.ts';
@@ -43,6 +45,13 @@ async function doctor(): Promise<void> {
     const mark = a.enabled ? '[acik]  ' : '[kapali]';
     console.log(`  ${mark} ${a.id.padEnd(16)} ${a.platform.padEnd(10)} ${a.verifiedAs ?? a.label}`);
   }
+
+  log.step('SAGLAYICILAR');
+  const tiers = (r: Record<string, { id: string; tier: string; isConfigured(): boolean }>) =>
+    Object.values(r).map((p) => `${p.isConfigured() ? '+' : '-'} ${p.id} (${p.tier})`).join('  ');
+  console.log(`  ses    : ${tiers(ttsRegistry)}`);
+  console.log(`  goruntu: ${tiers(clipRegistry)}`);
+  try { console.log(`  etkin  : ses=${getTts().id} goruntu=${getClipSource().id}`); } catch (e) { console.log(`  etkin  : ${e}`); }
 
   log.step('URETICI (canli test)');
   let chain;

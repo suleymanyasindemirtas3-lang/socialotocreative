@@ -75,10 +75,14 @@ GitHub Actions'ta tek bir `ACCOUNTS_JSON` secret'indan okunur.
 `LLM_PROVIDER=ollama,pollinations,gemini`
 
 
+Sağlayıcı ekleme rehberi: [docs/PROVIDERS.md](docs/PROVIDERS.md)
+
 | Katman | Ücretsiz | Ücretli geçiş |
 |---|---|---|
 | LLM | `ollama` (yerel, sinirsiz), `pollinations` (anahtarsiz), `gemini`, `groq` | `claude` |
 | Görsel | `pollinations` (anahtarsız) | fal / replicate adaptörü yaz |
+| Seslendirme | `edge` (anahtarsız, Türkçe) | `elevenlabs` |
+| Video görüntüsü | `still` (görsel + Ken Burns) | `fal` (AI video üretimi) |
 | Depo | `JsonStore` (repo içi) | `SupabaseStore` yaz |
 | Compute | GitHub Actions cron | kalıcı VM |
 
