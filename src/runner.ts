@@ -1,6 +1,6 @@
 import { cfg } from './core/config.ts';
 import { log } from './core/logger.ts';
-import { bulFikir, uret } from './allagents/index.ts';
+import { calistir } from './allagents/index.ts';
 import { publish } from './pipeline/publish.ts';
 
 /**
@@ -32,8 +32,7 @@ async function guard(name: string, fn: () => Promise<unknown>): Promise<void> {
 async function generateCycle(): Promise<void> {
   if (stopping) return;
   log.step('URETIM TURU');
-  await guard('fikir', () => bulFikir());
-  await guard('uretim', () => uret());
+  await guard('lider', () => calistir());
 }
 
 async function publishCycle(): Promise<void> {

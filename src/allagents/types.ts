@@ -100,3 +100,45 @@ export interface YonetmenSonucu {
   post: Post;
   media: MediaAsset[];
 }
+
+// ------------------------------------------------------------- ekip / gorev
+
+/**
+ * Gorev turleri. Lider bunlari uretir, ekipler bunlari yerine getirir.
+ * Yeni bir ekip eklemek = yeni bir tur tanimlayip ekibi kayda eklemek.
+ */
+export type GorevTuru = 'fikir-bul' | 'icerik-yaz' | 'medya-uret' | 'yayinla' | 'tekrar-dene';
+
+export interface Gorev {
+  tur: GorevTuru;
+  /** Kac birim islenecek. */
+  adet: number;
+  /** Liderin bu gorevi neden actigi. Log ve panelde gorunur. */
+  sebep: string;
+}
+
+export interface GorevSonucu {
+  gorev: Gorev;
+  ekip: string;
+  ok: boolean;
+  ozet: string;
+  error?: string;
+}
+
+/**
+ * Ekip: ortak bir alanda calisan ajanlar toplulugu.
+ *
+ * Lider ekibin ICINE bakmaz; yalnizca `handles` listesine bakip gorevi yollar.
+ * Ekibin kac ajani oldugu, hangi sirayla calistirdigi ekibin kendi bilgisi.
+ * Yeni ekip eklemek liderde tek satir degisiklik bile gerektirmez.
+ */
+export interface Ekip {
+  id: string;
+  role: string;
+  /** Ekip uyeleri. Yalnizca gorunurluk icin; lider bunlari cagirmaz. */
+  members: string[];
+  /** Ekibin lideri olan ajan varsa id'si. */
+  lead?: string;
+  handles: GorevTuru[];
+  run(gorev: Gorev): Promise<GorevSonucu>;
+}

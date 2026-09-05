@@ -7,9 +7,10 @@ import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
-import { bulFikir, uret, tekrarDene } from '../allagents/index.ts';
+import { calistir, gorevYolla, planla, kadro } from '../allagents/index.ts';
 import { publish } from '../pipeline/publish.ts';
 import type { Account, PostStatus } from '../core/types.ts';
+import type { GorevTuru } from '../allagents/types.ts';
 
 const PORT = Number(process.env['PANEL_PORT'] ?? 8787);
 // Varsayilan yalniz yerel. Uzaktan erisim bilincli bir karar olmali (tunel + token).
@@ -57,17 +58,21 @@ async function runStage(stage: string): Promise<string> {
   if (busy) return 'zaten calisiyor';
   busy = true;
   try {
-    if (stage === 'ideate') return `${(await bulFikir()).length} fikir`;
-    if (stage === 'generate') return `${(await uret()).length} uretildi`;
-    if (stage === 'publish') return `${(await publish()).length} islendi`;
-    if (stage === 'retry') return `${await tekrarDene()} kuyruga alindi`;
     if (stage === 'run') {
-      await bulFikir();
-      await uret();
-      const p = await publish();
-      return `tam tur bitti, ${p.length} yayin islendi`;
+      const r = await calistir();
+      return r.length ? r.map((x) => `${x.ekip}: ${x.ozet}`).join(' | ') : 'yapilacak is yok';
     }
-    return 'bilinmeyen adim';
+    const map: Record<string, GorevTuru> = {
+      ideate: 'fikir-bul',
+      write: 'icerik-yaz',
+      generate: 'medya-uret',
+      publish: 'yayinla',
+      retry: 'tekrar-dene',
+    };
+    const tur = map[stage];
+    if (!tur) return 'bilinmeyen adim';
+    const r = await gorevYolla(tur);
+    return r.ok ? `${r.ekip}: ${r.ozet}` : `${r.ekip} hata: ${r.error}`;
   } finally {
     busy = false;
   }
@@ -89,6 +94,8 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
         setupUrl: p.setupUrl,
         setupHint: p.setupHint,
       })),
+      teams: kadro(),
+      plan: await planla(),
       config: {
         dryRun: cfg.safety.dryRun,
         autoApprove: cfg.approval.auto,

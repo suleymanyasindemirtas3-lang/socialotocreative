@@ -6,17 +6,18 @@ import { senaryo } from './senaryo.ts';
 import type { Agent } from './types.ts';
 
 export { icerikBulma, videoUretim, ses, video, senaryo };
-export { bulFikir, uret, tekrarDene } from './yonetmen.ts';
+export { ekipler, ekipBul } from './ekipler/index.ts';
+export { planla, calistir, gorevYolla, kadro } from './lider.ts';
 export * from './types.ts';
 
 /**
- * Yonetmen disindaki ajanlar. Yonetmen bu listede yok cunku o bir is degil,
- * bu islerin sirasini kuran merci.
+ * Ajanlar. Yonetmen bu listede yok cunku o bir is degil, produksiyon ekibinin
+ * sirasini kuran merci; lider de ekipler arasinda dagitim yapan ust merci.
  */
 export const agents: Agent<never, unknown>[] = [
   icerikBulma,
-  videoUretim,
-  ses,
-  video,
   senaryo,
+  ses,
+  videoUretim,
+  video,
 ] as unknown as Agent<never, unknown>[];

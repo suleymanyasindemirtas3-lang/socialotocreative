@@ -6,8 +6,7 @@ import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
 import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
-import { bulFikir, uret, tekrarDene, agents } from './allagents/index.ts';
-import { publish } from './pipeline/publish.ts';
+import { agents, kadro, planla, calistir, gorevYolla } from './allagents/index.ts';
 import { review } from './tools/review.ts';
 
 const cmd = process.argv[2] ?? 'run';
@@ -47,7 +46,19 @@ async function doctor(): Promise<void> {
 
   log.step('AJANLAR');
   for (const a of agents) console.log(`  ${a.id.padEnd(14)} ${a.role}  [${a.uses.join(', ')}]`);
-  console.log('  yonetmen       Sirayi kurar ve karar verir  [hepsi]');
+
+  log.step('EKIPLER');
+  for (const e of kadro()) {
+    console.log(`  ${e.id.padEnd(13)} ${e.role}`);
+    console.log(`  ${''.padEnd(13)} uye: ${e.members.join(', ')}${e.lead ? `  lider: ${e.lead}` : ''}`);
+    console.log(`  ${''.padEnd(13)} gorev: ${e.handles.join(', ')}`);
+  }
+  console.log('  lider         Durumu okur, gorevleri ekiplere dagitir');
+
+  log.step('SIRADAKI PLAN');
+  const plan = await planla();
+  if (!plan.length) console.log('  yapilacak is yok');
+  for (const g of plan) console.log(`  ${g.tur.padEnd(13)} x${g.adet}  <- ${g.sebep}`);
 
   log.step('SAGLAYICILAR');
   const tiers = (r: Record<string, { id: string; tier: string; isConfigured(): boolean }>) =>
@@ -79,17 +90,22 @@ async function doctor(): Promise<void> {
 
 switch (cmd) {
   case 'ideate':
-    await bulFikir();
+    await gorevYolla('fikir-bul');
+    break;
+  case 'write':
+    await gorevYolla('icerik-yaz');
     break;
   case 'generate':
-    await uret();
+    await gorevYolla('medya-uret');
+    break;
+  case 'plan':
+    for (const g of await planla()) console.log(`${g.tur.padEnd(13)} x${g.adet}  <- ${g.sebep}`);
     break;
   case 'publish':
-    await publish();
+    await gorevYolla('yayinla');
     break;
   case 'retry':
-    await tekrarDene();
-    await uret();
+    await gorevYolla('tekrar-dene');
     break;
   case 'review':
     await review();
@@ -101,12 +117,9 @@ switch (cmd) {
     await doctor();
     break;
   case 'run':
-    log.step('TAM HAT');
-    await bulFikir();
-    await uret();
-    await publish();
+    await calistir();
     await status();
     break;
   default:
-    console.log('Komutlar: ideate | generate | retry | publish | run | review | status | doctor');
+    console.log('Komutlar: plan | ideate | write | generate | retry | publish | run | review | status | doctor');
 }

@@ -2,6 +2,8 @@
 
 export type PostStatus =
   | 'draft'
+  /** Metinler yazildi, medya heNUZ uretilmedi. Iki ekip arasindaki sinir. */
+  | 'scripted'
   | 'pending_approval'
   | 'approved'
   | 'rejected'
@@ -36,6 +38,11 @@ export interface Post {
   media: MediaAsset[];
   /** Hesap id'leri. Ayni platformda birden fazla hesap olabilir. */
   targets: string[];
+  /**
+   * Senaryo ekibinin ciktisi. Ayri tutulur cunku medya uretimi cokerse
+   * yazilan metin kaybolmamali; tekrar denerken bastan yazilmaz.
+   */
+  script?: { visualPrompt: string; narration?: string };
   scheduledAt?: string;
   results: PublishResult[];
   approvalRef?: string;

@@ -56,6 +56,25 @@
     "createdAt": "2026-09-05T21:44:04.153Z",
     "topic": "Yazılım ve yapay zekanın gelecekteki potansiyel birleşimi",
     "angle": "Birleştirilmiş teknolojinin hayata geçirilebilir uygulamaları",
+    "status": "scripted",
+    "variants": {
+      "console": "# Yazılım ve Yapay Zeka: Birleştirilmiş Teknolojinin Hayata Geçirme\nYazılım ve yapay zeka (AYK) birleşimi, teknolojinin gelecekteki potansiyelini açıklayan bir kombinasyonudur. Bu, sadece teorik bir deneyim değil, gerçek hayatta da geniş uygulamalar sunmaktadır. Örneğin, bir otomotiv firması, AYK teknolojisini kullanarak araba otomatik park sistemi geliştirebilir. Bu sistemin nasıl çalıştığını ve hangi avantajları sunacağını aşağıda inceliyoruz.\n\n## Sistemin Çalışma Mantığı\nAraba otomatik park sistemi, bir aracın kendiliğinden parkı için gereken tüm senaryoları önceden programlanır. Bu, kameralar, laser sensorler ve diğer bilimlerle desteklenen bir AYK sisteminin işleyişinden oluşur. Araç, genellikle bir mobil uygulama aracılığıyla kullanıcıya bilgi verir ve kullanıcı, park etme işlemi için izin verir. Bu işlem sırasında, AYK sistemi, kameraların ve sensorlerin gerekli verilerini kullanarak yer uyumlu bir park konumu belirler.\n\n## Uygulama Örneği\nBir otomotiv firması, aracın kameraları, laser sensorleri ve diğer bilimlerle gelen bilgileri kullanarak park konumunu belirleyen bir AYK sistemi geliştirmiştir. Bu sistemin ilk versiyonu, kullanıcıya park konumunu önerirken, daha sonraki sürümlerde kullanıcıların belirli konumları tercih etmesine olanak tanır. Kullanıcı, park konumunu seçtiği takdirde, AYK sistemi, bu konumu seçtikten sonra araçın park etme sürecini otomatik olarak yönetir.\n\n## Öngörülen Advantajlar\nAraba otomatik park sisteminin en büyük avantajlarından biri, kullanıcının daha kolay ve daha güvenli bir şekilde park etmesidir. Ayrıca, bu sistem, daha az çukur kullanıcısına ve daha az park süresine olanak tanır, bu da trafiğe katkıda bulunur. Sonuç olarak, AYK ve yazılımın birleşimi, teknolojinin gerçek hayatta da en üst seviyede bir uygulamasını sağlar.\n\n## Sonuç\nYazılım ve yapay zeka birleşiminin, özellikle otomotiv sektöründe geniş uygulamalar sunacağı açıktır. Araç otomatik park sistemi gibi örnekler, teknolojiyi gerçek hayata geçirme ve kullanıcıların yaşam standartlarını artırma potansiyelini göstermektedir. Bu teknolojik birleşimin gelecekteki potansiyeli, sadece uygulamaları değil, aynı zamanda daha güvenli ve daha kolay bir günlük yaşam için de geniş alanlara ulaşabilir."
+    },
+    "media": [],
+    "targets": [
+      "console-82ecde"
+    ],
+    "results": [],
+    "fingerprint": "8455e1756c053d11",
+    "script": {
+      "visualPrompt": "A fusion of software and artificial intelligence shaping the futurelandscape"
+    }
+  },
+  {
+    "id": "892d4f95",
+    "createdAt": "2026-09-05T22:12:37.313Z",
+    "topic": "Yazılım ve yapay zeka arasındaki potansiyel iş birliği",
+    "angle": "Yapay zekanın yazılım geliştirmesindeki etkiler",
     "status": "draft",
     "variants": {},
     "media": [],
@@ -63,6 +82,6 @@
       "console-82ecde"
     ],
     "results": [],
-    "fingerprint": "8455e1756c053d11"
+    "fingerprint": "c321d832356d2e0d"
   }
 ]

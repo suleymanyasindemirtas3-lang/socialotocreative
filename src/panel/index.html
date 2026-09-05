@@ -68,8 +68,9 @@
   <span class="chip">DRY_RUN <b id="c-dry">-</b></span>
   <span class="chip">otomatik onay <b id="c-auto">-</b></span>
   <span class="grow"></span>
-  <button data-stage="ideate">Fikir üret</button>
-  <button data-stage="generate">İçerik üret</button>
+  <button data-stage="ideate">Fikir bul</button>
+  <button data-stage="write">Metin yaz</button>
+  <button data-stage="generate">Medya üret</button>
   <button data-stage="publish">Yayınla</button>
   <button class="primary" data-stage="run">Tam tur</button>
 </header>
@@ -77,9 +78,11 @@
 <main>
   <nav>
     <button id="tab-queue" aria-selected="true">Kuyruk</button>
+    <button id="tab-teams" aria-selected="false">Ekipler</button>
     <button id="tab-accounts" aria-selected="false">Hesaplar</button>
   </nav>
   <div id="view-queue"></div>
+  <div id="view-teams" hidden></div>
   <div id="view-accounts" hidden></div>
 </main>
 
@@ -87,7 +90,7 @@
 
 <script>
 const $ = (s, r = document) => r.querySelector(s);
-let STATE = { posts: [], accounts: [], platforms: [], config: {} };
+let STATE = { posts: [], accounts: [], platforms: [], teams: [], plan: [], config: {} };
 
 function toast(msg, ms = 2600) {
   const t = $('#toast');
@@ -120,7 +123,44 @@ async function refresh() {
   $('#c-dry').textContent = c.dryRun ? 'açık' : 'kapalı';
   $('#c-auto').textContent = c.autoApprove ? 'açık' : 'kapalı';
   renderQueue();
+  renderTeams();
   renderAccounts();
+}
+
+/* ------------------------------------------------------------------ ekipler */
+
+function renderTeams() {
+  const plan = STATE.plan ?? [];
+  const teams = STATE.teams ?? [];
+
+  const planRows = plan.length
+    ? plan.map((g) => `<tr>
+        <td><code>${esc(g.tur)}</code></td>
+        <td class="muted small">x${g.adet}</td>
+        <td class="small">${esc(g.sebep)}</td>
+        <td class="small muted">${esc((teams.find((t) => t.handles.includes(g.tur)) || {}).id ?? 'ekip yok')}</td>
+      </tr>`).join('')
+    : `<tr><td colspan="4" class="muted">Yapılacak iş yok.</td></tr>`;
+
+  $('#view-teams').innerHTML = `
+    <div class="card">
+      <div class="row"><b class="grow">Liderin sıradaki planı</b>
+        <span class="muted small">durum okunarak üretildi</span></div>
+      <table><thead><tr><th>Görev</th><th>Adet</th><th>Gerekçe</th><th>Ekip</th></tr></thead>
+        <tbody>${planRows}</tbody></table>
+    </div>
+
+    ${teams.map((t) => `<div class="card">
+      <div class="row">
+        <b class="grow">${esc(t.id)}</b>
+        ${t.lead ? `<span class="chip">lider <b>${esc(t.lead)}</b></span>` : ''}
+      </div>
+      <div class="muted small">${esc(t.role)}</div>
+      <div class="row" style="margin-top:10px">
+        ${t.members.map((m) => `<span class="chip">${esc(m)}</span>`).join('')}
+      </div>
+      <div class="muted small" style="margin-top:8px">üstlendiği görevler: ${t.handles.map((h) => `<code>${esc(h)}</code>`).join(' ')}</div>
+    </div>`).join('')}`;
 }
 
 /* ------------------------------------------------------------------ kuyruk */
@@ -293,12 +333,12 @@ document.addEventListener('click', async (e) => {
       return;
     }
 
-    if (t.id === 'tab-queue' || t.id === 'tab-accounts') {
-      const q = t.id === 'tab-queue';
-      $('#tab-queue').setAttribute('aria-selected', q);
-      $('#tab-accounts').setAttribute('aria-selected', !q);
-      $('#view-queue').hidden = !q;
-      $('#view-accounts').hidden = q;
+    if (t.id.startsWith('tab-')) {
+      const which = t.id.slice(4);
+      for (const name of ['queue', 'teams', 'accounts']) {
+        $(`#tab-${name}`).setAttribute('aria-selected', name === which);
+        $(`#view-${name}`).hidden = name !== which;
+      }
     }
   } catch (err) {
     toast('hata: ' + err.message, 6000);
