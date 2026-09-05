@@ -1,14 +1,21 @@
 import { log } from '../core/logger.ts';
-import type { PlatformAdapter, Post, PublishResult } from '../core/types.ts';
+import type { PlatformDef, Post, PublishResult } from '../core/types.ts';
 
-/** Anahtarsiz hedef. Hattin tamamini gercek hesap acmadan test etmeye yarar. */
-export const consoleAdapter: PlatformAdapter = {
+/** Kimlik gerektirmez. Hattin tamamini gercek hesap acmadan test etmeye yarar. */
+export const consolePlatform: PlatformDef = {
   id: 'console',
+  label: 'Konsol (test)',
   limits: { text: 5000, media: 10 },
-  isConfigured: () => true,
+  setupHint: 'Kimlik istemez. Yayin yerine terminale yazar.',
+  fields: [],
+
+  async verify() {
+    return 'yerel konsol';
+  },
+
   async publish(post: Post, text: string): Promise<PublishResult> {
     log.ok(`console <- ${post.id}`);
     console.log('---\n' + text + '\n' + post.media.map((m) => `[gorsel] ${m.path}`).join('\n') + '\n---');
-    return { platform: 'console', ok: true, url: `console:${post.id}`, at: new Date().toISOString() };
+    return { accountId: '', platform: 'console', ok: true, url: `console:${post.id}`, at: new Date().toISOString() };
   },
 };

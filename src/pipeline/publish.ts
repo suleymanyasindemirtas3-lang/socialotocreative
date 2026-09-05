@@ -1,10 +1,15 @@
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
-import { platform, activePlatforms } from '../platforms/index.ts';
+import { accounts } from '../core/accounts.ts';
+import { platform } from '../platforms/index.ts';
 import type { Post } from '../core/types.ts';
 
-/** Adim 4: onaylanmislari yayina al. DRY_RUN acikken hicbir gercek cagri yapilmaz. */
+/**
+ * Adim 4: onaylanmislari yayina al.
+ * Hedef artik platform degil hesap; ayni platformda birden fazla hesap olabilir
+ * ve bir post hepsine ayni anda gider.
+ */
 export async function publish(limit = cfg.safety.maxPerRun): Promise<Post[]> {
   const ready = (await store.byStatus('approved')).slice(0, limit);
   if (!ready.length) {
@@ -12,38 +17,46 @@ export async function publish(limit = cfg.safety.maxPerRun): Promise<Post[]> {
     return [];
   }
 
-  const active = new Set(activePlatforms().map((p) => p.id));
   const out: Post[] = [];
 
   for (const post of ready) {
-    for (const id of post.targets) {
-      const adapter = platform(id);
-      if (!adapter) {
-        log.warn(`bilinmeyen platform: ${id}`);
-        continue;
-      }
-      if (!active.has(id)) {
-        log.warn(`${id} yapilandirilmamis, atlandi`);
-        continue;
-      }
-      // Idempotent: ayni posta ayni platformda ikinci kez yayin yapma.
-      if (post.results.some((r) => r.platform === id && r.ok)) continue;
+    for (const accountId of post.targets) {
+      // Idempotent: ayni posta ayni hesapta ikinci kez yayin yapma.
+      if (post.results.some((r) => r.accountId === accountId && r.ok)) continue;
 
-      const text = post.variants[id] ?? post.variants['console'] ?? post.topic;
+      const account = await accounts.get(accountId);
+      if (!account) {
+        log.warn(`hesap bulunamadi: ${accountId}`);
+        continue;
+      }
+      if (!account.enabled) {
+        log.warn(`hesap kapali, atlandi: ${account.label}`);
+        continue;
+      }
+
+      const def = platform(account.platform);
+      if (!def) {
+        log.warn(`bilinmeyen platform: ${account.platform}`);
+        continue;
+      }
+
+      const text = post.variants[account.platform] ?? post.variants['console'] ?? post.topic;
+      const at = new Date().toISOString();
 
       if (cfg.safety.dryRun) {
-        log.info(`[DRY_RUN] ${id} <- ${post.id}\n${text}`);
-        post.results.push({ platform: id, ok: true, url: 'dry-run', at: new Date().toISOString() });
+        log.info(`[DRY_RUN] ${account.label} (${def.id}) <- ${post.id}\n${text}`);
+        post.results.push({ accountId, platform: def.id, ok: true, url: 'dry-run', at });
         continue;
       }
 
-      const r = await adapter.publish(post, text);
+      const r = await def.publish(post, text, account.credentials);
+      r.accountId = accountId;
       post.results.push(r);
-      if (r.ok) log.ok(`${id} yayinlandi: ${r.url}`);
-      else log.err(`${id} hata: ${r.error}`);
+      if (r.ok) log.ok(`${account.label} yayinlandi: ${r.url}`);
+      else log.err(`${account.label} hata: ${r.error}`);
     }
 
-    const anyOk = post.results.some((r) => r.ok && post.targets.includes(r.platform));
+    const anyOk = post.results.some((r) => r.ok && post.targets.includes(r.accountId));
     post.status = anyOk ? 'published' : 'failed';
     await store.upsert(post);
     out.push(post);

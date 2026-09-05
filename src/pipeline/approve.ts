@@ -2,10 +2,14 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
-import { tg } from '../platforms/telegram.ts';
+import { tgClient } from '../platforms/telegram.ts';
 import type { Post } from '../core/types.ts';
 
 const STATE = 'data/state.json';
+
+/** Onay kanali bir yayin hesabi degil, operator kanalidir; .env'den okunur. */
+const tgReady = () => Boolean(cfg.telegram.token && cfg.telegram.chatId);
+const tg = () => tgClient(cfg.telegram.token);
 
 interface State { tgOffset: number }
 
@@ -35,7 +39,7 @@ export async function requestApproval(): Promise<number> {
     log.info('AUTO_APPROVE acik, onay kapisi atlaniyor');
     return 0;
   }
-  if (!tg.configured()) {
+  if (!tgReady()) {
     log.warn('Telegram yapilandirilmamis, onay istegi gonderilemiyor');
     return 0;
   }
@@ -50,8 +54,8 @@ export async function requestApproval(): Promise<number> {
     };
     const photo = post.media[0];
     const r = photo
-      ? await tg.sendPhoto(cfg.telegram.chatId, photo.path, preview(post), markup)
-      : await tg.call<{ message_id: number }>('sendMessage', {
+      ? await tg().sendPhoto(cfg.telegram.chatId, photo.path, preview(post), markup)
+      : await tg().call<{ message_id: number }>('sendMessage', {
           chat_id: cfg.telegram.chatId,
           text: preview(post).slice(0, 4096),
           reply_markup: markup,
@@ -74,10 +78,10 @@ interface CallbackUpdate {
 
 /** Adim 3b: gelen buton tiklamalarini isle. Cron her calistiginda cagrilir. */
 export async function collectApprovals(): Promise<number> {
-  if (!tg.configured()) return 0;
+  if (!tgReady()) return 0;
   const s = await readState();
 
-  const updates = await tg.call<CallbackUpdate[]>('getUpdates', {
+  const updates = await tg().call<CallbackUpdate[]>('getUpdates', {
     offset: s.tgOffset,
     timeout: 0,
     allowed_updates: ['callback_query'],
@@ -103,9 +107,9 @@ export async function collectApprovals(): Promise<number> {
       note = `zaten ${post.status}`;
     }
 
-    await tg.call('answerCallbackQuery', { callback_query_id: cb.id, text: note });
+    await tg().call('answerCallbackQuery', { callback_query_id: cb.id, text: note });
     if (cb.message) {
-      await tg
+      await tg()
         .call('editMessageReplyMarkup', {
           chat_id: cfg.telegram.chatId,
           message_id: cb.message.message_id,

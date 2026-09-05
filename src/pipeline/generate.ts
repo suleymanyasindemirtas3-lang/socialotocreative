@@ -1,6 +1,7 @@
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
+import { accounts } from '../core/accounts.ts';
 import { getLlm } from '../providers/llm/index.ts';
 import { getImage, imageEnabled } from '../providers/image/index.ts';
 import { platform } from '../platforms/index.ts';
@@ -18,7 +19,15 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
   const done: Post[] = [];
   for (const post of drafts) {
     try {
-      for (const id of post.targets) {
+      // Metin platform basina uretilir: ayni platformdaki iki hesap ayni metni paylasir.
+      const platformIds = new Set<string>();
+      for (const accId of post.targets) {
+        const acc = await accounts.get(accId);
+        if (acc) platformIds.add(acc.platform);
+      }
+      if (!platformIds.size) throw new Error('acik hedef hesap yok');
+
+      for (const id of platformIds) {
         const limitChars = platform(id)?.limits.text ?? 500;
         const text = await llm.complete(
           [
@@ -54,7 +63,7 @@ export async function generate(limit = cfg.safety.maxPerRun): Promise<Post[]> {
       log.ok(`uretildi ${post.id} -> ${post.status}`);
     } catch (e) {
       post.status = 'failed';
-      post.results.push({ platform: 'generate', ok: false, error: String(e), at: new Date().toISOString() });
+      post.results.push({ accountId: '', platform: 'generate', ok: false, error: String(e), at: new Date().toISOString() });
       await store.upsert(post);
       log.err(`uretim hatasi ${post.id}: ${e}`);
     }

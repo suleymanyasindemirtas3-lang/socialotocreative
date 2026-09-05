@@ -19,7 +19,8 @@
     "start": "node --env-file=.env src/runner.ts",
     "retry": "node --env-file=.env src/index.ts retry",
     "tgsetup": "node --env-file=.env src/index.ts tgsetup",
-    "review": "node --env-file=.env src/index.ts review"
+    "review": "node --env-file=.env src/index.ts review",
+    "panel": "node --env-file=.env src/panel/server.ts"
   },
   "dependencies": {
     "@atproto/api": "^0.13.35"

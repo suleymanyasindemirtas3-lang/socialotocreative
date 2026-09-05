@@ -16,6 +16,8 @@ export interface MediaAsset {
 }
 
 export interface PublishResult {
+  /** Hangi hesaba gitti. Coklu hesapta platform tek basina yetmiyor. */
+  accountId: string;
   platform: string;
   ok: boolean;
   url?: string;
@@ -29,17 +31,48 @@ export interface Post {
   topic: string;
   angle: string;
   status: PostStatus;
-  /** platformId -> o platforma gore uyarlanmis metin */
+  /** platformId -> o platformun sinirlarina gore uyarlanmis metin */
   variants: Record<string, string>;
   media: MediaAsset[];
+  /** Hesap id'leri. Ayni platformda birden fazla hesap olabilir. */
   targets: string[];
   scheduledAt?: string;
   results: PublishResult[];
-  /** Telegram onay mesajinin id'si; callback eslestirmek icin */
   approvalRef?: string;
-  /** dedup icin normalize edilmis parmak izi */
   fingerprint: string;
 }
+
+// ---------------------------------------------------------------- hesaplar
+
+/** Panelin "hesap ekle" formunu kendi kendine cizebilmesi icin alan tanimi. */
+export interface CredentialField {
+  key: string;
+  label: string;
+  secret: boolean;
+  optional?: boolean;
+  placeholder?: string;
+  help?: string;
+}
+
+export interface Account {
+  id: string;
+  platform: string;
+  label: string;
+  enabled: boolean;
+  credentials: Record<string, string>;
+  createdAt: string;
+  /** verify() sonucu: hesabin gercek kimligi. Yanlis hesaba yayini onler. */
+  verifiedAs?: string;
+}
+
+export interface AccountStore {
+  all(): Promise<Account[]>;
+  get(id: string): Promise<Account | undefined>;
+  upsert(a: Account): Promise<void>;
+  remove(id: string): Promise<void>;
+}
+
+// ---------------------------------------------------------------- uretim
 
 export interface LlmOptions {
   system?: string;
@@ -61,12 +94,22 @@ export interface ImageProvider {
   generate(prompt: string, outPath: string): Promise<MediaAsset>;
 }
 
-/** MOTTO 2: Her platform ayni adaptor arayuzu. Yenisi eklemek = 1 dosya. */
-export interface PlatformAdapter {
+// ---------------------------------------------------------------- platformlar
+
+/**
+ * MOTTO 2 (yeni platform = tek dosya): bir platform kendi kimlik alanlarini
+ * da tanimlar. Panel formu bu tanimdan uretir, panelde platforma ozel kod olmaz.
+ */
+export interface PlatformDef {
   id: string;
+  label: string;
   limits: { text: number; media: number };
-  isConfigured(): boolean;
-  publish(post: Post, text: string): Promise<PublishResult>;
+  fields: CredentialField[];
+  setupUrl?: string;
+  setupHint?: string;
+  /** Kimlik dogrular ve hesabin gorunen adini dondurur. */
+  verify(creds: Record<string, string>): Promise<string>;
+  publish(post: Post, text: string, creds: Record<string, string>): Promise<PublishResult>;
 }
 
 export interface Store {
@@ -74,5 +117,6 @@ export interface Store {
   byStatus(...s: PostStatus[]): Promise<Post[]>;
   get(id: string): Promise<Post | undefined>;
   upsert(p: Post): Promise<void>;
+  remove(id: string): Promise<void>;
   fingerprints(): Promise<Set<string>>;
 }

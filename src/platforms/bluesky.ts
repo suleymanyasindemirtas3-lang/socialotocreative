@@ -1,27 +1,46 @@
 import { readFile } from 'node:fs/promises';
 import { AtpAgent, RichText } from '@atproto/api';
-import { cfg } from '../core/config.ts';
-import type { PlatformAdapter, Post, PublishResult } from '../core/types.ts';
+import type { PlatformDef, Post, PublishResult } from '../core/types.ts';
 
-let agent: AtpAgent | null = null;
+// Hesap basina ayri oturum; coklu hesapta tek global agent yanlis hesaba yazardi.
+const sessions = new Map<string, AtpAgent>();
 
-async function login(): Promise<AtpAgent> {
-  if (agent) return agent;
-  const a = new AtpAgent({ service: cfg.bluesky.service });
-  await a.login({ identifier: cfg.bluesky.identifier, password: cfg.bluesky.password });
-  agent = a;
+async function agentFor(creds: Record<string, string>): Promise<AtpAgent> {
+  const identifier = creds['identifier'] ?? '';
+  const service = creds['service'] || 'https://bsky.social';
+  const key = `${service}|${identifier}`;
+
+  const cached = sessions.get(key);
+  if (cached) return cached;
+
+  const a = new AtpAgent({ service });
+  await a.login({ identifier, password: creds['appPassword'] ?? '' });
+  sessions.set(key, a);
   return a;
 }
 
-export const blueskyAdapter: PlatformAdapter = {
+export const bluesky: PlatformDef = {
   id: 'bluesky',
+  label: 'Bluesky',
   limits: { text: 300, media: 4 },
-  isConfigured: () => Boolean(cfg.bluesky.identifier && cfg.bluesky.password),
+  setupUrl: 'https://bsky.app/settings/app-passwords',
+  setupHint: 'Ayarlar > App Passwords ile uygulama sifresi uret. Ana sifreni girme.',
+  fields: [
+    { key: 'identifier', label: 'Kullanici adi', secret: false, placeholder: 'ad.bsky.social' },
+    { key: 'appPassword', label: 'App Password', secret: true, placeholder: 'xxxx-xxxx-xxxx-xxxx' },
+    { key: 'service', label: 'Sunucu', secret: false, optional: true, placeholder: 'https://bsky.social' },
+  ],
 
-  async publish(post: Post, text: string): Promise<PublishResult> {
+  async verify(creds) {
+    const a = await agentFor(creds);
+    return a.session?.handle ?? creds['identifier'] ?? 'bilinmiyor';
+  },
+
+  async publish(post: Post, text: string, creds): Promise<PublishResult> {
     const at = new Date().toISOString();
+    const base = { accountId: '', platform: 'bluesky', at };
     try {
-      const a = await login();
+      const a = await agentFor(creds);
 
       // Link ve etiketleri Bluesky'nin facet formatina cevirir.
       const rt = new RichText({ text });
@@ -47,13 +66,12 @@ export const blueskyAdapter: PlatformAdapter = {
 
       const rkey = r.uri.split('/').pop();
       return {
-        platform: 'bluesky',
+        ...base,
         ok: true,
-        url: `https://bsky.app/profile/${cfg.bluesky.identifier}/post/${rkey}`,
-        at,
+        url: `https://bsky.app/profile/${a.session?.handle ?? creds['identifier']}/post/${rkey}`,
       };
     } catch (e) {
-      return { platform: 'bluesky', ok: false, error: String(e), at };
+      return { ...base, ok: false, error: String(e) };
     }
   },
 };

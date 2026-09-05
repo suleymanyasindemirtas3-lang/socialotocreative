@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>socialmediai paneli</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#12151a; --muted:#6b7480; --line:#e2e6ea;
+    --accent:#2f6fed; --ok:#12855a; --warn:#a8690b; --bad:#c33f38; --chip:#eef1f5;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#0f1216; --card:#171b21; --ink:#e8ecf1; --muted:#96a0ac; --line:#252b33;
+           --accent:#5b8dfb; --ok:#3ec98d; --warn:#e0a33c; --bad:#f0736a; --chip:#212730; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);
+         padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  h1{font-size:15px;margin:0;font-weight:650;letter-spacing:-.01em}
+  .grow{flex:1}
+  .chip{background:var(--chip);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--muted);white-space:nowrap}
+  .chip b{color:var(--ink);font-weight:600}
+  button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);
+         border-radius:8px;padding:7px 12px;cursor:pointer}
+  button:hover{border-color:var(--accent)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.ok{color:var(--ok)} button.bad{color:var(--bad)}
+  main{max-width:1080px;margin:0 auto;padding:18px}
+  nav{display:flex;gap:6px;margin-bottom:16px}
+  nav button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+  .status{font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:650;padding:2px 8px;
+          border-radius:999px;background:var(--chip)}
+  .s-pending_approval{color:var(--warn)} .s-approved{color:var(--ok)} .s-published{color:var(--ok)}
+  .s-failed{color:var(--bad)} .s-rejected{color:var(--bad)} .s-draft{color:var(--muted)}
+  textarea{width:100%;min-height:84px;resize:vertical;font:inherit;padding:10px;border-radius:8px;
+           border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+  input,select{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--line);
+               background:var(--bg);color:var(--ink);width:100%}
+  label{display:block;margin:10px 0 4px;font-size:12px;color:var(--muted)}
+  .variant{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
+  .variant h4{margin:0 0 6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  img.preview{max-width:220px;border-radius:10px;border:1px solid var(--line);display:block;margin-top:10px}
+  .targets{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0}
+  .targets label{display:flex;gap:6px;align-items:center;margin:0;font-size:13px;color:var(--ink)}
+  .targets input{width:auto}
+  table{width:100%;border-collapse:collapse}
+  td,th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{font-size:12px;color:var(--muted);font-weight:600}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
+         padding:10px 18px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:80vw}
+  #toast.on{opacity:1}
+  .empty{text-align:center;color:var(--muted);padding:40px 0}
+  code{background:var(--chip);padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>socialmediai</h1>
+  <span class="chip">LLM <b id="c-llm">-</b></span>
+  <span class="chip">görsel <b id="c-img">-</b></span>
+  <span class="chip">DRY_RUN <b id="c-dry">-</b></span>
+  <span class="chip">otomatik onay <b id="c-auto">-</b></span>
+  <span class="grow"></span>
+  <button data-stage="ideate">Fikir üret</button>
+  <button data-stage="generate">İçerik üret</button>
+  <button data-stage="publish">Yayınla</button>
+  <button class="primary" data-stage="run">Tam tur</button>
+</header>
+
+<main>
+  <nav>
+    <button id="tab-queue" aria-selected="true">Kuyruk</button>
+    <button id="tab-accounts" aria-selected="false">Hesaplar</button>
+  </nav>
+  <div id="view-queue"></div>
+  <div id="view-accounts" hidden></div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+let STATE = { posts: [], accounts: [], platforms: [], config: {} };
+
+function toast(msg, ms = 2600) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove('on'), ms);
+}
+
+async function call(path, body) {
+  const res = await fetch(path, {
+    method: body ? 'POST' : 'GET',
+    headers: body ? { 'content-type': 'application/json' } : {},
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const j = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(j.error || res.status);
+  return j;
+}
+
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+const platformOf = (id) => STATE.platforms.find((p) => p.id === id);
+const accountOf = (id) => STATE.accounts.find((a) => a.id === id);
+
+async function refresh() {
+  STATE = await call('/api/state');
+  const c = STATE.config;
+  $('#c-llm').textContent = c.llm;
+  $('#c-img').textContent = c.image;
+  $('#c-dry').textContent = c.dryRun ? 'açık' : 'kapalı';
+  $('#c-auto').textContent = c.autoApprove ? 'açık' : 'kapalı';
+  renderQueue();
+  renderAccounts();
+}
+
+/* ------------------------------------------------------------------ kuyruk */
+
+function renderQueue() {
+  const el = $('#view-queue');
+  if (!STATE.posts.length) {
+    el.innerHTML = `<div class="empty">Kuyruk boş. Yukarıdan <b>Fikir üret</b>'e bas.</div>`;
+    return;
+  }
+
+  el.innerHTML = STATE.posts.map((p) => {
+    const variants = Object.entries(p.variants).map(([pid, text]) => {
+      const lim = platformOf(pid)?.limits.text ?? 500;
+      return `<div class="variant">
+        <h4>${esc(platformOf(pid)?.label ?? pid)} · <span class="${text.length > lim ? 'bad' : ''}">${text.length}/${lim}</span></h4>
+        <textarea data-text="${p.id}" data-platform="${pid}">${esc(text)}</textarea>
+      </div>`;
+    }).join('');
+
+    const targets = STATE.accounts.map((a) => `
+      <label><input type="checkbox" data-target="${p.id}" value="${a.id}"
+        ${p.targets.includes(a.id) ? 'checked' : ''} ${a.enabled ? '' : 'disabled'}>
+        ${esc(a.label)} <span class="muted small">${esc(a.platform)}</span></label>`).join('');
+
+    const media = p.media.map((m) => `<img class="preview" src="/media/${encodeURIComponent(m.path.split('/').pop())}" alt="${esc(m.alt)}">`).join('');
+
+    const results = p.results.length ? `<div class="small muted" style="margin-top:8px">` + p.results.map((r) =>
+      `${r.ok ? '✓' : '✗'} ${esc(accountOf(r.accountId)?.label ?? r.platform)}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 120)) : ''}`
+    ).join('<br>') + `</div>` : '';
+
+    return `<div class="card">
+      <div class="row">
+        <span class="status s-${p.status}">${p.status}</span>
+        <b class="grow">${esc(p.topic)}</b>
+        <span class="muted small">${p.id}</span>
+      </div>
+      ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
+      ${variants}
+      ${media}
+      ${STATE.accounts.length ? `<div class="targets">${targets}</div>` : '<div class="muted small">Hedef hesap yok — Hesaplar sekmesinden ekle.</div>'}
+      ${results}
+      <div class="row" style="margin-top:10px">
+        <button class="ok" data-decide="approved" data-id="${p.id}">Onayla</button>
+        <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
+        <button data-decide="draft" data-id="${p.id}">Taslağa al</button>
+        <span class="grow"></span>
+        <button data-del="${p.id}">Sil</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ----------------------------------------------------------------- hesaplar */
+
+function renderAccounts() {
+  const el = $('#view-accounts');
+  const rows = STATE.accounts.map((a) => `<tr>
+      <td><b>${esc(a.label)}</b><div class="muted small">${esc(a.id)}</div></td>
+      <td>${esc(platformOf(a.platform)?.label ?? a.platform)}</td>
+      <td class="small">${esc(a.verifiedAs ?? '—')}</td>
+      <td>${a.enabled ? '<span class="status s-approved">açık</span>' : '<span class="status s-rejected">kapalı</span>'}</td>
+      <td style="text-align:right;white-space:nowrap">
+        <button data-verify="${a.id}">Test</button>
+        <button data-toggle="${a.id}">${a.enabled ? 'Kapat' : 'Aç'}</button>
+        <button class="bad" data-rm="${a.id}">Sil</button>
+      </td>
+    </tr>`).join('');
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="row"><b class="grow">Bağlı hesaplar</b><span class="muted small">${STATE.accounts.length} hesap</span></div>
+      ${STATE.accounts.length
+        ? `<table><thead><tr><th>Hesap</th><th>Platform</th><th>Doğrulanan kimlik</th><th>Durum</th><th></th></tr></thead><tbody>${rows}</tbody></table>`
+        : `<div class="empty">Henüz hesap yok. Aşağıdan ekle.</div>`}
+    </div>
+
+    <div class="card">
+      <b>Hesap ekle</b>
+      <label>Platform</label>
+      <select id="new-platform">
+        ${STATE.platforms.map((p) => `<option value="${p.id}">${esc(p.label)}</option>`).join('')}
+      </select>
+      <div id="new-fields"></div>
+      <div class="row" style="margin-top:14px">
+        <button class="primary" id="save-account">Doğrula ve kaydet</button>
+        <span class="muted small">Kaydetmeden önce kimlik doğrulanır; hatalıysa eklenmez.</span>
+      </div>
+    </div>`;
+
+  const sel = $('#new-platform');
+  sel.onchange = renderFields;
+  renderFields();
+}
+
+function renderFields() {
+  const def = platformOf($('#new-platform').value);
+  $('#new-fields').innerHTML = `
+    <label>Etiket (senin için)</label>
+    <input id="f-label" placeholder="${esc(def.label)} — ana hesap">
+    ${def.fields.map((f) => `
+      <label>${esc(f.label)}${f.optional ? ' <span class="muted">(isteğe bağlı)</span>' : ''}</label>
+      <input data-f="${f.key}" type="${f.secret ? 'password' : 'text'}" placeholder="${esc(f.placeholder ?? '')}">
+    `).join('')}
+    ${def.setupHint ? `<div class="muted small" style="margin-top:10px">${esc(def.setupHint)}
+      ${def.setupUrl ? `<a href="${esc(def.setupUrl)}" target="_blank" rel="noreferrer">kurulum →</a>` : ''}</div>` : ''}`;
+}
+
+/* -------------------------------------------------------------- olay yakala */
+
+document.addEventListener('click', async (e) => {
+  const t = e.target.closest('button');
+  if (!t) return;
+
+  try {
+    if (t.dataset.stage) {
+      const all = [...document.querySelectorAll('header button')];
+      all.forEach((b) => (b.disabled = true));
+      toast('çalışıyor…', 60000);
+      try {
+        const r = await call('/api/run', { stage: t.dataset.stage });
+        toast(r.message);
+      } finally {
+        all.forEach((b) => (b.disabled = false));
+      }
+      return refresh();
+    }
+
+    if (t.dataset.decide) {
+      await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide });
+      return refresh();
+    }
+    if (t.dataset.del) {
+      if (!confirm('Bu post silinsin mi?')) return;
+      await call('/api/post/delete', { id: t.dataset.del });
+      return refresh();
+    }
+    if (t.dataset.verify) {
+      const r = await call('/api/account/verify', { id: t.dataset.verify });
+      toast('bağlantı iyi: ' + r.verifiedAs);
+      return refresh();
+    }
+    if (t.dataset.toggle) {
+      await call('/api/account/toggle', { id: t.dataset.toggle });
+      return refresh();
+    }
+    if (t.dataset.rm) {
+      if (!confirm('Hesap silinsin mi?')) return;
+      await call('/api/account/delete', { id: t.dataset.rm });
+      return refresh();
+    }
+
+    if (t.id === 'save-account') {
+      const def = platformOf($('#new-platform').value);
+      const credentials = {};
+      for (const f of def.fields) credentials[f.key] = $(`[data-f="${f.key}"]`).value.trim();
+      t.disabled = true;
+      try {
+        await call('/api/account/save', { platform: def.id, label: $('#f-label').value, credentials });
+        toast('hesap eklendi ve doğrulandı');
+        await refresh();
+      } finally {
+        t.disabled = false;
+      }
+      return;
+    }
+
+    if (t.id === 'tab-queue' || t.id === 'tab-accounts') {
+      const q = t.id === 'tab-queue';
+      $('#tab-queue').setAttribute('aria-selected', q);
+      $('#tab-accounts').setAttribute('aria-selected', !q);
+      $('#view-queue').hidden = !q;
+      $('#view-accounts').hidden = q;
+    }
+  } catch (err) {
+    toast('hata: ' + err.message, 6000);
+  }
+});
+
+// Metin ve hedef degisikligi aninda kaydedilir; ayri "kaydet" dugmesi gereksiz surtunme.
+document.addEventListener('change', async (e) => {
+  const el = e.target;
+  try {
+    if (el.dataset.text) {
+      await call('/api/post/text', { id: el.dataset.text, platform: el.dataset.platform, text: el.value });
+      toast('metin kaydedildi');
+    }
+    if (el.dataset.target) {
+      const id = el.dataset.target;
+      const targets = [...document.querySelectorAll(`[data-target="${id}"]:checked`)].map((i) => i.value);
+      await call('/api/post/targets', { id, targets });
+      toast('hedefler güncellendi');
+    }
+  } catch (err) {
+    toast('hata: ' + err.message, 6000);
+  }
+});
+
+refresh().catch((e) => toast('yüklenemedi: ' + e.message, 8000));
+setInterval(() => { if (!document.hidden) refresh().catch(() => {}); }, 15000);
+</script>
+</body>
+</html>

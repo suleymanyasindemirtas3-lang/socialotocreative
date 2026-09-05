@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
-import { tg } from '../platforms/telegram.ts';
+import { tgClient } from '../platforms/telegram.ts';
 
 /**
  * chat_id'yi elle bulmak zahmetli ve hataya acik.
@@ -21,6 +21,7 @@ export async function telegramSetup(): Promise<void> {
     return;
   }
 
+  const tg = tgClient(cfg.telegram.token);
   const me = await tg.call<{ username: string; first_name: string }>('getMe', {});
   log.ok(`bot bulundu: @${me.username} (${me.first_name})`);
 

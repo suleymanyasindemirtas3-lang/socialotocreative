@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
+import { enabledAccounts } from '../core/accounts.ts';
 import { fingerprint } from '../core/fingerprint.ts';
 import { extractObjects, str } from '../core/json.ts';
 import { getLlm } from '../providers/llm/index.ts';
@@ -19,6 +20,7 @@ export async function brandVoice(): Promise<string> {
 /** Adim 1: konu havuzu uret, daha once uretilenleri ele. */
 export async function ideate(count = cfg.safety.maxPerRun): Promise<Post[]> {
   const llm = getLlm();
+  const targets = (await enabledAccounts()).map((a) => a.id);
   const seen = await store.fingerprints();
   const recent = (await store.all()).slice(-40).map((p) => p.topic);
 
@@ -59,7 +61,7 @@ export async function ideate(count = cfg.safety.maxPerRun): Promise<Post[]> {
       status: 'draft',
       variants: {},
       media: [],
-      targets: cfg.targets,
+      targets,
       results: [],
       fingerprint: fp,
     };

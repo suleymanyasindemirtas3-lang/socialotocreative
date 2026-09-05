@@ -32,6 +32,29 @@ Hiçbir anahtar girmeden bile hattın tamamı `mock` LLM + `console` hedefiyle �
 npm run dev
 ```
 
+## Panel
+
+```bash
+npm run panel
+```
+
+Tarayicidan kuyrugu gorur, metni duzenler, onaylar/reddeder ve **hesap eklersin**.
+Hesap ekleme formu platformun kendi alan tanimindan uretilir; panelde platforma
+ozel kod yoktur. Kaydetmeden once kimlik dogrulanir, hatali hesap eklenmez.
+
+Panel `PANEL_TOKEN` ile korunur ve varsayilan olarak yalniz `127.0.0.1` dinler.
+Uzaktan erismek icin tunel kullan (`cloudflared tunnel --url http://localhost:8787`),
+`PANEL_HOST=0.0.0.0` yapip paneli dogrudan aga acma.
+
+## Coklu hesap
+
+Hedef artik platform degil **hesap**. Ayni platformda birden fazla hesap olabilir
+(iki Bluesky, uc Telegram kanali) ve bir post hepsine ayni anda gider.
+Metin platform basina uretilir; ayni platformdaki hesaplar ayni metni paylasir.
+
+Hesaplar `data/accounts.json` icinde durur ve **repoya girmez** (kimlik bilgisi tasir).
+GitHub Actions'ta tek bir `ACCOUNTS_JSON` secret'indan okunur.
+
 ## Komutlar
 
 | Komut | İş |
@@ -43,6 +66,9 @@ npm run dev
 | `npm run publish` | onaylananları yayınla |
 | `npm run status` | kuyruğun durumu |
 | `npm run dev` | hepsini sırayla çalıştır |
+| `npm run panel` | web paneli (onay + hesap yonetimi) |
+| `npm run review` | terminalden onayla |
+| `npm run retry` | basarisiz taslaklari geri al |
 
 ## Sağlayıcı seçimi
 
@@ -59,12 +85,18 @@ npm run dev
 
 ## Platform kurulum sırası
 
-1. **console** — anahtar yok, hattı test etmek için.
-2. **telegram** — [@BotFather](https://t.me/BotFather) ile bot aç, token al;
-   kanalına ekle, `chat_id` öğren. Hem yayın hedefi hem onay kutusu.
-3. **bluesky** — Ayarlar → App Passwords. Tamamen ücretsiz, limit yok, onay yok.
-4. X / Instagram / LinkedIn — developer hesabı ve app onayı gerektirir,
-   adaptörleri `src/platforms/` altına aynı arayüzle eklenir.
+Panelden eklenebilen platformlar:
+
+| Platform | Kurulum zorlugu | Gereken |
+|---|---|---|
+| console | yok | — (test hedefi) |
+| discord | cok dusuk | kanal webhook URL'i |
+| telegram | dusuk | BotFather token + chat id |
+| bluesky | dusuk | app password |
+| mastodon | dusuk | sunucu + access token |
+
+X / Instagram / LinkedIn / YouTube developer hesabi ve app onayi gerektirir;
+adaptorleri `src/platforms/` altina ayni `PlatformDef` arayuzuyle eklenir.
 
 ## Otomasyon
 

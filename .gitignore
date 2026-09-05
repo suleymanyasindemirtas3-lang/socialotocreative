@@ -4,3 +4,6 @@ node_modules/
 out/
 # data/media/  <- gorseller onay ve yayin arasinda kalici olmali, repoda tutuluyor
 *.log
+
+# Hesaplar kimlik bilgisi tasir, asla repoya girmez
+data/accounts.json

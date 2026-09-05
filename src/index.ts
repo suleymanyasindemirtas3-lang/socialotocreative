@@ -1,7 +1,8 @@
 import { cfg } from './core/config.ts';
 import { log } from './core/logger.ts';
 import { store } from './core/store.ts';
-import { allPlatforms, activePlatforms } from './platforms/index.ts';
+import { platforms } from './platforms/index.ts';
+import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
 import { ideate } from './pipeline/ideate.ts';
 import { generate, retryFailed } from './pipeline/generate.ts';
@@ -29,17 +30,21 @@ async function doctor(): Promise<void> {
   log.step('AYARLAR');
   console.log(`LLM zinciri  : ${cfg.llm.chain.join(' > ')}`);
   console.log(`Gorsel       : ${cfg.image.provider}`);
-  console.log(`Hedefler     : ${cfg.targets.join(', ')}`);
   console.log(`DRY_RUN      : ${cfg.safety.dryRun}`);
   console.log(`AUTO_APPROVE : ${cfg.approval.auto}`);
 
-  log.step('PLATFORMLAR');
-  for (const p of allPlatforms) {
-    const mark = p.isConfigured() ? '[hazir]' : '[eksik]';
-    console.log(`${mark} ${p.id.padEnd(10)} metin<=${p.limits.text} gorsel<=${p.limits.media}`);
+  log.step('DESTEKLENEN PLATFORMLAR');
+  for (const p of platforms) {
+    console.log(`  ${p.id.padEnd(10)} ${p.label.padEnd(18)} metin<=${p.limits.text} gorsel<=${p.limits.media}`);
   }
-  const active = activePlatforms().map((p) => p.id);
-  console.log(`\nEtkin hedef: ${active.length ? active.join(', ') : 'YOK'}`);
+
+  log.step('BAGLI HESAPLAR');
+  const list = await accounts.all();
+  if (!list.length) console.log('  hic hesap yok. Panelden ekle: npm run panel');
+  for (const a of list) {
+    const mark = a.enabled ? '[acik]  ' : '[kapali]';
+    console.log(`  ${mark} ${a.id.padEnd(16)} ${a.platform.padEnd(10)} ${a.verifiedAs ?? a.label}`);
+  }
 
   log.step('URETICI (canli test)');
   let chain;

@@ -45,6 +45,10 @@ export class JsonStore implements Store {
     await this.write(posts);
   }
 
+  async remove(id: string) {
+    await this.write((await this.read()).filter((p) => p.id !== id));
+  }
+
   async fingerprints() {
     return new Set((await this.read()).map((p) => p.fingerprint));
   }
