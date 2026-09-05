@@ -6,8 +6,7 @@ import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
 import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
-import { ideate } from './pipeline/ideate.ts';
-import { generate, retryFailed } from './pipeline/generate.ts';
+import { bulFikir, uret, tekrarDene, agents } from './allagents/index.ts';
 import { publish } from './pipeline/publish.ts';
 import { review } from './tools/review.ts';
 
@@ -46,6 +45,10 @@ async function doctor(): Promise<void> {
     console.log(`  ${mark} ${a.id.padEnd(16)} ${a.platform.padEnd(10)} ${a.verifiedAs ?? a.label}`);
   }
 
+  log.step('AJANLAR');
+  for (const a of agents) console.log(`  ${a.id.padEnd(14)} ${a.role}  [${a.uses.join(', ')}]`);
+  console.log('  yonetmen       Sirayi kurar ve karar verir  [hepsi]');
+
   log.step('SAGLAYICILAR');
   const tiers = (r: Record<string, { id: string; tier: string; isConfigured(): boolean }>) =>
     Object.values(r).map((p) => `${p.isConfigured() ? '+' : '-'} ${p.id} (${p.tier})`).join('  ');
@@ -76,17 +79,17 @@ async function doctor(): Promise<void> {
 
 switch (cmd) {
   case 'ideate':
-    await ideate();
+    await bulFikir();
     break;
   case 'generate':
-    await generate();
+    await uret();
     break;
   case 'publish':
     await publish();
     break;
   case 'retry':
-    await retryFailed();
-    await generate();
+    await tekrarDene();
+    await uret();
     break;
   case 'review':
     await review();
@@ -99,8 +102,8 @@ switch (cmd) {
     break;
   case 'run':
     log.step('TAM HAT');
-    await ideate();
-    await generate();
+    await bulFikir();
+    await uret();
     await publish();
     await status();
     break;

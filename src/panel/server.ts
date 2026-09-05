@@ -7,8 +7,7 @@ import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
-import { ideate } from '../pipeline/ideate.ts';
-import { generate, retryFailed } from '../pipeline/generate.ts';
+import { bulFikir, uret, tekrarDene } from '../allagents/index.ts';
 import { publish } from '../pipeline/publish.ts';
 import type { Account, PostStatus } from '../core/types.ts';
 
@@ -58,13 +57,13 @@ async function runStage(stage: string): Promise<string> {
   if (busy) return 'zaten calisiyor';
   busy = true;
   try {
-    if (stage === 'ideate') return `${(await ideate()).length} fikir`;
-    if (stage === 'generate') return `${(await generate()).length} uretildi`;
+    if (stage === 'ideate') return `${(await bulFikir()).length} fikir`;
+    if (stage === 'generate') return `${(await uret()).length} uretildi`;
     if (stage === 'publish') return `${(await publish()).length} islendi`;
-    if (stage === 'retry') return `${await retryFailed()} kuyruga alindi`;
+    if (stage === 'retry') return `${await tekrarDene()} kuyruga alindi`;
     if (stage === 'run') {
-      await ideate();
-      await generate();
+      await bulFikir();
+      await uret();
       const p = await publish();
       return `tam tur bitti, ${p.length} yayin islendi`;
     }

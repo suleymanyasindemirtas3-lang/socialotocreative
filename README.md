@@ -5,6 +5,12 @@ Sıfır maliyetle çalışır; ücretli sağlayıcıya geçiş tek `.env` satır
 
 Tasarım gerekçeleri: [docs/PRINCIPLES.md](docs/PRINCIPLES.md)
 
+## Ajanlar
+
+Altı ajan, her biri tek işten sorumlu: `icerik-bulma` · `senaryo` · `ses` ·
+`video-uretim` · `video` · `yonetmen`.
+Ayrinti: [src/allagents/README.md](src/allagents/README.md)
+
 ## Akış
 
 ```
