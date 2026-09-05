@@ -1,0 +1,23 @@
+[
+  {
+    "id": "73583cea",
+    "createdAt": "2026-09-05T20:21:45.926Z",
+    "topic": "Hem yapay zekanın hem de yazilimun olasılıkları neler?",
+    "angle": "",
+    "status": "failed",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "console"
+    ],
+    "results": [
+      {
+        "platform": "generate",
+        "ok": false,
+        "error": "Error: kalite kapisi (console): repetition=tekrar eden cumle",
+        "at": "2026-09-05T20:22:07.812Z"
+      }
+    ],
+    "fingerprint": "edeb34a9cc8ae39e"
+  }
+]

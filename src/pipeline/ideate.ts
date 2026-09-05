@@ -31,13 +31,16 @@ export async function ideate(count = cfg.safety.maxPerRun): Promise<Post[]> {
   ].filter(Boolean).join('\n\n');
 
   const raw = await llm.complete(prompt, { system: await brandVoice(), maxTokens: 1200, json: true });
-  const json = raw.slice(raw.indexOf('['), raw.lastIndexOf(']') + 1);
 
-  let ideas: { topic: string; angle: string }[];
-  try {
-    ideas = JSON.parse(json);
-  } catch {
-    log.err('LLM gecerli JSON dondurmedi:\n' + raw.slice(0, 400));
+  const ideas = extractObjects(raw)
+    .map((o) => ({
+      topic: str(o, 'topic', 'konu', 'title', 'baslik'),
+      angle: str(o, 'angle', 'aci', 'bakis', 'bakis_acisi'),
+    }))
+    .filter((i) => i.topic.length > 8);
+
+  if (!ideas.length) {
+    log.err('LLM kullanilabilir fikir dondurmedi:\n' + raw.slice(0, 400));
     return [];
   }
 
