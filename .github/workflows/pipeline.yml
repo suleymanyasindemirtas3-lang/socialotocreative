@@ -1,0 +1,51 @@
+name: uret-ve-onaya-gonder
+
+on:
+  schedule:
+    - cron: '0 6,18 * * *' # UTC 06:00 ve 18:00
+  workflow_dispatch:
+
+# Iki is ayni anda data/queue.json yazmasin.
+concurrency:
+  group: socialmediai-queue
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+
+      - name: Uret ve onaya gonder
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IMAGE_PROVIDER: ${{ vars.IMAGE_PROVIDER }}
+          TARGETS: ${{ vars.TARGETS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BRAND_NICHE: ${{ vars.BRAND_NICHE }}
+          AUTO_APPROVE: ${{ vars.AUTO_APPROVE }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+          MAX_POSTS_PER_RUN: ${{ vars.MAX_POSTS_PER_RUN }}
+        run: |
+          node src/index.ts ideate
+          node src/index.ts generate
+          node src/index.ts approve
+
+      - name: Kuyrugu isle
+        run: |
+          git config user.name  "socialmediai-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore(queue): uretim turu $(date -u +%FT%TZ)"
+          git push

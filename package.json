@@ -1,0 +1,25 @@
+{
+  "name": "socialmediai",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Saglayici-bagimsiz otomatik sosyal medya uretim ve yayin hatti",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node --env-file=.env --experimental-strip-types src/index.ts",
+    "ideate": "node --env-file=.env --experimental-strip-types src/index.ts ideate",
+    "generate": "node --env-file=.env --experimental-strip-types src/index.ts generate",
+    "approve": "node --env-file=.env --experimental-strip-types src/index.ts approve",
+    "publish": "node --env-file=.env --experimental-strip-types src/index.ts publish",
+    "status": "node --env-file=.env --experimental-strip-types src/index.ts status",
+    "doctor": "node --env-file=.env --experimental-strip-types src/index.ts doctor",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.35"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,51 @@
+name: onaylananlari-yayinla
+
+on:
+  schedule:
+    - cron: '30 */2 * * *' # iki saatte bir onay kutusunu yokla
+  workflow_dispatch:
+
+# Iki is ayni anda data/queue.json yazmasin.
+concurrency:
+  group: socialmediai-queue
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+
+      - name: Onaylari topla ve yayinla
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IMAGE_PROVIDER: ${{ vars.IMAGE_PROVIDER }}
+          TARGETS: ${{ vars.TARGETS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          BRAND_NICHE: ${{ vars.BRAND_NICHE }}
+          AUTO_APPROVE: ${{ vars.AUTO_APPROVE }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+          MAX_POSTS_PER_RUN: ${{ vars.MAX_POSTS_PER_RUN }}
+        run: |
+          node src/index.ts publish
+
+      - name: Kuyrugu isle
+        run: |
+          git config user.name  "socialmediai-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore(queue): yayin turu $(date -u +%FT%TZ)"
+          git push

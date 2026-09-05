@@ -1,0 +1,14 @@
+import { log } from '../core/logger.ts';
+import type { PlatformAdapter, Post, PublishResult } from '../core/types.ts';
+
+/** Anahtarsiz hedef. Hattin tamamini gercek hesap acmadan test etmeye yarar. */
+export const consoleAdapter: PlatformAdapter = {
+  id: 'console',
+  limits: { text: 5000, media: 10 },
+  isConfigured: () => true,
+  async publish(post: Post, text: string): Promise<PublishResult> {
+    log.ok(`console <- ${post.id}`);
+    console.log('---\n' + text + '\n' + post.media.map((m) => `[gorsel] ${m.path}`).join('\n') + '\n---');
+    return { platform: 'console', ok: true, url: `console:${post.id}`, at: new Date().toISOString() };
+  },
+};
