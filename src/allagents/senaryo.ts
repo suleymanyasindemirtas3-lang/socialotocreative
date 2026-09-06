@@ -1,3 +1,4 @@
+import { log } from '../core/logger.ts';
 import { brandVoice } from '../core/brand.ts';
 import { getLlm } from '../providers/llm/index.ts';
 import { inspect, tidy } from './quality.ts';
@@ -26,16 +27,42 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
 
     const variants: Record<string, string> = {};
     for (const p of platforms) {
-      const text = await llm.complete(
-        [
-          ...konu,
-          `Platform: ${p.id}. Kesin ust sinir: ${p.limit} karakter.`,
-          'Tek bir post metni yaz. Aciklama, baslik, tirnak ya da secenek sunma.',
-        ].join('\n'),
-        { system: voice, maxTokens: 700 },
+      /**
+       * Modele sinirin biraz altini hedef gosteriyoruz. Tam siniri soyleyince
+       * surekli birkac karakter tasiyor ve iyi bir metin 2-3 karakter yuzunden
+       * cope gidiyordu.
+       */
+      const hedef = Math.max(80, Math.floor(p.limit * 0.9));
+
+      let clean = tidy(
+        await llm.complete(
+          [
+            ...konu,
+            `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin (kesin ust sinir ${p.limit}).`,
+            'Tek bir post metni yaz. Aciklama, baslik, tirnak ya da secenek sunma.',
+          ].join('\n'),
+          { system: voice, maxTokens: 700 },
+        ),
       );
 
-      const clean = tidy(text);
+      // Yine tasarsa bir kez kisaltmasini iste; bastan uretmekten hem ucuz
+      // hem de zaten begenilen fikri koruyor.
+      if (clean.length > p.limit) {
+        log.warn(`${p.id}: ${clean.length} karakter, kisaltiliyor`);
+        const kisa = tidy(
+          await llm.complete(
+            [
+              'Asagidaki metni anlamini ve iddiasini koruyarak kisalt.',
+              `En fazla ${hedef} karakter olmali. Sadece kisaltilmis metni yaz.`,
+              '',
+              clean,
+            ].join('\n'),
+            { system: voice, maxTokens: 500 },
+          ),
+        );
+        if (kisa && kisa.length <= p.limit) clean = kisa;
+      }
+
       const issues = inspect(clean, p.limit);
       if (issues.length) {
         throw new Error(`kalite kapisi (${p.id}): ${issues.map((i) => `${i.code}=${i.detail}`).join(', ')}`);

@@ -1,58 +1,82 @@
 [
   {
-    "id": "a1a67f0c",
-    "createdAt": "2026-09-06T07:21:16.698Z",
-    "topic": "Yapay Zekanın Gelişimi",
-    "angle": "Gelişimin Sayısal Göstergeler",
-    "status": "draft",
-    "variants": {},
-    "media": [],
+    "id": "6904a1ae",
+    "createdAt": "2026-09-06T07:42:32.788Z",
+    "topic": "Python 3.12 ile gelen per-interpreter GIL mekanizmasinin gercek is yuklerindeki CPU etkisi",
+    "angle": "Cok cekirdekli islemcilerde yillardir beklenen paralel performans artisinin kutuphaneler uyumlu olmadigi surece pratikte bir sey degistirmedigi gercegi.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Python 3.12 ile gelen per-interpreter GIL mimarisi teoride harika ama pratikte NumPy, PyTorch veya orjson gibi C uzantıları izole state yapısına geçmedikçe çok çekirdekli CPU yüklerinde yine tek bir global kilide tosluyoruz. Altyapı hazır, ekosistem değil."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/6904a1ae.jpg",
+        "alt": "Visualization of Python 3.12's per-interpreter GIL mechanism impact on CPU-bound real-world tasks. Context: Discovery of a new OpenAI agent message board; 20 Agentic AI Terms Every Developer Should Know (Explained Simply)",
+        "mime": "image/jpeg"
+      }
+    ],
     "targets": [
       "x-d30409"
     ],
     "results": [],
-    "fingerprint": "e81f8c569261ba9d"
+    "fingerprint": "cb2e1b3d2285d324",
+    "script": {
+      "visualPrompt": "Visualization of Python 3.12's per-interpreter GIL mechanism impact on CPU-bound real-world tasks"
+    }
   },
   {
-    "id": "f0fa608a",
-    "createdAt": "2026-09-06T07:29:15.851Z",
-    "topic": "Python 3.12 ile gelen GIL kısıtlamalarının esnetilmesi ve subinterpreter mimarisi",
-    "angle": "Çoklu çekirdek performansında thread kilidinin pratikteki etkisi ve gerçek CPU-bound iş yüklerinde yarattığı somut fark",
-    "status": "draft",
-    "variants": {},
-    "media": [],
+    "id": "41965415",
+    "createdAt": "2026-09-06T07:42:32.789Z",
+    "topic": "RAG mimarilerinde buyuk context pencereleri yerine kucuk chunk ve metadata filtrelemesi kullanimi",
+    "angle": "128k token context penceresi pazarlamasina kapilip retrieval kalitesini dusurmek yerine, semantik arama maliyetini ve yanilma payini dusurme yontemi.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "128k context penceresine 50 sayfa dokuman yigmak cozum degil; kayip ve gecikme artiyor. \n\nRAG'de 256-512 token araliginda kucuk chunk'lar ve kati metadata filtrelemesi kullanmak, hem semantik gurultuyu kesiyor hem LLM maliyetini 4-5 kat dusuruyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/41965415.jpg",
+        "alt": "Small chunks and metadata filtering used instead of large context windows in RAG architectures.. Context: Discovery of a new OpenAI agent message board; 20 Agentic AI Terms Every Developer Should Know (Explained Simply)",
+        "mime": "image/jpeg"
+      }
+    ],
     "targets": [
       "x-d30409"
     ],
     "results": [],
-    "fingerprint": "115e5d6b08fe7922"
+    "fingerprint": "6f5b9d8ff82cbace",
+    "script": {
+      "visualPrompt": "Small chunks and metadata filtering used instead of large context windows in RAG architectures."
+    }
   },
   {
-    "id": "051bb9f3",
-    "createdAt": "2026-09-06T07:29:15.854Z",
-    "topic": "LLM tabanlı uygulamalarda RAG pipeline gecikmelerinin analizi",
-    "angle": "Vektör veritabanı aramasından ziyade doküman parçalama ve yeniden sıralama (rerank) aşamalarının uçtan uca latency üzerindeki baskısı",
-    "status": "draft",
-    "variants": {},
+    "id": "8c41dcd7",
+    "createdAt": "2026-09-06T07:42:32.790Z",
+    "topic": "LLM'lerin kod tamamlama ciktilarinda guvenlik aciklarinin teknik borc haline gelmesi",
+    "angle": "Hiz kazandiran kod onerilerinin arkasinda biriken yetkilendirme ve sanitizasyon eksikliklerinin kod inceleme surecini nasil yavaslattigi.",
+    "status": "failed",
+    "variants": {
+      "x": "LLM kod tamamlama araçları sözdizimini hatasız kapatıyor ama eksik sanitizasyon ve yetkisiz endpoint'leri üretime sızdırıyor. 10 saniyede yazılan fonksiyonun güvenlik açığını kod incelemesinde yakalamak 15 dakika sürüyor; hız kazanımı PR kuyruğunda teknik borca dönüşüyor."
+    },
     "media": [],
     "targets": [
       "x-d30409"
     ],
-    "results": [],
-    "fingerprint": "437540343b92dac5"
-  },
-  {
-    "id": "79fd5bf1",
-    "createdAt": "2026-09-06T07:29:15.855Z",
-    "topic": "Mikroservis geçişlerinde event-driven mimarinin getirdiği distributed tracing maliyeti",
-    "angle": "OpenTelemetry log hacminin storage maliyetini artırması ve hata ayıklamada ağ yükünün doğrudan ölçümü",
-    "status": "draft",
-    "variants": {},
-    "media": [],
-    "targets": [
-      "x-d30409"
+    "results": [
+      {
+        "accountId": "",
+        "platform": "yonetmen",
+        "ok": false,
+        "error": "Error: video icin seslendirme metni yok",
+        "at": "2026-09-06T07:44:20.096Z"
+      }
     ],
-    "results": [],
-    "fingerprint": "639b85c6c6a0b291"
+    "fingerprint": "3b76503d3b761457",
+    "script": {
+      "visualPrompt": "A futuristic, glowing digital bridge made of holographic computer code, with a subtle, dark section showing hidden cracks and structural decay, leading into an overwhelming pile of tangled neon wires and digital clutter, highly detailed, cinematic lighting, conceptual art, no text."
+    },
+    "medya": "otomatik"
   }
 ]
