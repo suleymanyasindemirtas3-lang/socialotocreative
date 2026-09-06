@@ -19,6 +19,13 @@ export const cfg = {
       thinking: bool('GEMINI_THINKING', false),
     },
     groq: { key: env('GROQ_API_KEY'), model: env('GROQ_MODEL', 'llama-3.3-70b-versatile') },
+    // Hepsi OpenAI uyumlu; ucretsiz katmanlari birbirini tamamliyor.
+    cerebras: { key: env('CEREBRAS_API_KEY'), model: env('CEREBRAS_MODEL', 'llama-3.3-70b') },
+    mistral: { key: env('MISTRAL_API_KEY'), model: env('MISTRAL_MODEL', 'mistral-large-latest') },
+    openrouter: {
+      key: env('OPENROUTER_API_KEY'),
+      model: env('OPENROUTER_MODEL', 'meta-llama/llama-3.3-70b-instruct:free'),
+    },
     claude: { key: env('ANTHROPIC_API_KEY'), model: env('ANTHROPIC_MODEL', 'claude-sonnet-5') },
     ollama: { host: env('OLLAMA_HOST', 'http://localhost:11434'), model: env('OLLAMA_MODEL', 'llama3.2') },
   },

@@ -61,15 +61,70 @@
     "metinAdaylari": {
       "x": [
         {
-          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" iptal oldu. Hangi yönetime attribute vereceksiniz? 🤔 Vizyondan ne düşünüyorsunuz?"
+          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" iptal oldu. Hangi yönetime attribute vereceksiniz? 🤔 Vizyondan ne düşünüyorsunuz?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "posta ilk satırında merak uyandırıcı bir soru ile başlamış, hedef kitlenin ilgisini çekmeye çalışıyor. Ancak, daha iyi bir vizyon eleme için bir seçenek sunulmalı. Öneri: 'Nicolas Cage'ın yeni televizyon dizisi",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ]
+          }
         },
         {
-          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" 8 bölümünden sonra iptal. Orijinal produce Prime Video ve MGM+."
+          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" 8 bölümünden sonra iptal. Orijinal produce Prime Video ve MGM+.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır merak uyandıracak ve akışta tek başına görünmelidir.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "8 bölümünden sonra iptal edilen Nicolas Cage'ın yeni televizyon dizisi 'Spider-Noir'ı izleyebilirsiniz!"
+          }
         }
       ]
     },
     "script": {
       "visualPrompt": "Nicolas Cage's latest ventures in the spotlight"
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "Tek cümle, ancak daha fazla etkileyici bir yapısı olabilir. Daha fazla ilgi çekici detay veya soru ekleyerek daha fazla tepki alabilirsiniz.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "Hollywood efsanesi Nicolas Cage'in kariyerindeki ilk televizyon rolü 'Spider-Noir' dizisiyle geri dönüyor. Dizinin sezonun son bölümüne ne bekliyoruz? 👀 #NicolasCage #SpiderNoir #PrimeVideo #MGMPlus"
     }
   }
 ]

@@ -4,6 +4,7 @@ import { store } from './core/store.ts';
 import { platforms } from './platforms/index.ts';
 import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
+import { saglikOzeti } from './providers/llm/saglik.ts';
 import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
 import { agents, kadro, planla, calistir, gorevYolla } from './allagents/index.ts';
@@ -86,6 +87,12 @@ async function doctor(): Promise<void> {
     } catch (e) {
       console.log(`[cokuyor]   ${p.id.padEnd(13)} ${String(e).slice(0, 90)}`);
     }
+  }
+
+  const beklemede = saglikOzeti().filter((s) => !s.hazir);
+  if (beklemede.length) {
+    log.step('KOTA BEKLEMESI');
+    for (const s of beklemede) console.log(`  ${s.id.padEnd(13)} ${s.kalanDk} dk sonra tekrar denenecek`);
   }
 }
 

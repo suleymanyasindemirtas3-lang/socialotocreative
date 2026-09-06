@@ -1,28 +1,52 @@
 import { cfg } from '../../core/config.ts';
 import { log } from '../../core/logger.ts';
+import { kullanilabilir, hataBildir, basariBildir, kotaHatasiMi, kalanBekleme } from './saglik.ts';
 import type { LlmProvider } from '../../core/types.ts';
 
-// OpenAI uyumlu uclar (Groq dahil) tek govdeyi paylasir.
-function openAiCompatible(id: string, base: string, key: string, model: string): LlmProvider {
+/**
+ * OpenAI uyumlu uclar tek govdeyi paylasir.
+ * Groq, Cerebras, Mistral, OpenRouter ve Together hepsi ayni sozlesmeyi
+ * kullaniyor - bu yuzden yeni bir ucretsiz saglayici eklemek tek satir.
+ */
+function openAiCompatible(
+  id: string,
+  base: string,
+  key: string,
+  model: string,
+  ekBaslik: Record<string, string> = {},
+): LlmProvider {
   return {
     id,
     isConfigured: () => Boolean(key),
     async complete(prompt, opts) {
       const res = await fetch(`${base}/chat/completions`, {
         method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${key}` },
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${key}`,
+          ...ekBaslik,
+        },
         body: JSON.stringify({
           model,
           max_tokens: opts?.maxTokens ?? 1024,
+          ...(opts?.json ? { response_format: { type: 'json_object' } } : {}),
           messages: [
             ...(opts?.system ? [{ role: 'system', content: opts.system }] : []),
             { role: 'user', content: prompt },
           ],
         }),
       });
-      if (!res.ok) throw new Error(`${id} ${res.status}: ${await res.text()}`);
-      const j = (await res.json()) as { choices: { message: { content: string } }[] };
-      return j.choices[0]?.message.content ?? '';
+
+      if (!res.ok) {
+        const govde = await res.text();
+        hataBildir(id, govde, kotaHatasiMi(res.status, govde));
+        throw new Error(`${id} ${res.status}: ${govde.slice(0, 200)}`);
+      }
+
+      const j = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+      const metin = j.choices?.[0]?.message?.content ?? '';
+      if (metin.trim()) basariBildir(id);
+      return metin;
     },
   };
 }
@@ -79,6 +103,7 @@ const gemini: LlmProvider = {
 
       if (!res.ok) {
         const govde = await res.text();
+        hataBildir('gemini', govde, kotaHatasiMi(res.status, govde));
         // Model adlari zamanla degisiyor; 404'u "hangi modeller var" listesine
         // cevirmek anlamsiz bir hatayi uygulanabilir bir talimata donusturur.
         if (res.status === 404) throw new Error(await modelHatasi(govde));
@@ -88,7 +113,10 @@ const gemini: LlmProvider = {
       const j = (await res.json()) as GeminiYanit;
       const aday = j.candidates?.[0];
       const metin = aday?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
-      if (metin.trim()) return metin;
+      if (metin.trim()) {
+        basariBildir('gemini');
+        return metin;
+      }
 
       // Bos yanit sessizce gecmemeli: sebebini soyle, TypeError atma.
       const sebep = aday?.finishReason ?? 'bilinmiyor';
@@ -220,7 +248,24 @@ const registry: Record<string, LlmProvider> = {
   [claude.id]: claude,
   [ollama.id]: ollama,
   [mock.id]: mock,
+  /**
+   * Ucretsiz katmanlar (2026 itibariyle dogrulanmis):
+   *   groq       30 istek/dk, 1000/gun - en hizli
+   *   cerebras   gunde 1M token - en genis kota
+   *   mistral    ayda 1B token
+   *   openrouter ~30 ucretsiz model, 20 istek/dk
+   * Hepsi ayni OpenAI sozlesmesini kullaniyor.
+   */
   groq: openAiCompatible('groq', 'https://api.groq.com/openai/v1', cfg.llm.groq.key, cfg.llm.groq.model),
+  cerebras: openAiCompatible('cerebras', 'https://api.cerebras.ai/v1', cfg.llm.cerebras.key, cfg.llm.cerebras.model),
+  mistral: openAiCompatible('mistral', 'https://api.mistral.ai/v1', cfg.llm.mistral.key, cfg.llm.mistral.model),
+  openrouter: openAiCompatible(
+    'openrouter',
+    'https://openrouter.ai/api/v1',
+    cfg.llm.openrouter.key,
+    cfg.llm.openrouter.model,
+    { 'http-referer': 'https://github.com/suleymanyasindemirtas3-lang/socialotocreative', 'x-title': 'socialotocreative' },
+  ),
 };
 
 export function resolveChain(): LlmProvider[] {
@@ -237,7 +282,14 @@ export function resolveChain(): LlmProvider[] {
 
 /**
  * MOTTO 8: Tek saglayiciya bagimli kalma.
- * Ucretsiz uclar kota doldurur ya da cover; zincirdeki bir sonrakine gecilir.
+ *
+ * Zincir onceden her istekte bastan deniyordu: kotasi dolmus saglayici
+ * yeniden cagriliyor, uc kez tekrar edip 45 saniye bekliyor, sonra yedege
+ * geciliyordu. Her post icin bir dakika bosa gidiyordu.
+ *
+ * Artik kotasi dolan saglayici bir sure kenara ayriliyor (bkz. saglik.ts).
+ * Siralamada oncelik korunuyor - en iyi CALISAN saglayici seciliyor,
+ * korlemesine sirayla degil.
  */
 export function getLlm(): LlmProvider {
   const chain = resolveChain();
@@ -247,15 +299,28 @@ export function getLlm(): LlmProvider {
     id: chain.map((p) => p.id).join('>'),
     isConfigured: () => true,
     async complete(prompt, opts) {
+      // Beklemede olmayanlar once; hepsi beklemedeyse yine de denenir
+      // (bekleme tahmindir, gercekten dolmus olmayabilir).
+      const hazir = chain.filter((p) => kullanilabilir(p.id));
+      const bekleyen = chain.filter((p) => !kullanilabilir(p.id));
+      const sira = [...hazir, ...bekleyen];
+
+      if (!hazir.length) {
+        log.warn(
+          'tum saglayicilar beklemede: ' +
+            bekleyen.map((p) => `${p.id} ${Math.ceil(kalanBekleme(p.id) / 60000)}dk`).join(', '),
+        );
+      }
+
       let last: unknown;
-      for (const p of chain) {
+      for (const p of sira) {
         try {
           const out = await p.complete(prompt, opts);
           if (out.trim()) return out;
           last = new Error(`${p.id} bos yanit dondurdu`);
         } catch (e) {
           last = e;
-          log.warn(`${p.id} basarisiz, siradakine geciliyor: ${String(e).slice(0, 140)}`);
+          log.warn(`${p.id} basarisiz, siradakine geciliyor: ${String(e).slice(0, 120)}`);
         }
       }
       throw last instanceof Error ? last : new Error(String(last));
