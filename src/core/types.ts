@@ -40,6 +40,8 @@ export interface PublishResult {
   url?: string;
   error?: string;
   at: string;
+  /** API ile degil, kullanici elle paylasti. Bkz. Account.manuel */
+  manuel?: boolean;
 }
 
 export interface Post {
@@ -101,6 +103,21 @@ export interface Account {
   createdAt: string;
   /** verify() sonucu: hesabin gercek kimligi. Yanlis hesaba yayini onler. */
   verifiedAs?: string;
+  /**
+   * MANUEL MOD.
+   *
+   * true ise sistem bu hesaba API ile yayin YAPMAZ. Uretimin tamami
+   * (metin, gorsel, video, puanlama) normal calisir; yalnizca son adim
+   * kullaniciya birakilir: panel hazir paketi verir, kullanici kendi
+   * elleriyle paylasir ve "paylastim" der.
+   *
+   * Neden var: X ucretsiz katmani 6 Subat 2026'da kapandi ve yayin ucretli
+   * krediye baglandi. Sistem calistigi kanitlanmadan hicbir platforma para
+   * odenmemeli. Manuel mod, 0 maliyet kisitini bozmadan uretimin tamamini
+   * ayakta tutar. Odeme yapildigi gun bu bayrak kapatilir, baska hicbir
+   * degisiklik gerekmez.
+   */
+  manuel?: boolean;
 }
 
 export interface AccountStore {

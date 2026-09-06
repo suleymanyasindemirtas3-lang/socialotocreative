@@ -58,11 +58,16 @@ function olculebilirSinyaller(istek: PuanIstegi): Sinyal[] {
   const t = istek.metin;
   const s: Sinyal[] = [];
 
-  // Harici link en agir ceza: erisimi %50-70 dusuruyor.
+  /**
+   * Harici link iki kere cezali:
+   *   1. erisim  - X dagitimda linkli postu %50-70 daha az gosteriyor
+   *   2. maliyet - X API'de linksiz post $0.015, linkli post $0.200 (13 kat)
+   * Ikisi de ayni cozume cikiyor: linki yanit tweetine tasi.
+   */
   if (/https?:\/\/\S+/i.test(t)) {
     s.push({
       id: 'harici-link',
-      aciklama: 'Metinde harici bağlantı var — erişim ciddi düşer, linki yanıta taşı',
+      aciklama: 'Metinde harici bağlantı var — erişim düşer ve API ücreti 13 kat artar, linki yanıta taşı',
       etki: -3,
     });
   }

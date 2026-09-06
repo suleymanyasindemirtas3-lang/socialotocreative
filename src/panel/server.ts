@@ -6,6 +6,7 @@ import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
+import { manuelPaket, manuelIsaretle } from '../allagents/manuel.ts';
 import { platforms, platform } from '../platforms/index.ts';
 import { calistir, gorevYolla, planla, kadro, kategoridenUret } from '../allagents/index.ts';
 import { publish } from '../allagents/yayinci.ts';
@@ -416,6 +417,31 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     return send(res, 200, { ok: true, tercih, not: notu, status: post.status });
   }
 
+  /**
+   * MANUEL YAYIN UCLARI
+   *
+   * Ucretli API'ye baglanmadan paylasabilmek icin. Uretim degismez;
+   * yalnizca son adim kullaniciya devredilir. Bkz. allagents/manuel.ts
+   */
+  if (path === '/api/post/manuel' && method === 'POST') {
+    const { id, accountId } = await readJson<{ id: string; accountId?: string }>(req);
+    try {
+      return send(res, 200, { ok: true, paket: await manuelPaket(id, accountId) });
+    } catch (e) {
+      return send(res, 400, { error: String(e).replace(/^Error:\s*/, '').slice(0, 300) });
+    }
+  }
+
+  if (path === '/api/post/manuel-isaretle' && method === 'POST') {
+    const { id, accountId, url } = await readJson<{ id: string; accountId: string; url?: string }>(req);
+    try {
+      const post = await manuelIsaretle(id, accountId, url);
+      return send(res, 200, { ok: true, status: post.status, message: 'paylasildi olarak isaretlendi' });
+    } catch (e) {
+      return send(res, 400, { error: String(e).replace(/^Error:\s*/, '').slice(0, 300) });
+    }
+  }
+
   if (path === '/api/post/delete' && method === 'POST') {
     const { id } = await readJson<{ id: string }>(req);
     await store.remove(id);
@@ -470,6 +496,25 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     a.enabled = !a.enabled;
     await accounts.upsert(a);
     return send(res, 200, { ok: true, enabled: a.enabled });
+  }
+
+  /**
+   * Hesabi manuel moda alir ya da geri dondurur.
+   * Odeme yapildigi gun buradan kapatilir; baska degisiklik gerekmez.
+   */
+  if (path === '/api/account/manuel' && method === 'POST') {
+    const { id } = await readJson<{ id: string }>(req);
+    const a = await accounts.get(id);
+    if (!a) return send(res, 404, { error: 'hesap yok' });
+    a.manuel = !a.manuel;
+    await accounts.upsert(a);
+    return send(res, 200, {
+      ok: true,
+      manuel: a.manuel,
+      message: a.manuel
+        ? 'manuel mod acik — sistem bu hesaba API ile yayin yapmaz'
+        : 'manuel mod kapali — yayin yeniden API uzerinden',
+    });
   }
 
   if (path === '/api/account/verify' && method === 'POST') {
