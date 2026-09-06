@@ -28,6 +28,12 @@ export interface Kategori {
   aciklama: string;
   /** LLM'e verilen bicim talimati. Kategorinin asil degeri burada. */
   yonerge: string;
+  /**
+   * Bu kategoriye ait RSS adresleri. Kategori bazli olmasinin sebebi basit:
+   * anime icerigi spor kaynagindan cikmaz. Global kaynaklar da burada;
+   * yabanci basliklar Turkcelestirilerek icerik havuzu genisliyor.
+   */
+  kaynaklar?: string[];
   medya: MedyaTercihi;
   /** Rotasyonda gorulme sikligi. Yuksek olan daha sik secilir. */
   agirlik: number;

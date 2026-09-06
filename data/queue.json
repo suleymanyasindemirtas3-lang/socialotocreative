@@ -1,43 +1,9 @@
 [
   {
-    "id": "03fbd52a",
-    "createdAt": "2026-09-06T08:02:05.324Z",
-    "topic": "Per-Interpreter GIL Mekanizmasinin İş Etkisi",
-    "angle": "GIL'a Dayanıklı Python 3.12'nin İşçilik Optimizasyonu",
-    "status": "pending_approval",
-    "variants": {
-      "x": "Python 3.12 ile gelen per-interpreter GIL, multiprocessing'in getirdiği yüksek IPC ve bellek maliyetini düşürüyor. Aynı process içinde gerçek paralel çalışan izole interpreter'lar, CPU-bound işlerde sunucu maliyetini ve mimari karmaşıklığı doğrudan azaltır."
-    },
-    "media": [
-      {
-        "kind": "image",
-        "path": "data/media/03fbd52a.jpg",
-        "alt": "Performance Improvement Due to Per-Interpreter GIL Mechanism. Context: Discovery of a new OpenAI agent message board; 20 Agentic AI Terms Every Developer Should Know (Explained Simply)",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "video",
-        "path": "data/media/03fbd52a.mp4",
-        "alt": "Per-Interpreter GIL Mekanizmasinin İş Etkisi",
-        "mime": "video/mp4"
-      }
-    ],
-    "targets": [
-      "x-d30409"
-    ],
-    "results": [],
-    "fingerprint": "ff09921f1218a010",
-    "script": {
-      "visualPrompt": "Performance Improvement Due to Per-Interpreter GIL Mechanism",
-      "narration": "**Per-Interpreter GIL Mekanizmasının İş Etkisi - GIL'a Dayanıklı Python 3.12'nin İşçilik Optimizasyonu**\n\nMerhaba, benim adım Ali ve bugün size Python 3.12'de nasıl işçilik optimizasyonu sağlanan, Per-Interpreter GIL mekanizmasının iş etkilerini anlatacağım. \n\nPython 3.11'de GIL mekanizması, çoklu çekirdek kullanımı için bir engelle. Ancak Python 3.12 ile birlikte, Per-Interpreter GIL mekanizması geliştirilmiş ve işçilik performansını önemli ölçüde artırmıştır.\n\nBu yeni mekanizma, herInterpreter'in kendi GILs'iyle çalıştığı için çoklu çekirdek kullanımını kolaylaştırır. Örneğin, bir uygulama 4 çekirdek kullanabiliyor ve her çekirdekte bir Interpreter ile çalışabilir. BuInterpreter'lerin, her biri ayrı bir GIL ile ilişkilendirildiği için, çoklu çekirdek kullanabilmek mümkün hale gelmiştir.\n\nBu geliştirme, özellikle heavy IO ve multithreading tabanlı uygulamalar için büyük avantajlar getirir. Örneğin, bir web sunucusu, birden fazla istemci talebsine yanıt vermeyi daha etkin bir şekilde gerçekleştirebilir.\n\nİşte Python 3.12'ye verilen bu yenilik, çoklu çekirdek kullanımını kolaylaştırmak ve işçilik performansını optimizasyonu sağlamaktadır. Bu, Python geliştiricileri için çok daha güçlü ve verimli bir dil hale getirmektedir."
-    },
-    "medya": "video"
-  },
-  {
-    "id": "bc0fa9cb",
-    "createdAt": "2026-09-06T08:04:20.042Z",
-    "topic": "Yapay zeka'nın yazılım geliştirmede rolü",
-    "angle": "Yapay zeka, yazılım geliştirme sürecinde daha hızlı ve daha kaliteli kodlamayı sağlar.",
+    "id": "d086b35d",
+    "createdAt": "2026-09-06T08:31:34.089Z",
+    "topic": "Fenerbahçe-Beşiktaş derbisini yazdılar: Hezimete tanıklık edebilirdik! Koca bir sıfır, puan sıfır",
+    "angle": "Spor",
     "status": "draft",
     "variants": {},
     "media": [],
@@ -45,6 +11,8 @@
       "x-d30409"
     ],
     "results": [],
-    "fingerprint": "36867f5398a702b0"
+    "fingerprint": "1331675867e9ae56",
+    "kategori": "son-dakika",
+    "medya": "gorsel"
   }
 ]

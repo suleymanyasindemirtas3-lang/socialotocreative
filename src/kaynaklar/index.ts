@@ -110,15 +110,12 @@ const github: TrendSource = {
  * Tam bir XML ayristiricisi yerine desen eslesmesi kullaniliyor: bagimlilik
  * eklememek icin bilincli tercih, RSS ve Atom'un ikisinde de calisiyor.
  */
-const rss: TrendSource = {
-  id: 'rss',
-  tier: 'free',
-  isConfigured: () => cfg.sources.feeds.length > 0,
-  async fetch(limit) {
+async function rssOku(feedler: string[], limit: number): Promise<TrendItem[]> {
+  {
     const out: TrendItem[] = [];
-    const perFeed = Math.max(1, Math.ceil(limit / cfg.sources.feeds.length));
+    const perFeed = Math.max(1, Math.ceil(limit / feedler.length));
 
-    for (const feed of cfg.sources.feeds) {
+    for (const feed of feedler) {
       try {
         const res = await fetch(feed, { headers: UA });
         if (!res.ok) throw new Error(`${res.status}`);
@@ -141,8 +138,25 @@ const rss: TrendSource = {
       }
     }
     return out;
-  },
+  }
+}
+
+const rss: TrendSource = {
+  id: 'rss',
+  tier: 'free',
+  isConfigured: () => cfg.sources.feeds.length > 0,
+  fetch: (limit) => rssOku(cfg.sources.feeds, limit),
 };
+
+/** Verilen RSS listesinden okuyan gecici kaynak; kategori kaynaklari icin. */
+function rssFeedKaynagi(feedler: string[]): TrendSource {
+  return {
+    id: 'kategori-rss',
+    tier: 'free',
+    isConfigured: () => true,
+    fetch: (adet) => rssOku(feedler, adet),
+  };
+}
 
 const registry: Record<string, TrendSource> = { hackernews, devto, github, rss };
 
@@ -153,10 +167,21 @@ export const sourceRegistry = registry;
  * Bir kaynak cokerse digerleri devam eder: gundem verisi olmadan da fikir
  * uretilebilmeli, yalnizca kalitesi duser (Motto 8).
  */
-export async function gundemTopla(limit = cfg.sources.limit): Promise<TrendItem[]> {
-  const active = cfg.sources.chain
-    .map((id) => registry[id])
-    .filter((s): s is TrendSource => Boolean(s?.isConfigured()));
+export async function gundemTopla(
+  limit = cfg.sources.limit,
+  feedler?: string[],
+): Promise<TrendItem[]> {
+  /**
+   * Kategori kendi kaynaklarini verdiyse yalniz onlar kullanilir.
+   * Global chain (hackernews/github/devto) yalniz kategori kaynagi yokken
+   * devreye girer - o kaynaklar gelistirici odakli, magazin ya da spor
+   * icerigi icin anlamsiz.
+   */
+  const active: TrendSource[] = feedler?.length
+    ? [rssFeedKaynagi(feedler)]
+    : cfg.sources.chain
+        .map((id) => registry[id])
+        .filter((s): s is TrendSource => Boolean(s?.isConfigured()));
 
   if (!active.length) return [];
 

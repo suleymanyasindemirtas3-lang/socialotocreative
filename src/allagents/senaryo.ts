@@ -45,6 +45,9 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
             ...konu,
             `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin (kesin ust sinir ${p.limit}).`,
             'Tek bir post metni yaz. Aciklama, baslik, tirnak ya da secenek sunma.',
+            'Metin TURKCE olsun. Kaynak ingilizce olsa bile birebir cevirme, ' +
+            'Turk okuyucuya gore yerellestir. Ozel isimleri (film, oyun, sanatci, ' +
+            'marka) orijinal haliyle birak.',
           ].join('\n'),
           { system: voice, maxTokens: 700 },
         ),

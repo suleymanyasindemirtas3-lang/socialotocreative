@@ -7,6 +7,7 @@ import { platform } from '../../platforms/index.ts';
 import { icerikBulma } from '../icerik-bulma.ts';
 import { senaryo } from '../senaryo.ts';
 import { siradakiKategori, kullanildiIsaretle, kategoriBul } from '../../kategoriler/index.ts';
+import { gundemTopla } from '../../kaynaklar/index.ts';
 import type { Ekip, Gorev, GorevSonucu } from '../types.ts';
 import type { Post } from '../../core/types.ts';
 
@@ -28,6 +29,15 @@ async function fikirBul(adet: number, gundem: { title: string; source: string }[
   // ust uste gelmesi hem okuyucuyu hem algoritmayi yoruyor.
   const kategori = await siradakiKategori();
   if (kategori) log.info(`kategori: ${kategori.ad}`);
+
+  // Kategorinin kendi kaynaklari varsa gundem onlardan toplanir.
+  if (kategori?.kaynaklar?.length) {
+    gundem = (await gundemTopla(20, kategori.kaynaklar).catch(() => [])).map((g) => ({
+      title: g.title,
+      source: g.source,
+    }));
+    log.info(`kategori kaynaklarindan ${gundem.length} madde`);
+  }
   const fikirler = await icerikBulma.run({
     count: adet,
     recent: (await store.all()).slice(-40).map((p) => p.topic),

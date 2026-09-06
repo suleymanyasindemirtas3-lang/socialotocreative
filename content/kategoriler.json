@@ -1,56 +1,161 @@
 [
   {
-    "id": "ne-kirildi",
-    "ad": "Bugün Ne Kırıldı",
-    "aciklama": "Gündemdeki gerçek bir arıza, açık ya da bozulma. Ne kırıldı, neden kırıldı, sen ne yapmalısın.",
-    "yonerge": "Gündemden GERÇEK bir arıza/güvenlik açığı/bozulma seç. Şu sırayla yaz: (1) ne kırıldı, tek cümle. (2) kök sebep, teknik ve somut. (3) okuyucunun bugün atması gereken tek adım. Panik dili kullanma, abartma. Sürüm numarası ya da CVE varsa yaz.",
+    "id": "son-dakika",
+    "ad": "Son Dakika",
+    "aciklama": "Gündemin en taze başlığı. Hız önemli, yorum değil.",
+    "yonerge": "Haberi tek cümlede ver: ne oldu, nerede, ne zaman. Sonra tek cümlelik bağlam ekle (neden önemli). Yorum katma, taraf tutma, spekülasyon yapma. Kaynakta olmayan hiçbir ayrıntıyı uydurma.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/anasayfa",
+      "https://www.hurriyet.com.tr/rss/gundem",
+      "https://feeds.bbci.co.uk/news/world/rss.xml"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true,
+    "sonKullanim": "2026-09-06T08:31:34.092Z"
+  },
+  {
+    "id": "haber",
+    "ad": "Haber",
+    "aciklama": "Günün öne çıkan gelişmesi, biraz daha derin.",
+    "yonerge": "Gelişmeyi anlat ve neden önemli olduğunu açıkla. Yapı: ne oldu, kim etkilendi, bundan sonra ne olur. Tarafsız kal, duygusal dil kullanma.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/gundem",
+      "https://feeds.bbci.co.uk/news/world/rss.xml"
+    ],
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true
   },
   {
-    "id": "sayilarla",
-    "ad": "Sayılarla",
-    "aciklama": "Tek bir iddia, arkasında ölçüm. Duygu değil rakam.",
-    "yonerge": "Tek bir teknik iddiayı SAYIYLA savun. En az iki somut rakam geçsin (süre, bellek, maliyet, istek/sn, yüzde). Rakamın nereden geldiğini ima et (benchmark, dokümantasyon, sürüm notu). Uydurma sayı YAZMA; emin değilsen o konuyu seçme.",
+    "id": "magazin",
+    "ad": "Magazin",
+    "aciklama": "Ünlüler, ilişkiler, kırmızı halı. Eğlenceli ama saygılı.",
+    "yonerge": "Haberi merak uyandıran bir cümleyle aç. Eğlenceli ve akıcı yaz. Kimseyi aşağılama, dedikoduyu gerçek gibi sunma, özel hayat ihlali yapma. Doğrulanmamış iddiaları 'iddia edildi' diye aktar.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/magazin",
+      "https://www.hurriyet.com.tr/rss/kelebek",
+      "https://variety.com/feed/"
+    ],
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true
   },
   {
-    "id": "karsit-gorus",
-    "ad": "Karşıt Görüş",
-    "aciklama": "Herkesin doğru bildiği bir pratiğe gerekçeli itiraz.",
-    "yonerge": "Yaygın kabul gören bir pratiği eleştir. Yapı: (1) herkesin yaptığı şey. (2) neden çoğu durumda yanlış. (3) yerine ne yapılmalı. İtirazın gerekçeli olsun, kışkırtma için kışkırtma yapma. Kimseyi ya da bir ürünü hedef alma; pratiği eleştir.",
+    "id": "spor",
+    "ad": "Spor",
+    "aciklama": "Maç sonuçları, transferler, sakatlıklar.",
+    "yonerge": "Skor, transfer ya da gelişmeyi net ver. Sayı ve isimleri doğru yaz. Taraftar kavgası çıkaracak dil kullanma, takım tutma. Maç anlatıyorsan dakika ve golcüyü belirt.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/spor"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "anime",
+    "ad": "Anime",
+    "aciklama": "Yeni sezonlar, duyurular, manga uyarlamaları.",
+    "yonerge": "Anime/manga adını orijinal haliyle yaz. Duyuruyu ver: hangi seri, ne oluyor, ne zaman. SPOILER VERME. Stüdyo ya da yayın tarihi biliniyorsa ekle. Hayran kitlesinin diline yakın yaz ama abartma.",
+    "kaynaklar": [
+      "https://www.animenewsnetwork.com/all/rss.xml"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "sinema",
+    "ad": "Sinema",
+    "aciklama": "Vizyon, fragman, dizi ve film haberleri.",
+    "yonerge": "Film/dizi adını ve yönetmen ya da başrolü belirt. Vizyon tarihi varsa yaz. SPOILER VERME. Eleştiri yapıyorsan gerekçe göster, tek kelimelik yargı yazma.",
+    "kaynaklar": [
+      "https://www.beyazperde.com/rss/haberler.xml",
+      "https://deadline.com/feed/",
+      "https://variety.com/feed/"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "muzik",
+    "ad": "Müzik",
+    "aciklama": "Yeni şarkılar, albümler, konserler.",
+    "yonerge": "Sanatçı ve parça/albüm adını net yaz. Çıkış tarihi ya da konser bilgisi varsa ekle. Övgü yağdırma; neyin yeni ya da farklı olduğunu söyle.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/kelebek",
+      "https://www.billboard.com/feed/"
+    ],
     "medya": "gorsel",
     "agirlik": 2,
     "aktif": true
   },
   {
-    "id": "bir-satir",
-    "ad": "Bir Satır",
-    "aciklama": "Tek bir ayar, bayrak ya da kod satırı — ve neyi değiştirdiği.",
-    "yonerge": "Tek bir konfigürasyon satırı, komut ya da bayrak ver. Ne yaptığını ve neyi değiştirdiğini anlat. Satırı olduğu gibi yaz (kod bloğu işareti KULLANMA, düz metin). Sonra tek cümleyle ne kazandırdığını söyle.",
+    "id": "oyun",
+    "ad": "Oyun",
+    "aciklama": "Çıkışlar, güncellemeler, indirimler, incelemeler.",
+    "yonerge": "Oyun adını ve platformu yaz. Çıkış tarihi, fiyat ya da ücretsiz kampanya varsa MUTLAKA belirt — okuyucunun aksiyon alacağı bilgi odur. Spoiler verme.",
+    "kaynaklar": [
+      "https://www.merlininkazani.com/rss",
+      "https://tr.ign.com/feed.xml",
+      "https://www.pcgamer.com/rss/"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "dijital",
+    "ad": "Dijital & Teknoloji",
+    "aciklama": "Telefonlar, uygulamalar, donanım, dijital yaşam.",
+    "yonerge": "Ürün ya da güncellemeyi somut anlat: ne değişti, kime yarar. Fiyat ve çıkış tarihi varsa yaz. Teknik jargonu açıkla, reklam dili kullanma.",
+    "kaynaklar": [
+      "https://shiftdelete.net/feed",
+      "https://www.webtekno.com/rss.xml",
+      "https://www.theverge.com/rss/index.xml",
+      "https://feeds.bbci.co.uk/news/technology/rss.xml"
+    ],
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "ai",
+    "ad": "Yapay Zeka",
+    "aciklama": "Yeni modeller, araçlar, AI'nın günlük hayata etkisi.",
+    "yonerge": "Gelişmeyi sıradan bir okuyucunun anlayacağı dille anlat. 'Bu senin için ne değiştiriyor' sorusuna cevap ver. Abartılı gelecek vaadi kurma; ne yapabildiğini ve ne yapamadığını birlikte söyle.",
+    "kaynaklar": [
+      "https://www.artificialintelligence-news.com/feed/",
+      "https://techcrunch.com/feed/"
+    ],
     "medya": "gorsel",
     "agirlik": 2,
     "aktif": true
   },
   {
-    "id": "sozluk",
-    "ad": "Sözlük",
-    "aciklama": "Bir jargon terimi, jargonsuz açıklama.",
-    "yonerge": "Gündemde geçen bir teknik terimi seç. Jargon kullanmadan açıkla. Yapı: (1) terim ne demek, günlük dille. (2) neden var, hangi sorunu çözüyor. (3) ne zaman gerekmez. Kısa ve net ol.",
+    "id": "arabalar",
+    "ad": "Arabalar",
+    "aciklama": "Yeni modeller, elektrikli araçlar, fiyatlar.",
+    "yonerge": "Marka ve model adını net yaz. Motor, menzil ya da fiyat gibi somut veri varsa MUTLAKA ekle — okuyucunun aradığı odur. Reklam gibi yazma, teknik veriye dayan.",
+    "kaynaklar": [
+      "https://tr.motor1.com/rss/news/all/"
+    ],
     "medya": "gorsel",
     "agirlik": 2,
     "aktif": true
   },
   {
-    "id": "kisa-video",
-    "ad": "Kısa Video",
-    "aciklama": "Aynı içerik dikey video olarak — Shorts, Reels ve TikTok için.",
-    "yonerge": "Anlatıma güçlü bir cümleyle başla, izleyiciyi ilk üç saniyede tut. Tek fikri aç. Sonunda net bir kapanış cümlesi olsun. Konuşma dili kullan, liste yapma.",
-    "medya": "video",
-    "agirlik": 1,
+    "id": "sosyal-hayat",
+    "ad": "Sosyal Hayat",
+    "aciklama": "Yaşam, sağlık, ilişkiler, günlük hayat.",
+    "yonerge": "Konuyu günlük hayattan bir örnekle bağla. Uygulanabilir tek bir öneri ver. Sağlık konusunda kesin hüküm kurma; tavsiye verirken 'uzmana danış' vurgusunu koru.",
+    "kaynaklar": [
+      "https://www.hurriyet.com.tr/rss/yasam"
+    ],
+    "medya": "gorsel",
+    "agirlik": 2,
     "aktif": true
   }
 ]
