@@ -40,8 +40,20 @@ export async function publish(limit = cfg.safety.maxPerRun): Promise<Post[]> {
         continue;
       }
 
-      const text = post.variants[account.platform] ?? post.variants['console'] ?? post.topic;
+      /**
+       * Onceden burada `?? post.topic` vardi: metin uretilmemisse konu
+       * basligi sessizce tweet olarak gidiyordu. Sessiz yanlis yayin,
+       * gurultulu hatadan cok daha kotu (Motto 2).
+       */
+      const text = post.variants[account.platform] ?? post.variants['console'];
       const at = new Date().toISOString();
+
+      if (!text?.trim()) {
+        const hata = `${account.platform} icin metin yok; once icerik ekibi yazmali`;
+        log.err(`${post.id}: ${hata}`);
+        post.results.push({ accountId, platform: def.id, ok: false, error: hata, at });
+        continue;
+      }
 
       if (cfg.safety.dryRun) {
         log.info(`[DRY_RUN] ${account.label} (${def.id}) <- ${post.id}\n${text}`);

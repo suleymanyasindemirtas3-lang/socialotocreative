@@ -12,5 +12,47 @@
     ],
     "results": [],
     "fingerprint": "e81f8c569261ba9d"
+  },
+  {
+    "id": "f0fa608a",
+    "createdAt": "2026-09-06T07:29:15.851Z",
+    "topic": "Python 3.12 ile gelen GIL kısıtlamalarının esnetilmesi ve subinterpreter mimarisi",
+    "angle": "Çoklu çekirdek performansında thread kilidinin pratikteki etkisi ve gerçek CPU-bound iş yüklerinde yarattığı somut fark",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "115e5d6b08fe7922"
+  },
+  {
+    "id": "051bb9f3",
+    "createdAt": "2026-09-06T07:29:15.854Z",
+    "topic": "LLM tabanlı uygulamalarda RAG pipeline gecikmelerinin analizi",
+    "angle": "Vektör veritabanı aramasından ziyade doküman parçalama ve yeniden sıralama (rerank) aşamalarının uçtan uca latency üzerindeki baskısı",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "437540343b92dac5"
+  },
+  {
+    "id": "79fd5bf1",
+    "createdAt": "2026-09-06T07:29:15.855Z",
+    "topic": "Mikroservis geçişlerinde event-driven mimarinin getirdiği distributed tracing maliyeti",
+    "angle": "OpenTelemetry log hacminin storage maliyetini artırması ve hata ayıklamada ağ yükünün doğrudan ölçümü",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "639b85c6c6a0b291"
   }
 ]

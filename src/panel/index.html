@@ -232,6 +232,7 @@ function renderQueue() {
         <span class="muted small">${p.id}</span>
       </div>
       ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
+      ${Object.keys(p.variants).length ? '' : `<div class="muted small" style="color:var(--warn);margin-top:6px">Metin henüz yazılmadı — yukarıdan <b>Metin yaz</b>'a bas.</div>`}
       ${variants}
       ${media}
       ${STATE.accounts.length ? `<div class="targets">${targets}</div>` : '<div class="muted small">Hedef hesap yok — Hesaplar sekmesinden ekle.</div>'}
@@ -245,7 +246,8 @@ function renderQueue() {
       </div>
       ${results}
       <div class="row" style="margin-top:10px">
-        <button class="ok" data-decide="approved" data-id="${p.id}">Onayla</button>
+        <button class="ok" data-decide="approved" data-id="${p.id}"
+          ${Object.keys(p.variants).length ? '' : 'disabled title="Önce metin yazılmalı"'}>Onayla</button>
         <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
         <button data-decide="draft" data-id="${p.id}">Taslağa al</button>
         <span class="grow"></span>

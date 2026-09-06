@@ -114,6 +114,15 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     if (!['approved', 'rejected', 'draft'].includes(decision)) {
       return send(res, 400, { error: 'gecersiz karar' });
     }
+
+    // Metni olmayan post onaylanamaz: yayin asamasi konu basligini metin
+    // sanip oldugu gibi paylasirdi. Onay, icerigi gormeden verilemez.
+    if (decision === 'approved' && !Object.keys(post.variants).length) {
+      return send(res, 400, {
+        error: 'Bu postun metni henuz yazilmadi. Once "Metin yaz" calistir, metni oku, sonra onayla.',
+      });
+    }
+
     post.status = decision;
     await store.upsert(post);
     return send(res, 200, { ok: true, status: post.status });
