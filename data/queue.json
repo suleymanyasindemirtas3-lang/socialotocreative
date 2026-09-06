@@ -97,5 +97,19 @@
       ],
       "oneri": "İlk cümleyi merak uyandıran bir soru ya da çarpıcı bir istatistikle başlayarak etkileşimi tetikle"
     }
+  },
+  {
+    "id": "4d7bf277",
+    "createdAt": "2026-09-06T18:01:07.130Z",
+    "topic": "Ornek konu 1",
+    "angle": "karsit gorus",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [],
+    "results": [],
+    "fingerprint": "398fbb159cd65263",
+    "kategori": "dijital",
+    "medya": "gorsel"
   }
 ]
