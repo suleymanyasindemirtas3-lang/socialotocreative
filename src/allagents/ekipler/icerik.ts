@@ -116,6 +116,7 @@ async function yaz(adet: number): Promise<number> {
       post.script = {
         visualPrompt: script.visualPrompt,
         ...(script.narration ? { narration: script.narration } : {}),
+        ...(script.mekanPrompt ? { mekanPrompt: script.mekanPrompt } : {}),
       };
       post.status = 'scripted';
       await store.upsert(post);

@@ -110,14 +110,35 @@ ${fikir.kaynak.ozet}`
       log.info(`${p.id}: ${temizler.length} versiyon uretildi, ${gecenler.length} gecti`);
     }
 
-    const visualPrompt = (
-      await llm.complete(
-        `Su post icin ingilizce, tek cumlelik bir gorsel uretim promptu yaz. Metin/yazi icermesin.\n\n${fikir.topic}`,
-        { maxTokens: 120 },
-      )
-    ).trim();
+    /**
+     * Iki gorsel istemi TEK cagrida: biri sahnenin kendisi, digeri yalnizca
+     * mekan. Ayri cagri atmak kotadan bosuna yer yerdi.
+     */
+    const gorselHam = await llm.complete(
+      [
+        `Konu: ${fikir.topic}`,
+        '',
+        'Bu haber icin IKI ayri ingilizce gorsel uretim promptu yaz.',
+        '  sahne : haberin kendisini anlatan tek cumlelik prompt',
+        '  mekan : haberin GECTIGI YERI anlatan tek cumlelik prompt.',
+        '          Icinde INSAN OLMASIN. Yalnizca mekan, atmosfer, isik:',
+        '          salon, sahne, stadyum, studyo, sokak, bina.',
+        '',
+        'Ikisinde de yazi, metin ya da logo olmasin.',
+        '',
+        'Yalnizca su semada JSON dondur:',
+        '{"sahne":"...","mekan":"..."}',
+      ].join('\n'),
+      { maxTokens: 300, json: true },
+    );
 
-    if (!narrationNeeded) return { variants, visualPrompt, metinAdaylari };
+    const gorselNesne = extractObjects(gorselHam)[0] ?? {};
+    const visualPrompt =
+      String(gorselNesne['sahne'] ?? '').trim() || `Editorial photo illustrating: ${fikir.topic}`;
+    const mekanPrompt = String(gorselNesne['mekan'] ?? '').trim();
+    const gorselAlan = mekanPrompt ? { mekanPrompt } : {};
+
+    if (!narrationNeeded) return { variants, visualPrompt, ...gorselAlan, metinAdaylari };
 
     const narration = tidy(
       await llm.complete(
@@ -131,7 +152,7 @@ ${fikir.kaynak.ozet}`
       ),
     );
 
-    return { variants, narration, visualPrompt, metinAdaylari };
+    return { variants, narration, visualPrompt, ...gorselAlan, metinAdaylari };
   },
 };
 

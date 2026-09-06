@@ -86,7 +86,7 @@ function cekirdekOrtusmesi(a: string, b: string): number {
  * Iki olcunun buyugu alinir: Turkce kaynakta kelime ortusmesi,
  * yabanci kaynakta ozel isim ortusmesi is goruyor.
  */
-function benzerlik(a: string, b: string): number {
+export function benzerlik(a: string, b: string): number {
   return Math.max(kelimeOrtusmesi(a, b), cekirdekOrtusmesi(a, b));
 }
 

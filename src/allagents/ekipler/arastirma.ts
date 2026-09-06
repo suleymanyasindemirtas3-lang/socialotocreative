@@ -38,7 +38,7 @@ export async function iste(adet = cfg.sources.limit): Promise<TrendItem[]> {
 }
 
 /** Konuya gore suzulmus gundem. Yonetmen "bu konuda ne var" diye sorabilsin. */
-export async function isteKonulu(konu: string, adet = 5): Promise<TrendItem[]> {
+export async function isteKonulu(konu: string, adet = 5, zorunluEslesme = false): Promise<TrendItem[]> {
   const hepsi = await iste();
   const kelimeler = konu
     .toLocaleLowerCase('tr')
@@ -51,6 +51,14 @@ export async function isteKonulu(konu: string, adet = 5): Promise<TrendItem[]> {
   });
 
   const eslesen = puanli.filter((p) => p.hit > 0).sort((a, b) => b.hit - a.hit);
+
+  /**
+   * `zorunluEslesme` metin baglami icin gerekmez ama GORSEL icin sarttir:
+   * eslesme yokken "en populerler"e dusmek, habere alakasiz bir fotograf
+   * takmak demek. Yanlis fotograf, fotografsizliktan kotu.
+   */
+  if (zorunluEslesme) return eslesen.map((p) => p.it).slice(0, adet);
+
   // Hicbiri eslesmezse bos donmek yerine en populerleri ver: bos baglamdan iyidir.
   return (eslesen.length ? eslesen.map((p) => p.it) : hepsi).slice(0, adet);
 }

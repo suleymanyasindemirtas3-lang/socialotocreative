@@ -10,8 +10,10 @@ import { video } from './video.ts';
 import { isteKonulu } from './ekipler/arastirma.ts';
 import { seslendirmeYaz } from './senaryo.ts';
 import { adayiIndir } from '../providers/image/arama.ts';
-import { haberFotografi } from '../kaynaklar/index.ts';
-import type { MediaAsset } from '../core/types.ts';
+import { haberFotografi, gundemTopla } from '../kaynaklar/index.ts';
+import { kategoriBul } from '../kategoriler/index.ts';
+import { benzerlik } from './icerik-bulma.ts';
+import type { MediaAsset, Post } from '../core/types.ts';
 
 /**
  * 6. YONETMEN - produksiyon ekibinin lideri
@@ -36,6 +38,166 @@ import type { MediaAsset } from '../core/types.ts';
  * zenginlestigini gormek icin `npm run status` ciktisindaki gorsele bak.
  * ---------------------------------------------------------------------------
  */
+
+/**
+ * GORSEL TOPLAYICI
+ *
+ * Bir posta `hedef` adet gorsel bulur. Sira kalite sirasidir; ust basamak
+ * yeterse alt basamaklara hic inilmez:
+ *
+ *   1. HABERIN KENDI FOTOGRAFI - konuyla birebir, okuyucunun tanidigi kare
+ *   2. AYNI OLAYI ANLATAN DIGER HABERLERIN FOTOGRAFLARI - postun KENDI
+ *      kategorisinin kaynaklarindan; ayni haber birden cok sitede cikiyor
+ *      ve her birinin kendi fotografi oluyor
+ *   3. AI URETIMI - en son care
+ *
+ * GENEL WEB GORSEL ARAMASI NEDEN YOK
+ * Bir ara Openverse bu siraya konmustu. "GORA 4'un vizyon tarihi ve Cem
+ * Yilmaz'in plani" haberine getirdigi gorsel Gurcistan'da bir kasaba
+ * manzarasi oldu: Openverse bir Creative Commons arsivi, icinde haber
+ * fotografi ya da unlu fotografi yok, kelimeye benzeyen ne varsa onu
+ * donduruyor. Konusu yanlis GERCEK fotograf, konuya yakin AI gorselinden
+ * daha kotu - okuyucu haberle ilgisiz kareyi hemen fark ediyor.
+ * Openverse panelde "Web gorsel" dugmesi olarak duruyor: orada secen
+ * kullanici, dogrulugunu kendi yargilar.
+ *
+ * ---------------------------------------------------------------------------
+ * MUDAHALE NOKTASI - Gorseller hala zayifsa once hangi basamaktan geldigine
+ * bak: dosya adindaki ek (-haber, -ilgili, -ai) kaynagi soyluyor.
+ * Cok "-ai" goruyorsan sorun uretimde degil kaynakta: o kategorinin
+ * kaynaklari fotograf vermiyor demektir.
+ * ---------------------------------------------------------------------------
+ */
+async function gorselleriTopla(
+  post: Post,
+  visualPrompt: string,
+  mekanPrompt: string | undefined,
+  hedef: number,
+  media: MediaAsset[],
+): Promise<void> {
+  /** Ayni fotografi iki kez eklememek icin. */
+  const alinan = new Set<string>();
+
+  const ekle = async (url: string, dosya: string, etiket: string): Promise<boolean> => {
+    if (media.length >= hedef || alinan.has(url)) return false;
+    try {
+      const asset = await adayiIndir(
+        { kaynak: etiket, url, thumb: url, baslik: post.topic },
+        `data/media/${post.id}-${dosya}`,
+      );
+      media.push(asset);
+      alinan.add(url);
+      return true;
+    } catch {
+      log.warn(`${post.id}: ${etiket} gorseli alinamadi`);
+      return false;
+    }
+  };
+
+  // ---- 1. haberin kendi fotografi -----------------------------------------
+  /**
+   * RSS fotografi vermediyse haberin kendi sayfasindan al.
+   *
+   * Kaynaklarin %36'si RSS'te fotograf vermiyor ama haber sayfalarinin
+   * hepsinde og:image var (olcum: 27/27). Onceden bu haberler dogruca AI
+   * uretimine dusuyor ve konudan kopuk gorsel aliyordu.
+   *
+   * Bulunan adres posta yaziliyor: ayni post tekrar uretilirse sayfa
+   * ikinci kez indirilmez.
+   */
+  if (!post.kaynak?.gorsel && post.kaynak?.url) {
+    const bulunan = await haberFotografi(post.kaynak.url);
+    if (bulunan && post.kaynak) {
+      post.kaynak.gorsel = bulunan;
+      log.info(`${post.id}: fotograf haber sayfasindan alindi`);
+    }
+  }
+
+  if (post.kaynak?.gorsel) {
+    if (await ekle(post.kaynak.gorsel, 'haber.jpg', post.kaynak.site ?? 'haber')) {
+      log.ok(`${post.id}: haberin kendi fotografi kullanildi`);
+    }
+  }
+
+  // ---- 2. ayni olayi anlatan diger haberler --------------------------------
+  /**
+   * Postun KENDI kategorisinin kaynaklarina bakilir, genel gundeme degil.
+   *
+   * Onceki hali `isteKonulu` cagiriyordu; o da genel trend zincirini
+   * (hackernews, devto, github) okuyor. Turkce bir sinema haberine
+   * Hacker News'ten eslesme cikmasi mumkun degil - basamak pratikte
+   * hic calismiyordu.
+   *
+   * Eslesme esigi 0.3: ayni olayi anlatan iki baslik bu esigi rahat gecer,
+   * ayni kategorideki alakasiz haber gecemez.
+   */
+  if (media.length < hedef && post.kategori) {
+    const kat = await kategoriBul(post.kategori).catch(() => undefined);
+    if (kat?.kaynaklar?.length) {
+      const gundem = await gundemTopla(20, kat.kaynaklar).catch(() => []);
+      const yakinlar = gundem
+        .map((h) => ({ h, p: benzerlik(post.topic, h.title) }))
+        .filter((x) => x.p >= 0.3)
+        .sort((a, b) => b.p - a.p);
+
+      let i = 0;
+      for (const { h } of yakinlar) {
+        if (media.length >= hedef) break;
+        const foto = h.gorsel ?? (h.url ? await haberFotografi(h.url) : undefined);
+        if (!foto) continue;
+        if (await ekle(foto, `ilgili${++i}.jpg`, h.source)) {
+          log.ok(`${post.id}: ayni olayi anlatan haberden fotograf (${h.source})`);
+        }
+      }
+    }
+  }
+
+  // ---- 3. AI uretimi ------------------------------------------------------
+  if (media.length < hedef && imageEnabled()) {
+    /**
+     * Gundem baglami isteme ekleniyor: model yalniz basligi gorunce
+     * genel gecer bir sahne ciziyordu.
+     */
+    const baglam = await isteKonulu(post.topic, 2).catch(() => []);
+    const zenginIstem = baglam.length
+      ? `${visualPrompt}. Context: ${baglam.map((i) => i.title).join('; ').slice(0, 160)}`
+      : visualPrompt;
+
+    /**
+     * GERCEK FOTOGRAF VARKEN AI'YA INSAN CIZDIRILMEZ.
+     *
+     * Ucretsiz gorsel modelleri gercek kisileri beceremiyor: yuz bozuk
+     * cikiyor. Venedik galasi haberinde uretilen kare yuzu carpik bir
+     * figurdu ve yanindaki iki gercek fotografin yaninda daha da kotu
+     * duruyordu.
+     *
+     * Uzun bir kisi tarifinin sonuna "insan cizme" eklemek ise yaramadi:
+     * model istemin BASINI takip ediyor, sonuna eklenen sarti yok sayiyor.
+     * Bu yuzden mekan istemi senaryo asamasinda bastan ayri yaziliyor
+     * (Senaryo.mekanPrompt).
+     *
+     * Kural: elde gercek fotograf varsa AI yalniz MEKAN uretir - sahneyi
+     * gercek fotograf zaten anlatiyor. Hic fotograf yoksa sahne istemi
+     * kullanilir, cunku o zaman konuyu anlatacak baska sey yok.
+     */
+    const gercekVar = media.length > 0;
+    const temelIstem = gercekVar && mekanPrompt ? mekanPrompt : zenginIstem;
+    const acilar = ['wide establishing shot', 'close detail of the setting', 'atmospheric mood shot'];
+
+    let i = 0;
+    while (media.length < hedef) {
+      try {
+        // Her karede farkli aci: ayni istemle ayni gorselin kopyasini
+        // uretmek videoya hicbir sey katmaz.
+        const istem = `${temelIstem}. ${acilar[i % acilar.length]}. No text or letters.`;
+        media.push(await getImage().generate(istem, `data/media/${post.id}-ai${++i}.jpg`));
+      } catch (e) {
+        log.warn(`${post.id}: AI gorsel uretilemedi: ${String(e).slice(0, 90)}`);
+        break;
+      }
+    }
+  }
+}
 
 export async function uret(adet: number): Promise<number> {
   const hazir = (await store.byStatus('scripted')).slice(0, adet);
@@ -74,58 +236,23 @@ export async function uret(adet: number): Promise<number> {
 
       if (wantsImage) {
         /**
-         * ONCE HABERIN KENDI FOTOGRAFI.
+         * KAC GORSEL
          *
-         * AI gorsel uretimi haber icerigi icin kotu calisiyor: soyut, konudan
-         * kopuk ve tanidik gelmiyor. Haberin kendi fotografi hem konuyla
-         * birebir ilgili hem de okuyucunun akista tanidigi gorsel dil.
-         * AI uretimi yalnizca fotograf yoksa devreye giriyor.
+         * Tek gorsel yetmiyordu. Metin postunda tek kare akista zayif
+         * kaliyor, videoda ise 40-50 saniye ayni fotografa bakmak
+         * izleyiciyi ilk saniyeden sonra tutmuyor.
+         *
+         * Video daha fazla gorsel istiyor cunku gorseller ARDI ARDINA
+         * gosteriliyor; gorsel postta ise yan yana duruyorlar.
          */
-        /**
-         * RSS fotografi vermediyse haberin kendi sayfasindan al.
-         *
-         * Kaynaklarin %36'si RSS'te fotograf vermiyor ama hepsinin haber
-         * sayfasinda og:image var (olcum: 27/27). Onceden bu haberler dogruca
-         * AI uretimine dusuyor ve konudan kopuk gorsel aliyordu.
-         *
-         * Bulunan adres posta yaziliyor: ayni post tekrar uretilirse sayfa
-         * ikinci kez indirilmez.
-         */
-        if (!post.kaynak?.gorsel && post.kaynak?.url) {
-          const bulunan = await haberFotografi(post.kaynak.url);
-          if (bulunan) {
-            post.kaynak.gorsel = bulunan;
-            log.info(`${post.id}: fotograf haber sayfasindan alindi`);
-          }
-        }
+        const hedefAdet = wantsVideo ? 3 : 2;
+        await gorselleriTopla(post, script.visualPrompt, script.mekanPrompt, hedefAdet, media);
 
-        let eklendi = false;
-        if (post.kaynak?.gorsel) {
-          try {
-            const foto = await adayiIndir(
-              {
-                kaynak: post.kaynak.site ?? 'haber',
-                url: post.kaynak.gorsel,
-                thumb: post.kaynak.gorsel,
-                baslik: post.topic,
-              },
-              `data/media/${post.id}-haber.jpg`,
-            );
-            media.push(foto);
-            eklendi = true;
-            log.ok(`${post.id}: haberin kendi fotografi kullanildi`);
-          } catch (e) {
-            log.warn(`${post.id}: haber fotografi alinamadi, AI uretimine dusuluyor`);
-          }
+        if (!media.length) {
+          throw new Error('hic gorsel uretilemedi (haber fotografi yok, arama bos, AI kapali)');
         }
-
-        if (!eklendi) {
-          if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
-          const ilgili = await isteKonulu(post.topic, 2).catch(() => []);
-          const zenginIstem = ilgili.length
-            ? `${script.visualPrompt}. Context: ${ilgili.map((i) => i.title).join('; ').slice(0, 160)}`
-            : script.visualPrompt;
-          media.push(await getImage().generate(zenginIstem, `data/media/${post.id}.jpg`));
+        if (media.length < hedefAdet) {
+          log.warn(`${post.id}: ${hedefAdet} gorsel hedeflendi, ${media.length} bulundu`);
         }
       }
 
@@ -149,7 +276,18 @@ export async function uret(adet: number): Promise<number> {
           // Ucretsiz kaynak bunu aynen kullanir; AI kaynagi yok sayar.
           ...(media[0] ? { existingStill: media[0].path } : {}),
         });
-        const mp4 = await video.run({ clip, audio, caption: script.narration, outPath: `${stem}.mp4` });
+        /**
+         * Toplanan butun gorseller montaja gidiyor: video tek kareye
+         * sabitlenmek yerine sirayla hepsini gosteriyor.
+         */
+        const kareler = media.filter((m) => m.kind === 'image').map((m) => m.path);
+        const mp4 = await video.run({
+          clip,
+          audio,
+          caption: script.narration,
+          outPath: `${stem}.mp4`,
+          ...(kareler.length > 1 ? { ekGorseller: kareler } : {}),
+        });
         media.push({ kind: 'video', path: mp4, alt: post.topic, mime: 'video/mp4' });
       }
 

@@ -1057,6 +1057,12 @@
         "path": "data/media/1375358b-haber.png",
         "alt": "GORA 4'ün vizyon tarihi ve Cem Yılmaz'ın planı",
         "mime": "image/png"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/1375358b-ai1.jpg",
+        "alt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, im",
+        "mime": "image/jpeg"
       }
     ],
     "targets": [
@@ -1113,6 +1119,24 @@
         "path": "data/media/e8c9fe28-haber.jpg",
         "alt": "Lee Chang‑Dong'un ‘Possible Love’ filminin Venedik galası ve 6,5 dakikalık ayakta alkışı",
         "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/e8c9fe28-ilgili1.jpg",
+        "alt": "Lee Chang‑Dong'un ‘Possible Love’ filminin Venedik galası ve 6,5 dakikalık ayakta alkışı",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/e8c9fe28-ai1.jpg",
+        "alt": "A vibrant cinematic scene of Lee Chang‑Dong attending the Venice premiere of “Possible Love,” captured in a dynamic 6.5‑second loop of the audience rising for a standing ovation, with sparkling red carpet, golden lanterns, and the iconic Venetian lagoon reflected in the backgroun",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/e8c9fe28.mp4",
+        "alt": "Lee Chang‑Dong'un ‘Possible Love’ filminin Venedik galası ve 6,5 dakikalık ayakta alkışı",
+        "mime": "video/mp4"
       }
     ],
     "targets": [
@@ -1127,7 +1151,7 @@
       "site": "variety.com"
     },
     "kategori": "sinema",
-    "medya": "gorsel",
+    "medya": "video",
     "metinAdaylari": {
       "x": [
         {
@@ -1153,7 +1177,8 @@
       ]
     },
     "script": {
-      "visualPrompt": "A vibrant cinematic scene of Lee Chang‑Dong attending the Venice premiere of “Possible Love,” captured in a dynamic 6.5‑second loop of the audience rising for a standing ovation, with sparkling red carpet, golden lanterns, and the iconic Venetian lagoon reflected in the background."
+      "visualPrompt": "A vibrant cinematic scene of Lee Chang‑Dong attending the Venice premiere of “Possible Love,” captured in a dynamic 6.5‑second loop of the audience rising for a standing ovation, with sparkling red carpet, golden lanterns, and the iconic Venetian lagoon reflected in the background.",
+      "narration": "Lee Chang‑Dong’un “Possible Love” filmi, Venedik Film Festivali’nde 26 Mayıs’ta gösterildi. Film, aşkın modern sınırlarını sorgulayan bir anlatımla, karakterlerin içsel çatışmalarını ve toplumsal baskılarını işliyor. Görsel anlatımındaki minimalizm ve müzik seçimleri, temanın yalnızlık ve umut arasındaki gerilimini vurguluyor. Seyirciler, dramatik doruk noktasında 6,5 dakikalık ayakta alkışla yanıt vererek, filmin duygusal etkisinin ve anlatı gücünün fark edildiğini gösterdi. Bu tepki, eserinin hem sanatsal hem de duygusal açıdan izleyiciyi derinlemesine etkilediğini kanıtlıyor."
     },
     "puan": {
       "yildiz": 3,
@@ -1188,6 +1213,12 @@
         "path": "data/media/7da1b37f-haber.png",
         "alt": "Nicolas Cage'in Prime Video dizisinin ilk sezon sonrası iptali",
         "mime": "image/png"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/7da1b37f-ai1.jpg",
+        "alt": "A dramatic, cinematic scene of a dark, empty studio set with a lone, overturned director's chair and a shattered coffee mug spilling glowing amber liquid onto a vintage script titled “Season 1,” illuminated by a single, flickering overhead light, evoking the abrupt cancellation o",
+        "mime": "image/jpeg"
       }
     ],
     "targets": [
@@ -1271,6 +1302,126 @@
         }
       ],
       "oneri": "İlk cümleyi \"Prime Video’da büyük yankı uyandıran 'Spider‑Noir' dizisinin iptali sizi şaşırttı mı?\" şeklinde soruya dönüştür ve dizinin görselini ekle"
+    }
+  },
+  {
+    "id": "69c7c8c4",
+    "createdAt": "2026-09-06T18:54:58.450Z",
+    "topic": "Emre Belözoğlu hakemlerle ilgili açıklaması",
+    "angle": "Hakem kararlarının taktiksel etkisi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Kasımpaşa Teknik Direktörü Emre Belözoğlu, Amed Sportif Faaliyetler maçı sonrası \"Türkiye'de bu hakemlerle zor bir sene Türk futbolunu bekliyor\" dedi. Hakem kararlarının taktiksel etkileri tartışılıyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/69c7c8c4-haber.jpg",
+        "alt": "Emre Belözoğlu hakemlerle ilgili açıklaması",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/69c7c8c4-ai1.jpg",
+        "alt": "The backdrop is a dimly lit, empty football stadium tunnel, with faint floodlights piercing the gloom and echoing the tension of the controversy.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/69c7c8c4-ai2.jpg",
+        "alt": "The backdrop is a dimly lit, empty football stadium tunnel, with faint floodlights piercing the gloom and echoing the tension of the controversy.. close detail of the setting. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/69c7c8c4.mp4",
+        "alt": "Emre Belözoğlu hakemlerle ilgili açıklaması",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "f5b627e6d6b7ef4a",
+    "kaynak": {
+      "ozet": "Kasımpaşa Teknik Direktörü Emre Belözoğlu, Amed Sportif Faaliyetler maçının ardından yaptığı açıklamada, \"Türkiye'de bu hakemlerle zor bir sene Türk futbolunu bekliyor\" dedi.",
+      "url": "https://www.hurriyet.com.tr/sporarena/emre-belozoglu-bu-hakemlerle-zor-43298292",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9db4eb3042cc6510fdd056.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "spor",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Emre Belözoğlu, Amed Sportif Faaliyetler maçını izlerken, bu sezon Türk futbolunun hakemlerle zor bir dönem geçireceğini düşünüyor mu? Sizce hakem kararları taktikleri nasıl yönlendiriyor?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Sorular ve isim içermesi iyi, ama ilk satır çekicilik ve sayısal öğe eksik; medya yeterli ama hashtag yok",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk satırı \"Emre Belözoğlu'ndan çarpıcı tahmin: Bu sezon hakemler Türk futbolunu nasıl şekillendirecek?\" şeklinde sayısal ya da çarpıcı bir iddia ekle"
+          }
+        },
+        {
+          "metin": "Belözoğlu, hakemlerin bu sezonki performansını yüzde %70 olumsuz etkili olarak nitelendiriyor; Türk futbolu zor bir seneyle karşı karşıya.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "Soru veya tartışma başlatıcı öğe yok, merak uyandıran başlangıç ve sayısal/isim çekiciliği eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"Bu sezon hakem kararları %70 oranında oyunu nasıl etkiledi?\" gibi bir soru/sayısal iddia ile başlayıp, ardından görüş sorusu ekleyerek etkileşimi artır."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A lone microphone stands illuminated on a stark white studio floor, casting a sharp shadow that hints at a heated interview about referees.",
+      "mekanPrompt": "The backdrop is a dimly lit, empty football stadium tunnel, with faint floodlights piercing the gloom and echoing the tension of the controversy.",
+      "narration": "Emre Belözoğlu, hakem kararlarının taktiksel yönünü vurgulayarak şunu söyledi: “Bir maçta hakem bir faulı ya da penaltıyı yanlış yorumladığında, takımların oyun planı aniden değişir; savunma hatlarını yeniden düzenlemek, atak temposunu yavaşlatmak ya da rakibe fırsat yaratmak zorunda kalır. Bu yüzden hakem hataları, sahadaki taktiksel dengeyi doğrudan sarsar ve sonuçta skorun seyrini belirleyebilir."
+    },
+    "puan": {
+      "yildiz": 2,
+      "gerekce": "İlk satırda merak uyandırıcı bir iddia veya sayı yok, etkileşim artırıcı unsurlar eksik.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "Başlangıcı \"Hakem kararları bu sezon Türk futbolunu 5 kez zorlayabilir mi?\" gibi bir soru veya çarpıcı rakamla aç."
     }
   }
 ]

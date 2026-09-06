@@ -66,6 +66,17 @@ export interface Senaryo {
   narration?: string;
   /** Goruntu uretimi icin ingilizce istem. */
   visualPrompt: string;
+  /**
+   * Haberin GECTIGI YER icin ingilizce istem - insansiz.
+   *
+   * Ucretsiz gorsel modelleri gercek kisileri beceremiyor; yuz bozuk
+   * cikiyor ve gercek fotograflarin yaninda aninda sirittiriyor.
+   * Uzun bir kisi tarifinin sonuna "insan cizme" eklemek ise ise yaramiyor,
+   * model istemin basini takip ediyor. Bu yuzden mekan istemi bastan ayri
+   * yaziliyor: salon, sahne, sehir, stadyum, stüdyo.
+   * Video icin ek kare gerektiginde bu kullanilir.
+   */
+  mekanPrompt?: string;
   /** Platform basina alternatif metinler; kullanici secsin diye. */
   metinAdaylari?: Record<string, { metin: string }[]>;
 }
@@ -108,6 +119,12 @@ export interface MontajIstegi {
   audio: SesSonucu;
   caption: string;
   outPath: string;
+  /**
+   * Klibe ek durgun gorseller. Verilirse video tek kareye bakmak yerine
+   * sirayla bunlari gosterir (her birine Ken Burns). Hazir hareketli klipte
+   * (clip.motion) yok sayilir - o zaten hareketli.
+   */
+  ekGorseller?: string[];
 }
 
 // ------------------------------------------------------------------ 6. yonetmen

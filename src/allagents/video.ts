@@ -67,7 +67,7 @@ export const video: Agent<MontajIstegi, string> = {
   role: 'Goruntu, ses ve altyaziyi dikey mp4 olarak kurgular',
   uses: ['ffmpeg'],
 
-  async run({ clip, audio, caption, outPath }): Promise<string> {
+  async run({ clip, audio, caption, outPath, ekGorseller = [] }): Promise<string> {
     await mkdir(dirname(outPath), { recursive: true });
     const assPath = outPath.replace(/\.mp4$/, '.ass');
     await writeFile(assPath, buildAss(caption, audio.seconds), 'utf8');
@@ -77,30 +77,87 @@ export const video: Agent<MontajIstegi, string> = {
     // ffmpeg filtre dizesinde ':' ayirac; yollar goreli tutuluyor.
     const assRef = assPath.replace(/\\/g, '/').replace(/:/g, '\\:');
 
-    // Hazir hareketli klibe zoompan eklemek titretir.
-    const motionStage = clip.motion
-      ? `scale=${VERTICAL.w}:${VERTICAL.h}:force_original_aspect_ratio=increase,crop=${VERTICAL.w}:${VERTICAL.h},fps=${fps}`
-      : [
-          `scale=${VERTICAL.w * 2}:${VERTICAL.h * 2}:force_original_aspect_ratio=increase`,
-          `crop=${VERTICAL.w * 2}:${VERTICAL.h * 2}`,
-          `zoompan=z='min(zoom+0.0006,1.18)':d=${frames}:s=${VERTICAL.w}x${VERTICAL.h}:fps=${fps}`,
-        ].join(',');
+    /**
+     * COK KARELI VIDEO
+     *
+     * Onceden video tek durgun gorsele Ken Burns uygulayip 40-50 saniye
+     * boyunca ayni kareyi gosteriyordu: izleyici ilk saniyede her seyi
+     * gormus oluyor, devaminda bakacak bir sey kalmiyordu.
+     *
+     * Birden fazla gorsel varsa video onlari sirayla gosterir, her birine
+     * ayri Ken Burns uygular; sure esit bolunur.
+     *
+     * Hazir hareketli klip (odemeli AI kaynagi) geldiginde devreye girmez:
+     * o zaten hareketli, ustune kesme koymak goruntuyu bozar.
+     */
+    const kareler = clip.motion ? [] : [clip.path, ...ekGorseller.filter((g) => g !== clip.path)];
+    const cokKare = kareler.length > 1;
 
-    const filter = [motionStage, `subtitles='${assRef}'`, 'format=yuv420p'].join(',');
+    const kenBurns = (sure: number) =>
+      [
+        `scale=${VERTICAL.w * 2}:${VERTICAL.h * 2}:force_original_aspect_ratio=increase`,
+        `crop=${VERTICAL.w * 2}:${VERTICAL.h * 2}`,
+        `zoompan=z='min(zoom+0.0012,1.20)':d=${Math.ceil(sure * fps)}:s=${VERTICAL.w}x${VERTICAL.h}:fps=${fps}`,
+        'setsar=1',
+      ].join(',');
 
-    // Durgun gorsel loop'lanir; kisa klip ses bitene kadar tekrarlanir.
-    const inputArgs = clip.motion
-      ? ['-stream_loop', '-1', '-i', clip.path]
-      : ['-loop', '1', '-i', clip.path];
+    let ffmpegArgs: string[];
+
+    if (cokKare) {
+      const kareSure = audio.seconds / kareler.length;
+
+      /**
+       * DIKKAT: burada `-loop 1 -t <sure>` KULLANILMAZ.
+       *
+       * zoompan'in `d` parametresi "her GIRDI karesi icin kac cikti karesi
+       * uret" demek. `-loop 1 -t 12.7` girdiyi 381 kareye cikardigi icin
+       * zoompan 381 x 381 kare uretiyordu; ilk gorsel tum sesi doldurup
+       * bitiyor, ikinci ve ucuncu gorsele hic sira gelmiyordu.
+       *
+       * Ilk denemede bunu suresine ve boyutuna bakarak "calisiyor" sandim -
+       * video 41 saniye ve 1080x1920'di, ama basindan sonuna ayni kare.
+       * Kareleri tek tek disari alip karsilastirinca ortaya cikti.
+       *
+       * Cozum: gorseli TEK kare olarak vermek. zoompan `d` kadar kare
+       * uretir ve sure oradan gelir.
+       */
+      const girdiler = kareler.flatMap((g) => ['-i', g]);
+      const zincir = kareler.map((_, i) => `[${i}:v]${kenBurns(kareSure)}[v${i}]`).join(';');
+      const birlestir = `${kareler.map((_, i) => `[v${i}]`).join('')}concat=n=${kareler.length}:v=1:a=0[vc]`;
+      const filtre = `${zincir};${birlestir};[vc]subtitles='${assRef}',format=yuv420p[vout]`;
+
+      ffmpegArgs = [
+        ...girdiler,
+        '-i', audio.path,
+        '-filter_complex', filtre,
+        '-map', '[vout]', '-map', `${kareler.length}:a:0`,
+      ];
+      log.info(`montaj: ${kareler.length} kare, her biri ${kareSure.toFixed(1)}s`);
+    } else {
+      // Hazir hareketli klibe zoompan eklemek titretir.
+      const motionStage = clip.motion
+        ? `scale=${VERTICAL.w}:${VERTICAL.h}:force_original_aspect_ratio=increase,crop=${VERTICAL.w}:${VERTICAL.h},fps=${fps}`
+        : [
+            `scale=${VERTICAL.w * 2}:${VERTICAL.h * 2}:force_original_aspect_ratio=increase`,
+            `crop=${VERTICAL.w * 2}:${VERTICAL.h * 2}`,
+            `zoompan=z='min(zoom+0.0006,1.18)':d=${frames}:s=${VERTICAL.w}x${VERTICAL.h}:fps=${fps}`,
+          ].join(',');
+
+      const filter = [motionStage, `subtitles='${assRef}'`, 'format=yuv420p'].join(',');
+
+      // Durgun gorsel loop'lanir; kisa klip ses bitene kadar tekrarlanir.
+      const inputArgs = clip.motion
+        ? ['-stream_loop', '-1', '-i', clip.path]
+        : ['-loop', '1', '-i', clip.path];
+
+      ffmpegArgs = [...inputArgs, '-i', audio.path, '-map', '0:v:0', '-map', '1:a:0', '-vf', filter];
+    }
 
     await run(
       'ffmpeg',
       [
         '-y', '-loglevel', 'error',
-        ...inputArgs,
-        '-i', audio.path,
-        '-map', '0:v:0', '-map', '1:a:0',
-        '-vf', filter,
+        ...ffmpegArgs,
         '-c:v', 'libx264', '-preset', 'medium', '-crf', '21',
         '-c:a', 'aac', '-b:a', '128k',
         '-r', String(fps),
@@ -109,7 +166,6 @@ export const video: Agent<MontajIstegi, string> = {
       ],
       { maxBuffer: 1 << 26 },
     );
-
     await rm(assPath, { force: true });
     // Yalnizca bu tur icin uretilen ara klip silinir; disaridan gelen gorsel kalir.
     if (clip.motion) await rm(clip.path, { force: true });

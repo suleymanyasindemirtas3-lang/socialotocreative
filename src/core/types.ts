@@ -59,7 +59,12 @@ export interface Post {
    * Senaryo ekibinin ciktisi. Ayri tutulur cunku medya uretimi cokerse
    * yazilan metin kaybolmamali; tekrar denerken bastan yazilmaz.
    */
-  script?: { visualPrompt: string; narration?: string };
+  script?: {
+    visualPrompt: string;
+    narration?: string;
+    /** Insansiz mekan istemi; AI ek kare uretirken kullanilir. */
+    mekanPrompt?: string;
+  };
   /** Bos ise 'otomatik'. Panelden degistirilir. */
   medya?: MedyaTercihi;
   /** Icerik kategorisi id'si. Bicimi ve varsayilan medyayi belirler. */
