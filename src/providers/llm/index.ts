@@ -44,11 +44,40 @@ const gemini: LlmProvider = {
         },
       }),
     });
-    if (!res.ok) throw new Error(`gemini ${res.status}: ${await res.text()}`);
+    if (!res.ok) {
+      const govde = await res.text();
+      // Model adlari zamanla degisiyor; 404'u "hangi modeller var" listesine
+      // cevirmek, anlamsiz bir hatayi dogrudan uygulanabilir bir talimata donusturur.
+      if (res.status === 404) throw new Error(await modelHatasi(govde));
+      throw new Error(`gemini ${res.status}: ${govde.slice(0, 300)}`);
+    }
     const j = (await res.json()) as { candidates?: { content: { parts: { text?: string }[] } }[] };
     return j.candidates?.[0]?.content.parts.map((p) => p.text ?? '').join('') ?? '';
   },
 };
+
+/** 404 aldiginda hesabin gercekten erisebildigi modelleri listeler. */
+async function modelHatasi(govde: string): Promise<string> {
+  try {
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models', {
+      headers: { 'x-goog-api-key': cfg.llm.gemini.key },
+    });
+    const j = (await res.json()) as { models?: { name: string; supportedGenerationMethods?: string[] }[] };
+    const kullanilabilir = (j.models ?? [])
+      .filter((m) => m.supportedGenerationMethods?.includes('generateContent'))
+      .map((m) => m.name.replace('models/', ''))
+      .slice(0, 12);
+
+    if (!kullanilabilir.length) return `gemini 404 ve model listesi bos: ${govde.slice(0, 200)}`;
+    return (
+      `GEMINI_MODEL="${cfg.llm.gemini.model}" bulunamadi.\n` +
+      `.env icindeki GEMINI_MODEL satirini sunlardan biriyle degistir:\n  ` +
+      kullanilabilir.join('\n  ')
+    );
+  } catch {
+    return `gemini 404: ${govde.slice(0, 300)}`;
+  }
+}
 
 const claude: LlmProvider = {
   id: 'claude',
