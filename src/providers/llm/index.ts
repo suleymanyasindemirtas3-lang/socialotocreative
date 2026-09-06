@@ -28,7 +28,15 @@ function openAiCompatible(
         },
         body: JSON.stringify({
           model,
-          max_tokens: opts?.maxTokens ?? 1024,
+          /**
+           * Yeni modellerin cogu "dusunen" model: cikti butcesini once
+           * dusunceye harciyor ve metin uretmeden bitiyor. gpt-oss-120b
+           * 220 token ile BOS donuyordu. Iki onlem:
+           *   - reasoning_effort dusuk (desteklemeyen model yok sayar)
+           *   - butceye taban: dusunce payi birakilir
+           */
+          max_tokens: Math.max(opts?.maxTokens ?? 1024, 400),
+          reasoning_effort: 'low',
           ...(opts?.json ? { response_format: { type: 'json_object' } } : {}),
           messages: [
             ...(opts?.system ? [{ role: 'system', content: opts.system }] : []),
@@ -40,6 +48,8 @@ function openAiCompatible(
       if (!res.ok) {
         const govde = await res.text();
         hataBildir(id, govde, kotaHatasiMi(res.status, govde));
+        // Model adlari sik degisiyor; 404'u kullanilabilir model listesine cevir.
+        if (res.status === 404) throw new Error(await openAiModelHatasi(id, base, key, model));
         throw new Error(`${id} ${res.status}: ${govde.slice(0, 200)}`);
       }
 
@@ -49,6 +59,30 @@ function openAiCompatible(
       return metin;
     },
   };
+}
+
+/**
+ * OpenAI uyumlu saglayicilarda 404 aldiginda hangi modellerin
+ * kullanilabilir oldugunu listeler. Groq'un model listesi degismisti ve
+ * hata "does not exist" demekten oteye gitmiyordu.
+ */
+async function openAiModelHatasi(id: string, base: string, key: string, model: string): Promise<string> {
+  try {
+    const res = await fetch(`${base}/models`, { headers: { authorization: `Bearer ${key}` } });
+    const j = (await res.json()) as { data?: { id: string }[] };
+    const liste = (j.data ?? [])
+      .map((m) => m.id)
+      .filter((x) => !/whisper|tts|guard|vision|embed/i.test(x))
+      .slice(0, 12);
+    if (!liste.length) return `${id}: "${model}" bulunamadi ve model listesi alinamadi`;
+    return (
+      `${id.toUpperCase()}_MODEL="${model}" bulunamadi.\n` +
+      `.env icinde su modellerden birini yaz:\n  ` +
+      liste.join('\n  ')
+    );
+  } catch {
+    return `${id}: "${model}" bulunamadi`;
+  }
 }
 
 interface GeminiYanit {
