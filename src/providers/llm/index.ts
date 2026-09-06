@@ -27,32 +27,79 @@ function openAiCompatible(id: string, base: string, key: string, model: string):
   };
 }
 
+interface GeminiYanit {
+  candidates?: {
+    content?: { parts?: { text?: string }[] };
+    finishReason?: string;
+  }[];
+  usageMetadata?: { thoughtsTokenCount?: number };
+}
+
 const gemini: LlmProvider = {
   id: 'gemini',
   isConfigured: () => Boolean(cfg.llm.gemini.key),
   async complete(prompt, opts) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${cfg.llm.gemini.model}:generateContent`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', 'x-goog-api-key': cfg.llm.gemini.key },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        ...(opts?.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
-        generationConfig: {
-          maxOutputTokens: opts?.maxTokens ?? 1024,
-          ...(opts?.json ? { responseMimeType: 'application/json' } : {}),
-        },
-      }),
+    const govdeJson = JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      ...(opts?.system ? { systemInstruction: { parts: [{ text: opts.system }] } } : {}),
+      generationConfig: {
+        maxOutputTokens: opts?.maxTokens ?? 1024,
+        ...(opts?.json ? { responseMimeType: 'application/json' } : {}),
+        /**
+         * Yeni Gemini modelleri "dusunen" modeller: cikti butcesini once
+         * dusunceye harcayip metin uretmeden MAX_TOKENS ile donebiliyorlar.
+         * Kisa istekler bu yuzden bos donuyordu. Dusunmeyi kapatmak hem
+         * bunu cozuyor hem de ucretsiz kotayi koruyor.
+         *
+         * MUDAHALE: Uzun ve karmasik metinlerde kalite isteyip kota
+         * harcamayi goze aliyorsan .env icinde GEMINI_THINKING=1 yap.
+         */
+        ...(cfg.llm.gemini.thinking ? {} : { thinkingConfig: { thinkingBudget: 0 } }),
+      },
     });
-    if (!res.ok) {
-      const govde = await res.text();
-      // Model adlari zamanla degisiyor; 404'u "hangi modeller var" listesine
-      // cevirmek, anlamsiz bir hatayi dogrudan uygulanabilir bir talimata donusturur.
-      if (res.status === 404) throw new Error(await modelHatasi(govde));
-      throw new Error(`gemini ${res.status}: ${govde.slice(0, 300)}`);
+
+    // Ucretsiz tier dakika basina istek siniri koyuyor; 429 kalici hata degil.
+    for (let deneme = 1; deneme <= 3; deneme++) {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': cfg.llm.gemini.key },
+        body: govdeJson,
+      });
+
+      // 429 kota, 5xx gecici yuk. Ikisi de kalici hata degil; hemen yedege
+      // dusmek Gemini'yi bosuna terk edip kaliteyi dusuruyordu.
+      const geciciMi = res.status === 429 || res.status >= 500;
+      if (geciciMi && deneme < 3) {
+        const bekle = deneme * 15_000;
+        log.warn(`gemini ${res.status} (gecici), ${bekle / 1000}s sonra tekrar (${deneme}/2)`);
+        await new Promise((r) => setTimeout(r, bekle));
+        continue;
+      }
+
+      if (!res.ok) {
+        const govde = await res.text();
+        // Model adlari zamanla degisiyor; 404'u "hangi modeller var" listesine
+        // cevirmek anlamsiz bir hatayi uygulanabilir bir talimata donusturur.
+        if (res.status === 404) throw new Error(await modelHatasi(govde));
+        throw new Error(`gemini ${res.status}: ${govde.slice(0, 300)}`);
+      }
+
+      const j = (await res.json()) as GeminiYanit;
+      const aday = j.candidates?.[0];
+      const metin = aday?.content?.parts?.map((p) => p.text ?? '').join('') ?? '';
+      if (metin.trim()) return metin;
+
+      // Bos yanit sessizce gecmemeli: sebebini soyle, TypeError atma.
+      const sebep = aday?.finishReason ?? 'bilinmiyor';
+      const dusunce = j.usageMetadata?.thoughtsTokenCount ?? 0;
+      throw new Error(
+        `gemini metin dondurmedi (finishReason=${sebep}` +
+          (dusunce ? `, dusunceye ${dusunce} token gitti` : '') +
+          `). maxTokens degerini yukselt ya da GEMINI_THINKING=0 birak.`,
+      );
     }
-    const j = (await res.json()) as { candidates?: { content: { parts: { text?: string }[] } }[] };
-    return j.candidates?.[0]?.content.parts.map((p) => p.text ?? '').join('') ?? '';
+    throw new Error('gemini: kota siniri asilamadi');
   },
 };
 

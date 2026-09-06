@@ -56,7 +56,7 @@
     "createdAt": "2026-09-05T21:44:04.153Z",
     "topic": "Yazılım ve yapay zekanın gelecekteki potansiyel birleşimi",
     "angle": "Birleştirilmiş teknolojinin hayata geçirilebilir uygulamaları",
-    "status": "approved",
+    "status": "published",
     "variants": {
       "console": "# Yazılım ve Yapay Zeka: Birleştirilmiş Teknolojinin Hayata Geçirme\nYazılım ve yapay zeka (AYK) birleşimi, teknolojinin gelecekteki potansiyelini açıklayan bir kombinasyonudur. Bu, sadece teorik bir deneyim değil, gerçek hayatta da geniş uygulamalar sunmaktadır. Örneğin, bir otomotiv firması, AYK teknolojisini kullanarak araba otomatik park sistemi geliştirebilir. Bu sistemin nasıl çalıştığını ve hangi avantajları sunacağını aşağıda inceliyoruz.\n\n## Sistemin Çalışma Mantığı\nAraba otomatik park sistemi, bir aracın kendiliğinden parkı için gereken tüm senaryoları önceden programlanır. Bu, kameralar, laser sensorler ve diğer bilimlerle desteklenen bir AYK sisteminin işleyişinden oluşur. Araç, genellikle bir mobil uygulama aracılığıyla kullanıcıya bilgi verir ve kullanıcı, park etme işlemi için izin verir. Bu işlem sırasında, AYK sistemi, kameraların ve sensorlerin gerekli verilerini kullanarak yer uyumlu bir park konumu belirler.\n\n## Uygulama Örneği\nBir otomotiv firması, aracın kameraları, laser sensorleri ve diğer bilimlerle gelen bilgileri kullanarak park konumunu belirleyen bir AYK sistemi geliştirmiştir. Bu sistemin ilk versiyonu, kullanıcıya park konumunu önerirken, daha sonraki sürümlerde kullanıcıların belirli konumları tercih etmesine olanak tanır. Kullanıcı, park konumunu seçtiği takdirde, AYK sistemi, bu konumu seçtikten sonra araçın park etme sürecini otomatik olarak yönetir.\n\n## Öngörülen Advantajlar\nAraba otomatik park sisteminin en büyük avantajlarından biri, kullanıcının daha kolay ve daha güvenli bir şekilde park etmesidir. Ayrıca, bu sistem, daha az çukur kullanıcısına ve daha az park süresine olanak tanır, bu da trafiğe katkıda bulunur. Sonuç olarak, AYK ve yazılımın birleşimi, teknolojinin gerçek hayatta da en üst seviyede bir uygulamasını sağlar.\n\n## Sonuç\nYazılım ve yapay zeka birleşiminin, özellikle otomotiv sektöründe geniş uygulamalar sunacağı açıktır. Araç otomatik park sistemi gibi örnekler, teknolojiyi gerçek hayata geçirme ve kullanıcıların yaşam standartlarını artırma potansiyelini göstermektedir. Bu teknolojik birleşimin gelecekteki potansiyeli, sadece uygulamaları değil, aynı zamanda daha güvenli ve daha kolay bir günlük yaşam için de geniş alanlara ulaşabilir."
     },
@@ -71,7 +71,15 @@
     "targets": [
       "console-82ecde"
     ],
-    "results": [],
+    "results": [
+      {
+        "accountId": "console-82ecde",
+        "platform": "console",
+        "ok": true,
+        "url": "console:dd9067a8",
+        "at": "2026-09-06T06:17:07.396Z"
+      }
+    ],
     "fingerprint": "8455e1756c053d11",
     "script": {
       "visualPrompt": "A fusion of software and artificial intelligence shaping the futurelandscape"
@@ -82,20 +90,44 @@
     "createdAt": "2026-09-05T22:12:37.313Z",
     "topic": "Yazılım ve yapay zeka arasındaki potansiyel iş birliği",
     "angle": "Yapay zekanın yazılım geliştirmesindeki etkiler",
-    "status": "draft",
-    "variants": {},
+    "status": "scripted",
+    "variants": {
+      "console": "Yapay zekanın yazılım geliştirmedeki rolü kod tamamlama araçlarından ibaret değil; asıl etki, test ve hata ayıklama süreçlerindeki bilişsel yükü devralmasında ortaya çıkıyor.\n\nGeçtiğimiz ay Go 1.22 tabanlı bir mikroserviste yaşanan bellek sızıntısını incelerken bunu net şekilde gözlemledim. Profiling çıktısındaki pprof verilerini ve heap analizini bir LLM bağlamına verip olası goroutine kilitlenmelerini sorguladığımda, model 3 farklı eşzamanlılık (concurrency) senaryosu çıkardı. Bunlardan biri, context iptali düzgün yönetilmeyen bir HTTP client çağrısına işaret ediyordu ve sorun tam olarak oradaydı. Normal şartlarda kodu satır satır izleyerek bulmamız en az 4 saat sürecek bir iz sürme işlemi, yaklaşık 15 dakikada çözüme ulaştı.\n\nBuradaki iş birliği, yapay zekanın bizim yerimize mimari karar alması anlamına gelmiyor. Geliştirici olarak context sınırlarını çizmek, girdiyi filtrelemek ve dönen yanıtı doğrulamak hala bizim sorumluluğumuzda. Model kod yazmıyor; kodun çalışacağı sınır koşullarını (edge cases) insan dikkatinden daha hızlı tarıyor.\n\nYazılım geliştiricinin rolü kod syntax'ı yazmaktan, sistem davranışını doğrulayan bir denetçiye doğru evriliyor. Modelin ürettiği çıktıyı doğrudan derleyip canlıya almak yerine, onu kıdemli bir meslektaşın sunduğu taslak gibi ele alıp test coverage oranını %85'in üzerinde tutabildiğinizde bu iş birliği gerçekten işe yarıyor. Kod tabanına hakimiyet geliştiricide kalmadığı sürece, aracın sunduğu hız avantajı doğrudan teknik borca dönüşüyor."
+    },
     "media": [],
     "targets": [
       "console-82ecde"
     ],
     "results": [],
-    "fingerprint": "c321d832356d2e0d"
+    "fingerprint": "c321d832356d2e0d",
+    "script": {
+      "visualPrompt": "A futuristic visual metaphor of software development and artificial intelligence collaborating, showing a human hand of glowing digital code weaving seamlessly with an intricate, luminous robotic neural network hand in a sleek cyberpunk workspace, highly detailed, cinematic lighting, no text."
+    }
   },
   {
     "id": "1c8be9f0",
     "createdAt": "2026-09-05T22:40:04.624Z",
     "topic": "Yapay zekanın yazılım geliştirmede potansiyel uygulamaları",
     "angle": "Yapay zekanın yazılım geliştirme sürecinde optimizasyon potansiyelleri",
+    "status": "scripted",
+    "variants": {
+      "console": "Yapay zekanın yazılım geliştirmedeki asıl getirisi kod tamamlama değil, geliştirme döngüsündeki geri bildirim sürelerini daraltmasıdır.\n\nTipik bir geliştirme hattında en büyük zaman kaybı, bağlam değişimlerinde ve deterministik olmayan test süreçlerinde yaşanır. Örneğin, 4.000'den fazla uçtan uca (e2e) testin koştuğu bir CI/CD hattında tek bir commit için 45 dakika beklemek yaygın bir tıkanıklıktır. Test suite'lerini statik kod analizinin ötesine geçirerek, diff odaklı ve geçmiş commit/test korelasyonuna göre sıralayan modeller entegre edildiğinde, pipeline süresi 8 dakikaya kadar inebiliyor. Modelin buradaki görevi yeni test yazmak değil; değiştirilen 3 modülün doğrudan veya dolaylı etkileyebileceği yüzde 12'lik test kümesini izole edip önceliklendirmektir.\n\nBenzer bir optimizasyon statik analiz çıktıları için de geçerli. SonarQube gibi araçların ürettiği 200 sayfalık teknik borç raporu pratikte göz ardı edilir. Bu araçların arkasına bağlanan bağlam farkındalığı yüksek bir LLM, \"NullPointerException riski\" uyarısını tek başına fırlatmak yerine, ilgili servisin gelen istek payload'ındaki doğrulama adımlarını izleyip gerçekten ulaşılamaz (dead path) olanları filtrelediğinde, geliştiricinin incelediği sahte pozitif (false positive) oranı yüzde 60 oranında düşüyor.\n\nOptimizasyon, geliştiriciye sıfırdan 50 satır boilerplate kod yazdırmakla sağlanmıyor; geliştiricinin o 50 satırı doğrulamak, test etmek ve derlemek için harcadığı 20 dakikalık döngüyü 2 dakikaya indirerek sağlanıyor."
+    },
+    "media": [],
+    "targets": [
+      "console-82ecde"
+    ],
+    "results": [],
+    "fingerprint": "6047401cce513951",
+    "script": {
+      "visualPrompt": "A glowing, futuristic holographic brain seamlessly merging with abstract floating code algorithms and neural network nodes, illuminated in vibrant cyan and purple neon light inside a dark modern tech workspace, ultra-realistic, cinematic lighting, 8k, no text."
+    }
+  },
+  {
+    "id": "0e27eed8",
+    "createdAt": "2026-09-06T06:20:17.411Z",
+    "topic": "Yapay zeka ve yazılımın gelecekteki potansiyel birleşimi",
+    "angle": "Geliştirici bakışı",
     "status": "draft",
     "variants": {},
     "media": [],
@@ -103,6 +135,6 @@
       "console-82ecde"
     ],
     "results": [],
-    "fingerprint": "6047401cce513951"
+    "fingerprint": "1607ef34f059be25"
   }
 ]

@@ -12,7 +12,12 @@ export const cfg = {
   llm: {
     // Virgulle ayrilmis zincir: ilki cokerse sonraki denenir.
     chain: list('LLM_PROVIDER', ['mock']),
-    gemini: { key: env('GEMINI_API_KEY'), model: env('GEMINI_MODEL', 'gemini-2.0-flash') },
+    gemini: {
+      key: env('GEMINI_API_KEY'),
+      model: env('GEMINI_MODEL', 'gemini-flash-latest'),
+      // Yeni modeller dusunen modeller; kisa isteklerde butceyi yiyip bos donuyorlar.
+      thinking: bool('GEMINI_THINKING', false),
+    },
     groq: { key: env('GROQ_API_KEY'), model: env('GROQ_MODEL', 'llama-3.3-70b-versatile') },
     claude: { key: env('ANTHROPIC_API_KEY'), model: env('ANTHROPIC_MODEL', 'claude-sonnet-5') },
     ollama: { host: env('OLLAMA_HOST', 'http://localhost:11434'), model: env('OLLAMA_MODEL', 'llama3.2') },
