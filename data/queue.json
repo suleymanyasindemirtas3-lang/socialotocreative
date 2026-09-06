@@ -78,5 +78,19 @@
       "visualPrompt": "A futuristic, glowing digital bridge made of holographic computer code, with a subtle, dark section showing hidden cracks and structural decay, leading into an overwhelming pile of tangled neon wires and digital clutter, highly detailed, cinematic lighting, conceptual art, no text."
     },
     "medya": "otomatik"
+  },
+  {
+    "id": "d5138a9b",
+    "createdAt": "2026-09-06T07:50:31.257Z",
+    "topic": "Yapay zeka'nın gelecekteki potansiyeli",
+    "angle": "Bakanlık perspektifi",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "faafe85a6627ab93"
   }
 ]

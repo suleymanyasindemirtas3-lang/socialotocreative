@@ -251,7 +251,7 @@ function renderQueue() {
         <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
         <button data-decide="draft" data-id="${p.id}">Taslağa al</button>
         <span class="grow"></span>
-        <button data-del="${p.id}">Sil</button>
+        <button data-del="${p.id}" class="bad" style="opacity:.7">Sil</button>
       </div>
     </div>`;
   }).join('');
@@ -353,8 +353,19 @@ document.addEventListener('click', async (e) => {
       return refresh();
     }
     if (t.dataset.del) {
-      if (!confirm('Bu post silinsin mi?')) return;
+      // Yazilmis metin ve uretilmis gorsel geri getirilemez; onay metni
+      // neyin gittigini acikca soylesin. Yanlislikla silme yasandi.
+      const p = STATE.posts.find((x) => x.id === t.dataset.del);
+      const emek = [];
+      if (p && Object.keys(p.variants).length) emek.push('yazilmis metin');
+      if (p && p.media.length) emek.push(`${p.media.length} medya dosyasi`);
+      const uyari = emek.length ? `
+
+Bu post ${emek.join(' ve ')} iceriyor. Geri alinamaz.` : '';
+      if (!confirm(`Silinecek:
+"${p ? p.topic : t.dataset.del}"${uyari}`)) return;
       await call('/api/post/delete', { id: t.dataset.del });
+      toast('post silindi');
       return refresh();
     }
     if (t.dataset.verify) {
