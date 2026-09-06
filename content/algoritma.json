@@ -1,0 +1,103 @@
+{
+  "guncelleme": "2026-09-06",
+  "not": "Platformların sıralama sinyalleri. Sosyal medya uzmanı ajanı postları buna göre puanlar. Değişirse buradan güncelle; kod değişmez.",
+  "platformlar": {
+    "x": {
+      "ad": "X (Twitter)",
+      "kaynak": "xai-org/x-algorithm (Ocak 2026 açık kaynak) + sektör analizleri",
+      "etkilesimAgirliklari": {
+        "begeni": 1,
+        "repost": 20,
+        "yanit": 13.5,
+        "profilTiklama": 12,
+        "linkTiklama": 11,
+        "yerImi": 10,
+        "yazarYanitVermesi": 75
+      },
+      "kurallar": [
+        {
+          "id": "harici-link",
+          "aciklama": "Metin içinde harici bağlantı erişimi %50-70 düşürüyor. Link ana posta değil, yanıta konmalı.",
+          "etki": -3,
+          "tip": "ceza"
+        },
+        {
+          "id": "yanit-daveti",
+          "aciklama": "Yanıt en değerli sinyal (13.5x) ve yazarın yanıt vermesi en güçlüsü (75x). Post tartışma başlatmalı: soru, karşıt görüş ya da tercih sorusu.",
+          "etki": 3,
+          "tip": "odul"
+        },
+        {
+          "id": "yerli-medya",
+          "aciklama": "Platforma doğrudan yüklenen görsel/video dağıtımı artırıyor. Video en güçlü, ama X'te metin videoyu %30 geçiyor - yani medya destek olmalı, metnin yerine geçmemeli.",
+          "etki": 2,
+          "tip": "odul"
+        },
+        {
+          "id": "kanca",
+          "aciklama": "İlk satır akışta tek başına görünüyor. Merak, iddia ya da sayı ile açılmalı.",
+          "etki": 2,
+          "tip": "odul"
+        },
+        {
+          "id": "somutluk",
+          "aciklama": "İsim, sayı, tarih içeren postlar daha çok kaydediliyor ve tıklanıyor (yer imi 10x, profil tıklama 12x).",
+          "etki": 2,
+          "tip": "odul"
+        },
+        {
+          "id": "ilk-yarim-saat",
+          "aciklama": "İlk 30 dakikadaki etkileşim hızı dağıtımı belirliyor. Hedef kitlenin aktif olduğu saatte paylaş.",
+          "etki": 1,
+          "tip": "odul"
+        },
+        {
+          "id": "hashtag-yigini",
+          "aciklama": "İkiden fazla hashtag spam sinyali veriyor.",
+          "etki": -2,
+          "tip": "ceza"
+        },
+        {
+          "id": "video-suresi",
+          "aciklama": "2 dakika 20 saniyenin altındaki dikey video ilk dağıtımda en iyi sonucu veriyor.",
+          "etki": 1,
+          "tip": "odul"
+        }
+      ]
+    },
+    "instagram": {
+      "ad": "Instagram",
+      "kaynak": "sektör analizleri",
+      "kurallar": [
+        { "id": "reels-oncelik", "aciklama": "Reels dağıtımda tek görsele göre öncelikli.", "etki": 3, "tip": "odul" },
+        { "id": "kaydetme", "aciklama": "Kaydetme ve paylaşma beğeniden değerli; faydalı/liste içerik kaydedilir.", "etki": 2, "tip": "odul" },
+        { "id": "ilk-uc-saniye", "aciklama": "Videoda ilk 3 saniye izlenme oranını belirliyor.", "etki": 3, "tip": "odul" },
+        { "id": "harici-link", "aciklama": "Metinde link tıklanamıyor; erişime katkısı yok.", "etki": -1, "tip": "ceza" }
+      ]
+    },
+    "youtube": {
+      "ad": "YouTube Shorts",
+      "kaynak": "sektör analizleri",
+      "kurallar": [
+        { "id": "izlenme-orani", "aciklama": "Tamamlanma oranı en güçlü sinyal; kısa ve tempolu olmalı.", "etki": 3, "tip": "odul" },
+        { "id": "baslik-kanca", "aciklama": "Başlık merak boşluğu yaratmalı ama clickbait olmamalı.", "etki": 2, "tip": "odul" }
+      ]
+    },
+    "tiktok": {
+      "ad": "TikTok",
+      "kaynak": "sektör analizleri",
+      "kurallar": [
+        { "id": "ilk-saniye", "aciklama": "İlk saniyede kanca yoksa kaydırılıyor.", "etki": 3, "tip": "odul" },
+        { "id": "yorum-daveti", "aciklama": "Yorum ve tekrar izlenme dağıtımı büyütüyor.", "etki": 2, "tip": "odul" }
+      ]
+    },
+    "bluesky": {
+      "ad": "Bluesky",
+      "kaynak": "kronolojik + besleme tabanlı",
+      "kurallar": [
+        { "id": "kronolojik", "aciklama": "Sıralama büyük ölçüde kronolojik; paylaşım saati algoritmadan önemli.", "etki": 2, "tip": "odul" },
+        { "id": "link-cezasi-yok", "aciklama": "Harici bağlantı cezası yok; kaynak paylaşmak serbest.", "etki": 0, "tip": "notr" }
+      ]
+    }
+  }
+}

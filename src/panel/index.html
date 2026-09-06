@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>socialmediai paneli</title>
+<title>socialotocreative</title>
 <style>
   :root{
     --bg:#f6f7f9; --card:#fff; --ink:#12151a; --muted:#6b7480; --line:#e2e6ea;
     --accent:#2f6fed; --ok:#12855a; --warn:#a8690b; --bad:#c33f38; --chip:#eef1f5;
+    --yildiz:#e0a33c;
   }
   @media (prefers-color-scheme:dark){
     :root{ --bg:#0f1216; --card:#171b21; --ink:#e8ecf1; --muted:#96a0ac; --line:#252b33;
@@ -17,8 +18,9 @@
   body{margin:0;background:var(--bg);color:var(--ink);
        font:14px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
   header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);
-         padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-  h1{font-size:15px;margin:0;font-weight:650;letter-spacing:-.01em}
+         padding:10px 18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  h1{font-size:15px;margin:0;font-weight:650;letter-spacing:-.01em;cursor:pointer}
+  h2{font-size:17px;margin:0 0 4px}
   .grow{flex:1}
   .chip{background:var(--chip);border-radius:999px;padding:3px 10px;font-size:12px;color:var(--muted);white-space:nowrap}
   .chip b{color:var(--ink);font-weight:600}
@@ -28,78 +30,86 @@
   button:disabled{opacity:.45;cursor:not-allowed}
   button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
   button.ok{color:var(--ok)} button.bad{color:var(--bad)}
-  main{max-width:1080px;margin:0 auto;padding:18px}
-  nav{display:flex;gap:6px;margin-bottom:16px}
+  button.mini{padding:4px 9px;font-size:12px}
+  main{max-width:1100px;margin:0 auto;padding:18px}
+  nav{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
   nav button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .muted{color:var(--muted)}
-  .small{font-size:12px}
+  .muted{color:var(--muted)} .small{font-size:12px}
   .status{font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:650;padding:2px 8px;
           border-radius:999px;background:var(--chip)}
   .s-pending_approval{color:var(--warn)} .s-approved{color:var(--ok)} .s-published{color:var(--ok)}
   .s-failed{color:var(--bad)} .s-rejected{color:var(--bad)} .s-draft{color:var(--muted)}
-  textarea{width:100%;min-height:84px;resize:vertical;font:inherit;padding:10px;border-radius:8px;
+  .s-scripted{color:var(--accent)}
+  textarea{width:100%;min-height:80px;resize:vertical;font:inherit;padding:10px;border-radius:8px;
            border:1px solid var(--line);background:var(--bg);color:var(--ink)}
   input,select{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--line);
                background:var(--bg);color:var(--ink);width:100%}
-  /* Maskeleme CSS ile: type=password kullanmak tarayici parola yoneticisini
-     tetikliyor ve API anahtarlarini kasasina kaydetmeyi teklif ediyordu. */
-  input.gizli{-webkit-text-security:disc;text-security:disc;font-family:monospace;letter-spacing:.08em}
-  input.gizli:focus{-webkit-text-security:none;text-security:none;letter-spacing:0}
-  .ipucu{font-size:12px;color:var(--muted);margin-top:6px}
+  input.gizli{-webkit-text-security:disc;font-family:monospace;letter-spacing:.08em}
+  input.gizli:focus{-webkit-text-security:none;letter-spacing:0}
   label{display:block;margin:10px 0 4px;font-size:12px;color:var(--muted)}
   .variant{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
   .variant h4{margin:0 0 6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-  img.preview,video.preview{max-width:220px;border-radius:10px;border:1px solid var(--line);display:block;margin-top:10px}
-  .targets{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0}
-  .targets label{display:flex;gap:6px;align-items:center;margin:0;font-size:13px;color:var(--ink)}
-  .targets input{width:auto}
-  table{width:100%;border-collapse:collapse}
-  td,th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
-  th{font-size:12px;color:var(--muted);font-weight:600}
+  img.preview,video.preview{max-width:190px;border-radius:10px;border:1px solid var(--line);display:block;margin-top:10px}
+
+  .hesaplar{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .hesap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;cursor:pointer}
+  .hesap:hover{border-color:var(--accent)}
+  .hesap .ad{font-weight:650;font-size:15px}
+  .hesap .plat{font-size:12px;color:var(--muted);margin-top:2px}
+  .hesap .sayilar{display:flex;gap:14px;margin-top:12px;font-size:12px;color:var(--muted)}
+  .hesap .sayilar b{color:var(--ink);font-size:15px;display:block}
+
+  .yildizlar{color:var(--yildiz);letter-spacing:2px;font-size:15px}
+  .yildizlar .bos{color:var(--line)}
+  .puankutu{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0;background:var(--bg)}
+  .sinyal{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;margin:3px 4px 0 0;background:var(--chip)}
+  .sinyal.arti{color:var(--ok)} .sinyal.eksi{color:var(--bad)}
+
   .adaylar{display:none;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
   .adaylar[data-acik]{display:block}
   .adaylar .ust{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-  .adaylar .ust input{flex:1;min-width:180px}
-  .izgara{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .adaylar .ust input{flex:1;min-width:170px}
+  .izgara{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
   .aday{border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;background:var(--card)}
   .aday:hover{border-color:var(--accent)}
-  .aday img{width:100%;height:110px;object-fit:cover;display:block}
+  .aday img{width:100%;height:100px;object-fit:cover;display:block}
   .aday .bilgi{padding:6px 8px;font-size:11px;color:var(--muted);line-height:1.35}
+
+  table{width:100%;border-collapse:collapse}
+  td,th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{font-size:12px;color:var(--muted);font-weight:600}
   #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
-         padding:10px 18px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:80vw}
+         padding:10px 18px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:80vw;z-index:9}
   #toast.on{opacity:1}
   .empty{text-align:center;color:var(--muted);padding:40px 0}
   code{background:var(--chip);padding:1px 5px;border-radius:4px;font-size:12px}
+  .geri{background:none;border:none;color:var(--accent);padding:0;margin-bottom:10px}
 </style>
 </head>
 <body>
 <header>
-  <h1>socialmediai</h1>
+  <h1 id="logo">socialotocreative</h1>
   <span class="chip">LLM <b id="c-llm">-</b></span>
-  <span class="chip">görsel <b id="c-img">-</b></span>
   <span class="chip">DRY_RUN <b id="c-dry">-</b></span>
-  <span class="chip">otomatik onay <b id="c-auto">-</b></span>
+  <span class="chip">onay <b id="c-auto">-</b></span>
   <span class="grow"></span>
   <button data-stage="ideate">Fikir bul</button>
-  <button data-stage="write">Metin yaz</button>
-  <button data-stage="generate">Medya üret</button>
-  <button data-stage="publish">Yayınla</button>
   <button class="primary" data-stage="run">Tam tur</button>
 </header>
 
 <main>
   <nav>
-    <button id="tab-queue" aria-selected="true">Kuyruk</button>
+    <button id="tab-ana" aria-selected="true">Ana Sayfa</button>
     <button id="tab-kategoriler" aria-selected="false">Kategoriler</button>
-    <button id="tab-teams" aria-selected="false">Ekipler</button>
-    <button id="tab-accounts" aria-selected="false">Hesaplar</button>
+    <button id="tab-ekipler" aria-selected="false">Ekipler</button>
+    <button id="tab-hesaplar" aria-selected="false">Hesap Ekle</button>
   </nav>
-  <div id="view-queue"></div>
+  <div id="view-ana"></div>
   <div id="view-kategoriler" hidden></div>
-  <div id="view-teams" hidden></div>
-  <div id="view-accounts" hidden></div>
+  <div id="view-ekipler" hidden></div>
+  <div id="view-hesaplar" hidden></div>
 </main>
 
 <div id="toast"></div>
@@ -107,6 +117,10 @@
 <script>
 const $ = (s, r = document) => r.querySelector(s);
 let STATE = { posts: [], accounts: [], platforms: [], teams: [], plan: [], kategoriler: [], config: {} };
+
+/* Gezinme: SECILI_HESAP null ise hesap listesi, doluysa o hesabin sayfasi. */
+let SECILI_HESAP = null;
+let SECILI_KATEGORI = null;
 
 function toast(msg, ms = 2600) {
   const t = $('#toast');
@@ -130,216 +144,198 @@ async function call(path, body) {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 const platformOf = (id) => STATE.platforms.find((p) => p.id === id);
 const accountOf = (id) => STATE.accounts.find((a) => a.id === id);
+const katOf = (id) => STATE.kategoriler.find((k) => k.id === id);
+const host = (u) => { try { return new URL(u).hostname.replace('www.',''); } catch { return u; } };
+
+function yildiz(n) {
+  return `<span class="yildizlar">${'★'.repeat(n)}<span class="bos">${'☆'.repeat(5 - n)}</span></span>`;
+}
 
 async function refresh() {
   STATE = await call('/api/state');
   const c = STATE.config;
   $('#c-llm').textContent = c.llm;
-  $('#c-img').textContent = c.image;
   $('#c-dry').textContent = c.dryRun ? 'açık' : 'kapalı';
-  $('#c-auto').textContent = c.autoApprove ? 'açık' : 'kapalı';
-  renderQueue();
-  renderTeams();
+  $('#c-auto').textContent = c.autoApprove ? 'otomatik' : 'elle';
+  renderAna();
   renderKategoriler();
-  renderAccounts();
+  renderEkipler();
+  renderHesapEkle();
 }
 
-/* ------------------------------------------------------------------ ekipler */
+/* ============================================================ ANA SAYFA */
 
-function renderTeams() {
-  const plan = STATE.plan ?? [];
-  const teams = STATE.teams ?? [];
-
-  const planRows = plan.length
-    ? plan.map((g) => `<tr>
-        <td><code>${esc(g.tur)}</code></td>
-        <td class="muted small">x${g.adet}</td>
-        <td class="small">${esc(g.sebep)}</td>
-        <td class="small muted">${esc((teams.find((t) => t.handles.includes(g.tur)) || {}).id ?? 'ekip yok')}</td>
-      </tr>`).join('')
-    : `<tr><td colspan="4" class="muted">Yapılacak iş yok.</td></tr>`;
-
-  $('#view-teams').innerHTML = `
-    <div class="card">
-      <div class="row"><b class="grow">Liderin sıradaki planı</b>
-        <span class="muted small">durum okunarak üretildi</span></div>
-      <table><thead><tr><th>Görev</th><th>Adet</th><th>Gerekçe</th><th>Ekip</th></tr></thead>
-        <tbody>${planRows}</tbody></table>
-    </div>
-
-    ${teams.map((t) => `<div class="card">
-      <div class="row">
-        <b class="grow">${esc(t.id)}</b>
-        ${t.lead ? `<span class="chip">lider <b>${esc(t.lead)}</b></span>` : ''}
-      </div>
-      <div class="muted small">${esc(t.role)}</div>
-      <div class="row" style="margin-top:10px">
-        ${t.members.map((m) => `<span class="chip">${esc(m)}</span>`).join('')}
-      </div>
-      <div class="muted small" style="margin-top:8px">üstlendiği görevler: ${t.handles.map((h) => `<code>${esc(h)}</code>`).join(' ')}</div>
-    </div>`).join('')}`;
+function renderAna() {
+  const el = $('#view-ana');
+  if (!SECILI_HESAP) return renderHesapListesi(el);
+  renderHesapSayfasi(el);
 }
 
-/**
- * Seçim hedefle çelişiyorsa uyar. Örneğin YouTube hedefliyken "sadece görsel"
- * seçmek yayın anında anlaşılmaz bir hataya dönüşür; burada söylemek daha iyi.
- */
-function medyaUyarisi(p) {
-  const tercih = p.medya ?? 'otomatik';
-  if (tercih === 'otomatik') return '';
-  const gerekli = new Set(
-    p.targets
-      .map((id) => accountOf(id))
-      .filter(Boolean)
-      .map((a) => (platformOf(a.platform) || {}).needs)
-      .filter(Boolean),
-  );
-  if (gerekli.has('video') && tercih !== 'video') {
-    return `<span class="muted small" style="color:var(--bad)">hedeflerden biri video istiyor</span>`;
-  }
-  if (gerekli.has('image') && tercih === 'yok') {
-    return `<span class="muted small" style="color:var(--bad)">hedeflerden biri görsel istiyor</span>`;
-  }
-  return '';
-}
-
-/**
- * Web görsel adaylarını getirip ızgarada gösterir.
- * Kullanıcı arama terimini değiştirebilir; boş bırakırsa senaryo ajanının
- * ürettiği görsel istemi kullanılır.
- */
-async function gorselAra(id, sorgu) {
-  const kutu = $(`#adaylar-${id}`);
-  const kaynaklar = [...document.querySelectorAll(`[data-kaynak="${id}"]:checked`)].map((c) => c.value);
-  try {
-    const r = await call('/api/post/gorsel-ara', {
-      id,
-      sorgu,
-      kaynaklar: kaynaklar.length ? kaynaklar : ['openverse'],
-    });
-
-    kutu.innerHTML = `
-      <div class="ust">
-        <input id="sorgu-${id}" value="${esc(r.terim)}" placeholder="arama terimi">
-        <button data-arabuton="${id}">Ara</button>
-        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
-          <input type="checkbox" data-kaynak="${id}" value="openverse" checked style="width:auto"> foto (CC)
-        </label>
-        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
-          <input type="checkbox" data-kaynak="${id}" value="imgflip" style="width:auto"> mizah
-        </label>
-      </div>
-      ${r.adaylar.length
-        ? `<div class="izgara">${r.adaylar.map((a) => `
-            <div class="aday" data-secaday="${encodeURIComponent(JSON.stringify(a))}" title="tıkla ve bu görseli kullan">
-              <img src="${esc(a.thumb)}" loading="lazy" alt="">
-              <div class="bilgi"><b>${esc(a.kaynak)}</b><br>${esc((a.baslik || '').slice(0, 46))}${a.lisans ? `<br>${esc(a.lisans.slice(0, 40))}` : ''}</div>
-            </div>`).join('')}</div>`
-        : '<div class="muted small">sonuç yok — arama terimini değiştir</div>'}`;
-  } catch (e) {
-    kutu.innerHTML = `<div class="small" style="color:var(--bad)">hata: ${esc(e.message)}</div>`;
-  }
-}
-
-/* ------------------------------------------------------------------ kuyruk */
-
-function renderQueue() {
-  const el = $('#view-queue');
-  if (!STATE.posts.length) {
-    el.innerHTML = `<div class="empty">Kuyruk boş. Yukarıdan <b>Fikir üret</b>'e bas.</div>`;
+function renderHesapListesi(el) {
+  if (!STATE.accounts.length) {
+    el.innerHTML = `<div class="empty">Henüz hesap yok.<br><br><b>Hesap Ekle</b> sekmesinden bir platform bağla.</div>`;
     return;
   }
-
-  el.innerHTML = STATE.posts.map((p) => {
-    const variants = Object.entries(p.variants).map(([pid, text]) => {
-      const lim = platformOf(pid)?.limits.text ?? 500;
-      return `<div class="variant">
-        <h4>${esc(platformOf(pid)?.label ?? pid)} · <span class="${text.length > lim ? 'bad' : ''}">${text.length}/${lim}</span></h4>
-        <textarea data-text="${p.id}" data-platform="${pid}">${esc(text)}</textarea>
-      </div>`;
-    }).join('');
-
-    const targets = STATE.accounts.map((a) => `
-      <label><input type="checkbox" data-target="${p.id}" value="${a.id}"
-        ${p.targets.includes(a.id) ? 'checked' : ''} ${a.enabled ? '' : 'disabled'}>
-        ${esc(a.label)} <span class="muted small">${esc(a.platform)}</span></label>`).join('');
-
-    const media = p.media.map((m) => {
-      const src = `/media/${encodeURIComponent(m.path.split('/').pop())}`;
-      return m.kind === 'video'
-        ? `<video class="preview" src="${src}" controls preload="metadata"></video>`
-        : `<img class="preview" src="${src}" alt="${esc(m.alt)}">`;
-    }).join('');
-
-    const results = p.results.length ? `<div class="small muted" style="margin-top:8px">` + p.results.map((r) =>
-      `${r.ok ? '✓' : '✗'} ${esc(accountOf(r.accountId)?.label ?? r.platform)}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 120)) : ''}`
-    ).join('<br>') + `</div>` : '';
-
-    return `<div class="card">
-      <div class="row">
-        <span class="status s-${p.status}">${p.status}</span>
-        <b class="grow">${esc(p.topic)}</b>
-        <span class="muted small">${p.id}</span>
-      </div>
-      ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
-      ${Object.keys(p.variants).length ? '' : `<div class="muted small" style="color:var(--warn);margin-top:6px">Metin henüz yazılmadı — yukarıdan <b>Metin yaz</b>'a bas.</div>`}
-      ${variants}
-      ${media}
-      ${STATE.accounts.length ? `<div class="targets">${targets}</div>` : '<div class="muted small">Hedef hesap yok — Hesaplar sekmesinden ekle.</div>'}
-      <div class="row" style="margin-top:10px">
-        <label style="margin:0;font-size:12px">Kategori</label>
-        <select data-kategori="${p.id}" style="width:auto;min-width:170px">
-          <option value="">— yok —</option>
-          ${STATE.kategoriler.map((k) => `<option value="${k.id}" ${p.kategori === k.id ? 'selected' : ''}>${esc(k.ad)}</option>`).join('')}
-        </select>
-        <label style="margin:0;font-size:12px">Medya</label>
-        <select data-medya="${p.id}" style="width:auto;min-width:190px">
-          ${[['otomatik','Otomatik (hedefe göre)'],['gorsel','Sadece görsel'],['video','Video üret'],['yok','Medyasız (yalnız metin)']]
-            .map(([v,t]) => `<option value="${v}" ${(p.medya ?? 'otomatik') === v ? 'selected' : ''}>${t}</option>`).join('')}
-        </select>
-        ${medyaUyarisi(p)}
-      </div>
-      ${results}
-      <div class="row" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">
-        <span class="muted small" style="min-width:52px">Üret</span>
-        <button data-yaz="${p.id}">Metin yaz</button>
-        <button data-medyauret="${p.id}" ${p.script ? '' : 'disabled title="Önce metin yazılmalı"'}>Medya üret</button>
-        <button data-gorseluret="${p.id}" ${p.script ? '' : 'disabled title="Önce metin yazılmalı"'}>AI görsel</button>
-        <button data-gorselara="${p.id}">Web'den görsel ara</button>
-      </div>
-      <div class="adaylar" id="adaylar-${p.id}" hidden></div>
-
-      <div class="row" style="margin-top:10px">
-        <button class="ok" data-decide="approved" data-id="${p.id}"
-          ${Object.keys(p.variants).length ? '' : 'disabled title="Önce metin yazılmalı"'}>Onayla</button>
-        <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
-        <button data-decide="draft" data-id="${p.id}">Taslağa al</button>
-        <span class="grow"></span>
-        <button data-del="${p.id}" class="bad" style="opacity:.7">Sil</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-/* --------------------------------------------------------------- kategoriler */
-
-function renderKategoriler() {
-  const el = $('#view-kategoriler');
-  const ks = STATE.kategoriler ?? [];
-
   el.innerHTML = `
     <div class="card">
+      <h2>Bağlı hesaplar</h2>
+      <div class="muted small">Bir hesaba tıkla, o platform için hazırlanmış post önerilerini gör.</div>
+    </div>
+    <div class="hesaplar">
+      ${STATE.accounts.map((a) => {
+        const postlar = STATE.posts.filter((p) => p.targets.includes(a.id));
+        const oneri = postlar.filter((p) => p.status !== 'published' && p.status !== 'rejected').length;
+        const yayin = postlar.filter((p) => p.status === 'published').length;
+        const enIyi = Math.max(0, ...postlar.map((p) => (p.puan && p.puan.yildiz) || 0));
+        return `<div class="hesap" data-hesap="${a.id}">
+          <div class="ad">${esc(a.label)}</div>
+          <div class="plat">${esc((platformOf(a.platform) || {}).label || a.platform)} · ${esc(a.verifiedAs || '')}</div>
+          <div class="sayilar">
+            <div><b>${oneri}</b>öneri</div>
+            <div><b>${yayin}</b>yayında</div>
+            <div><b>${enIyi || '—'}</b>en iyi ★</div>
+          </div>
+          ${a.enabled ? '' : '<div class="small" style="color:var(--bad);margin-top:8px">kapalı</div>'}
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function renderHesapSayfasi(el) {
+  const a = accountOf(SECILI_HESAP);
+  if (!a) { SECILI_HESAP = null; return renderHesapListesi(el); }
+
+  const hepsi = STATE.posts.filter((p) => p.targets.includes(a.id));
+  const kategoriler = STATE.kategoriler.filter((k) => k.aktif);
+  const secili = SECILI_KATEGORI ? hepsi.filter((p) => p.kategori === SECILI_KATEGORI) : hepsi;
+
+  /* En yuksek yildiz en ustte: once en iyi oneri gorunsun. */
+  const sirali = secili.slice().sort((x, y) => ((y.puan && y.puan.yildiz) || 0) - ((x.puan && x.puan.yildiz) || 0));
+
+  el.innerHTML = `
+    <button class="geri" id="geri">← bağlı hesaplar</button>
+    <div class="card">
       <div class="row">
-        <b class="grow">İçerik kategorileri</b>
-        <span class="muted small">${ks.length} kategori · sırayla kullanılır</span>
+        <div class="grow">
+          <h2>${esc(a.label)}</h2>
+          <div class="muted small">${esc((platformOf(a.platform) || {}).label || a.platform)} · ${esc(a.verifiedAs || '')}</div>
+        </div>
+        <button class="primary" data-hesapyaz="${a.id}">Bu hesap için içerik üret</button>
       </div>
-      <div class="muted small" style="margin-top:6px">
-        Kategori bir konu değil, bir <b>biçim sözleşmesi</b>. Aynı kalıbın üst üste
-        gelmemesi için en uzun süredir kullanılmayan kategori seçilir; ağırlık bekleme
-        süresini kısaltır.
+      <label>Post kategorisi</label>
+      <div class="row">
+        <button class="mini ${SECILI_KATEGORI ? '' : 'primary'}" data-katfiltre="">Tümü (${hepsi.length})</button>
+        ${kategoriler.map((k) => {
+          const n = hepsi.filter((p) => p.kategori === k.id).length;
+          return `<button class="mini ${SECILI_KATEGORI === k.id ? 'primary' : ''}" data-katfiltre="${k.id}">${esc(k.ad)} (${n})</button>`;
+        }).join('')}
       </div>
     </div>
+    ${sirali.length ? sirali.map(postKarti).join('')
+      : `<div class="empty">Bu kategoride henüz öneri yok.<br><br>Yukarıdan <b>Bu hesap için içerik üret</b>'e bas.</div>`}`;
+}
 
+/* ============================================================ POST KARTI */
+
+function postKarti(p) {
+  const acc = accountOf(p.targets[0]) || {};
+  const platformId = acc.platform || 'x';
+  const lim = (platformOf(platformId) || {}).limits ? platformOf(platformId).limits.text : 500;
+  const metin = p.variants[platformId] || Object.values(p.variants)[0] || '';
+
+  const puanKutu = p.puan ? `
+    <div class="puankutu">
+      <div class="row">
+        ${yildiz(p.puan.yildiz)}
+        <span class="muted small grow">${esc(p.puan.gerekce)}</span>
+        <button class="mini" data-puanla="${p.id}">yeniden puanla</button>
+      </div>
+      <div style="margin-top:6px">
+        ${p.puan.sinyaller.map((s) => `<span class="sinyal ${s.etki > 0 ? 'arti' : s.etki < 0 ? 'eksi' : ''}">${s.etki > 0 ? '+' : ''}${s.etki} ${esc(s.aciklama)}</span>`).join('')}
+      </div>
+      ${p.puan.oneri ? `<div class="small" style="margin-top:8px;color:var(--warn)">Öneri: ${esc(p.puan.oneri)}</div>` : ''}
+    </div>`
+    : `<div class="row" style="margin:8px 0">
+        <span class="muted small grow">henüz puanlanmadı</span>
+        <button class="mini" data-puanla="${p.id}" ${metin ? '' : 'disabled'}>puanla</button>
+      </div>`;
+
+  const adaylar = (p.metinAdaylari || {})[platformId] || [];
+  const metinAdaylari = adaylar.length ? `
+    <div class="variant">
+      <h4>Alternatif metinler (${adaylar.length})</h4>
+      ${adaylar.map((ad, i) => `<div class="row" style="align-items:flex-start;margin-bottom:8px">
+        ${ad.puan ? yildiz(ad.puan.yildiz) : '<span class="muted small">—</span>'}
+        <div class="grow small">${esc(ad.metin)}</div>
+        <button class="mini" data-metinsec="${p.id}" data-mplat="${platformId}" data-mindex="${i}">bunu kullan</button>
+      </div>`).join('')}
+    </div>` : '';
+
+  const media = p.media.map((m) => {
+    const src = `/media/${encodeURIComponent(m.path.split('/').pop())}`;
+    return m.kind === 'video'
+      ? `<video class="preview" src="${src}" controls preload="metadata"></video>`
+      : `<img class="preview" src="${src}" alt="">`;
+  }).join('');
+
+  const sonuc = p.results.length
+    ? `<div class="small muted" style="margin-top:8px">` + p.results.map((r) =>
+        `${r.ok ? '✓' : '✗'} ${esc((accountOf(r.accountId) || {}).label || r.platform)}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 120)) : ''}`
+      ).join('<br>') + `</div>`
+    : '';
+
+  return `<div class="card">
+    <div class="row">
+      <span class="status s-${p.status}">${p.status}</span>
+      ${p.kategori ? `<span class="chip">${esc((katOf(p.kategori) || {}).ad || p.kategori)}</span>` : ''}
+      <b class="grow">${esc(p.topic)}</b>
+      <span class="muted small">${p.id}</span>
+    </div>
+    ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
+    ${puanKutu}
+    ${metin ? `<div class="variant">
+        <h4>${esc((platformOf(platformId) || {}).label || platformId)} · ${metin.length}/${lim}</h4>
+        <textarea data-text="${p.id}" data-platform="${platformId}">${esc(metin)}</textarea>
+      </div>`
+      : `<div class="small" style="color:var(--warn)">Metin yazılmadı — aşağıdan <b>Metin</b>'e bas.</div>`}
+    ${metinAdaylari}
+    ${media}
+
+    <div class="row" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">
+      <span class="muted small" style="min-width:40px">Üret</span>
+      <button class="mini" data-yaz="${p.id}">Metin</button>
+      <button class="mini" data-medyauret="${p.id}" ${p.script ? '' : 'disabled'}>Medya</button>
+      <button class="mini" data-gorseluret="${p.id}" ${p.script ? '' : 'disabled'}>AI görsel</button>
+      <button class="mini" data-gorselara="${p.id}">Web görsel</button>
+      <span class="muted small" style="margin-left:6px">Medya</span>
+      <select data-medya="${p.id}" style="width:auto">
+        ${[['otomatik','otomatik'],['gorsel','görsel'],['video','video'],['yok','yok']]
+          .map((o) => `<option value="${o[0]}" ${(p.medya || 'otomatik') === o[0] ? 'selected' : ''}>${o[1]}</option>`).join('')}
+      </select>
+    </div>
+    <div class="adaylar" id="adaylar-${p.id}" hidden></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="ok" data-decide="approved" data-id="${p.id}" ${metin ? '' : 'disabled'}>Onayla</button>
+      <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
+      <button data-yayinla="${p.id}" ${p.status === 'approved' ? '' : 'disabled'}>Yayınla</button>
+      <span class="grow"></span>
+      <button data-del="${p.id}" class="bad" style="opacity:.7">Sil</button>
+    </div>
+    ${sonuc}
+  </div>`;
+}
+
+/* =========================================================== KATEGORILER */
+
+function renderKategoriler() {
+  const ks = STATE.kategoriler || [];
+  $('#view-kategoriler').innerHTML = `
+    <div class="card">
+      <h2>İçerik kategorileri</h2>
+      <div class="muted small">Kategori bir konu değil, bir <b>biçim sözleşmesi</b>.
+      Her kategorinin kendi haber kaynakları var. Sırayla kullanılır; ağırlık sıklığı belirler.</div>
+    </div>
     ${ks.map((k) => `<div class="card">
       <div class="row">
         <b class="grow">${esc(k.ad)}</b>
@@ -348,92 +344,77 @@ function renderKategoriler() {
         ${k.aktif ? '<span class="status s-approved">açık</span>' : '<span class="status s-rejected">kapalı</span>'}
       </div>
       <div class="muted small" style="margin-top:4px">${esc(k.aciklama)}</div>
+      <div class="muted small" style="margin-top:6px">${(k.kaynaklar || []).length} kaynak: ${(k.kaynaklar || []).map(host).map(esc).join(', ')}</div>
       <label>Biçim yönergesi (doğrudan modele gider)</label>
       <textarea data-kyonerge="${k.id}">${esc(k.yonerge)}</textarea>
       <div class="row" style="margin-top:8px">
-        <label style="margin:0;font-size:12px">Medya</label>
         <select data-kmedya="${k.id}" style="width:auto">
           ${['otomatik','gorsel','video','yok'].map((v) => `<option value="${v}" ${k.medya === v ? 'selected' : ''}>${v}</option>`).join('')}
         </select>
-        <label style="margin:0;font-size:12px">Ağırlık</label>
         <input type="number" min="0" max="9" value="${k.agirlik}" data-kagirlik="${k.id}" style="width:70px">
         <button data-ktoggle="${k.id}">${k.aktif ? 'Kapat' : 'Aç'}</button>
         <span class="grow"></span>
-        <button data-kkaydet="${k.id}" class="primary">Kaydet</button>
-        <button data-ksil="${k.id}" class="bad" style="opacity:.7">Sil</button>
+        <button class="primary" data-kkaydet="${k.id}">Kaydet</button>
+        <button class="bad" data-ksil="${k.id}" style="opacity:.7">Sil</button>
       </div>
-      ${k.sonKullanim ? `<div class="muted small" style="margin-top:6px">son kullanım: ${new Date(k.sonKullanim).toLocaleString('tr')}</div>` : '<div class="muted small" style="margin-top:6px">henüz kullanılmadı</div>'}
-    </div>`).join('')}
-
-    <div class="card">
-      <b>Yeni kategori</b>
-      <label>Kimlik (küçük harf, tire)</label>
-      <input id="yk-id" placeholder="ornek-kategori">
-      <label>Ad</label>
-      <input id="yk-ad" placeholder="Örnek Kategori">
-      <label>Açıklama</label>
-      <input id="yk-aciklama" placeholder="Ne tür içerik üretir">
-      <label>Biçim yönergesi</label>
-      <textarea id="yk-yonerge" placeholder="Modele verilecek talimat: yapı, ton, ne yapılmayacak"></textarea>
-      <div class="row" style="margin-top:10px">
-        <button class="primary" id="yk-kaydet">Ekle</button>
-      </div>
-    </div>`;
+    </div>`).join('')}`;
 }
 
-/* ----------------------------------------------------------------- hesaplar */
+/* =============================================================== EKIPLER */
 
-function renderAccounts() {
-  const el = $('#view-accounts');
-
-  // Yeniden çizim yazılanları uçurmasın: önce sakla, sonra geri koy.
-  const saklanan = {};
-  for (const i of el.querySelectorAll('input[data-f], #f-label')) {
-    if (i.value) saklanan[i.dataset.f ?? i.id] = i.value;
-  }
-  const secili = $('#new-platform')?.value;
-  const rows = STATE.accounts.map((a) => `<tr>
-      <td><b>${esc(a.label)}</b><div class="muted small">${esc(a.id)}</div></td>
-      <td>${esc(platformOf(a.platform)?.label ?? a.platform)}</td>
-      <td class="small">${esc(a.verifiedAs ?? '—')}</td>
-      <td>${a.enabled ? '<span class="status s-approved">açık</span>' : '<span class="status s-rejected">kapalı</span>'}</td>
-      <td style="text-align:right;white-space:nowrap">
-        <button data-verify="${a.id}">Test</button>
-        <button data-toggle="${a.id}">${a.enabled ? 'Kapat' : 'Aç'}</button>
-        <button class="bad" data-rm="${a.id}">Sil</button>
-      </td>
-    </tr>`).join('');
-
-  el.innerHTML = `
+function renderEkipler() {
+  const plan = STATE.plan || [];
+  const teams = STATE.teams || [];
+  $('#view-ekipler').innerHTML = `
     <div class="card">
-      <div class="row"><b class="grow">Bağlı hesaplar</b><span class="muted small">${STATE.accounts.length} hesap</span></div>
-      ${STATE.accounts.length
-        ? `<table><thead><tr><th>Hesap</th><th>Platform</th><th>Doğrulanan kimlik</th><th>Durum</th><th></th></tr></thead><tbody>${rows}</tbody></table>`
-        : `<div class="empty">Henüz hesap yok. Aşağıdan ekle.</div>`}
+      <h2>Liderin sıradaki planı</h2>
+      <table><thead><tr><th>Görev</th><th>Adet</th><th>Gerekçe</th><th>Ekip</th></tr></thead><tbody>
+      ${plan.length ? plan.map((g) => `<tr>
+          <td><code>${esc(g.tur)}</code></td><td class="muted small">x${g.adet}</td>
+          <td class="small">${esc(g.sebep)}</td>
+          <td class="small muted">${esc((teams.find((t) => t.handles.indexOf(g.tur) >= 0) || {}).id || '—')}</td>
+        </tr>`).join('')
+        : '<tr><td colspan="4" class="muted">Yapılacak iş yok.</td></tr>'}
+      </tbody></table>
     </div>
+    ${teams.map((t) => `<div class="card">
+      <div class="row"><b class="grow">${esc(t.id)}</b>${t.lead ? `<span class="chip">lider <b>${esc(t.lead)}</b></span>` : ''}</div>
+      <div class="muted small">${esc(t.role)}</div>
+      <div class="row" style="margin-top:10px">${t.members.map((m) => `<span class="chip">${esc(m)}</span>`).join('')}</div>
+    </div>`).join('')}`;
+}
 
+/* ========================================================== HESAP EKLEME */
+
+function renderHesapEkle() {
+  $('#view-hesaplar').innerHTML = `
+    <div class="card">
+      <h2>Bağlı hesaplar</h2>
+      ${STATE.accounts.length ? `<table><thead><tr><th>Hesap</th><th>Platform</th><th>Kimlik</th><th>Durum</th><th></th></tr></thead><tbody>
+        ${STATE.accounts.map((a) => `<tr>
+          <td><b>${esc(a.label)}</b><div class="muted small">${esc(a.id)}</div></td>
+          <td>${esc((platformOf(a.platform) || {}).label || a.platform)}</td>
+          <td class="small">${esc(a.verifiedAs || '—')}</td>
+          <td>${a.enabled ? '<span class="status s-approved">açık</span>' : '<span class="status s-rejected">kapalı</span>'}</td>
+          <td style="text-align:right;white-space:nowrap">
+            <button class="mini" data-verify="${a.id}">Test</button>
+            <button class="mini" data-toggle="${a.id}">${a.enabled ? 'Kapat' : 'Aç'}</button>
+            <button class="mini bad" data-rm="${a.id}">Sil</button>
+          </td></tr>`).join('')}</tbody></table>`
+        : '<div class="empty">Henüz hesap yok.</div>'}
+    </div>
     <div class="card">
       <b>Hesap ekle</b>
       <label>Platform</label>
-      <select id="new-platform">
-        ${STATE.platforms.map((p) => `<option value="${p.id}">${esc(p.label)}</option>`).join('')}
-      </select>
+      <select id="new-platform">${STATE.platforms.map((p) => `<option value="${p.id}">${esc(p.label)}</option>`).join('')}</select>
       <div id="new-fields"></div>
       <div class="row" style="margin-top:14px">
         <button class="primary" id="save-account">Doğrula ve kaydet</button>
-        <span class="muted small">Kaydetmeden önce kimlik doğrulanır; hatalıysa eklenmez.</span>
+        <span class="muted small">Kaydetmeden önce kimlik doğrulanır.</span>
       </div>
     </div>`;
-
   const sel = $('#new-platform');
-  if (secili) sel.value = secili;
-  sel.onchange = renderFields;
-  renderFields();
-
-  for (const [k, v] of Object.entries(saklanan)) {
-    const alan = $(`[data-f="${k}"]`) ?? $(`#${k}`);
-    if (alan) alan.value = v;
-  }
+  if (sel) { sel.onchange = renderFields; renderFields(); }
 }
 
 function renderFields() {
@@ -444,165 +425,166 @@ function renderFields() {
     ${def.fields.map((f) => `
       <label>${esc(f.label)}${f.optional ? ' <span class="muted">(isteğe bağlı)</span>' : ''}</label>
       <input data-f="${f.key}" type="text" class="${f.secret ? 'gizli' : ''}"
-             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-             placeholder="${esc(f.placeholder ?? '')}">
-    `).join('')}
-    ${def.fields.some((f) => f.secret) ? `<div class="ipucu">Gizli alanlar maskeli; icine tikladiginda gorunur. Tarayici "parolayi kaydet" teklif ederse <b>Simdi degil</b> de.</div>` : ''}
+             autocomplete="off" spellcheck="false" placeholder="${esc(f.placeholder || '')}">`).join('')}
+    ${def.fields.some((f) => f.secret) ? '<div class="muted small" style="margin-top:6px">Gizli alanlar maskeli; tıklayınca görünür. Tarayıcı "parolayı kaydet" derse <b>Şimdi değil</b>.</div>' : ''}
     ${def.setupHint ? `<div class="muted small" style="margin-top:10px">${esc(def.setupHint)}
       ${def.setupUrl ? `<a href="${esc(def.setupUrl)}" target="_blank" rel="noreferrer">kurulum →</a>` : ''}</div>` : ''}`;
 }
 
-/* -------------------------------------------------------------- olay yakala */
+/* ========================================================= GORSEL ARAMA */
+
+async function gorselAra(id, sorgu) {
+  const kutu = $(`#adaylar-${id}`);
+  const kaynaklar = [].slice.call(document.querySelectorAll(`[data-kaynak="${id}"]:checked`)).map((c) => c.value);
+  try {
+    const r = await call('/api/post/gorsel-ara', { id, sorgu, kaynaklar: kaynaklar.length ? kaynaklar : ['openverse'] });
+    kutu.innerHTML = `
+      <div class="ust">
+        <input id="sorgu-${id}" value="${esc(r.terim)}" placeholder="arama terimi">
+        <button class="mini" data-arabuton="${id}">Ara</button>
+        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
+          <input type="checkbox" data-kaynak="${id}" value="openverse" checked style="width:auto"> foto</label>
+        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
+          <input type="checkbox" data-kaynak="${id}" value="imgflip" style="width:auto"> mizah</label>
+      </div>
+      ${r.adaylar.length ? `<div class="izgara">${r.adaylar.map((a) => `
+        <div class="aday" data-secaday="${encodeURIComponent(JSON.stringify(a))}" title="tıkla ve kullan">
+          <img src="${esc(a.thumb)}" loading="lazy" alt="">
+          <div class="bilgi"><b>${esc(a.kaynak)}</b><br>${esc((a.baslik || '').slice(0, 42))}</div>
+        </div>`).join('')}</div>`
+        : '<div class="muted small">sonuç yok — terimi değiştir</div>'}`;
+  } catch (e) {
+    kutu.innerHTML = `<div class="small" style="color:var(--bad)">hata: ${esc(e.message)}</div>`;
+  }
+}
+
+/* =============================================================== OLAYLAR */
+
+function sekmeGec(which) {
+  ['ana', 'kategoriler', 'ekipler', 'hesaplar'].forEach((n) => {
+    $(`#tab-${n}`).setAttribute('aria-selected', n === which);
+    $(`#view-${n}`).hidden = n !== which;
+  });
+}
 
 document.addEventListener('click', async (e) => {
+  const hesapKart = e.target.closest('[data-hesap]');
+  if (hesapKart) {
+    SECILI_HESAP = hesapKart.dataset.hesap;
+    SECILI_KATEGORI = null;
+    return renderAna();
+  }
+
   const t = e.target.closest('button');
   if (!t) return;
 
+  const isle = async (yol, govde, dugme) => {
+    dugme.disabled = true;
+    const eski = dugme.textContent;
+    dugme.textContent = '…';
+    try {
+      toast((await call(yol, govde)).message || 'tamam');
+      await refresh();
+    } finally {
+      dugme.disabled = false;
+      dugme.textContent = eski;
+    }
+  };
+
   try {
-    if (t.dataset.stage) {
-      const all = [...document.querySelectorAll('header button')];
-      all.forEach((b) => (b.disabled = true));
-      toast('çalışıyor…', 60000);
-      try {
-        const r = await call('/api/run', { stage: t.dataset.stage });
-        toast(r.message);
-      } finally {
-        all.forEach((b) => (b.disabled = false));
-      }
-      return refresh();
+    if (t.id === 'logo') { SECILI_HESAP = null; SECILI_KATEGORI = null; sekmeGec('ana'); return renderAna(); }
+    if (t.id === 'geri') { SECILI_HESAP = null; return renderAna(); }
+    if (t.id && t.id.indexOf('tab-') === 0) return sekmeGec(t.id.slice(4));
+
+    if (t.dataset.katfiltre !== undefined) {
+      SECILI_KATEGORI = t.dataset.katfiltre || null;
+      return renderAna();
     }
 
-    // ---- post basina uretim islemleri ----
-    const isle = async (yol, govde, dugme) => {
-      dugme.disabled = true;
-      const eski = dugme.textContent;
-      dugme.textContent = 'calisiyor...';
-      try {
-        const r = await call(yol, govde);
-        toast(r.message ?? 'tamam');
-        await refresh();
-      } finally {
-        dugme.disabled = false;
-        dugme.textContent = eski;
-      }
-    };
+    if (t.dataset.stage || t.dataset.hesapyaz) {
+      const stage = t.dataset.stage || 'run';
+      const hepsi = [].slice.call(document.querySelectorAll('header button'));
+      hepsi.forEach((b) => (b.disabled = true));
+      t.disabled = true;
+      toast('çalışıyor…', 90000);
+      try { toast((await call('/api/run', { stage })).message); }
+      finally { hepsi.forEach((b) => (b.disabled = false)); t.disabled = false; }
+      return refresh();
+    }
 
     if (t.dataset.yaz) return isle('/api/post/yaz', { id: t.dataset.yaz }, t);
     if (t.dataset.medyauret) return isle('/api/post/medya-uret', { id: t.dataset.medyauret }, t);
     if (t.dataset.gorseluret) return isle('/api/post/gorsel-uret', { id: t.dataset.gorseluret }, t);
+    if (t.dataset.puanla) return isle('/api/post/puanla', { id: t.dataset.puanla }, t);
+    if (t.dataset.yayinla) return isle('/api/run', { stage: 'publish' }, t);
+
+    if (t.dataset.metinsec) {
+      await call('/api/post/metin-sec', {
+        id: t.dataset.metinsec, platform: t.dataset.mplat, index: Number(t.dataset.mindex),
+      });
+      toast('metin değiştirildi');
+      return refresh();
+    }
 
     if (t.dataset.gorselara) {
       const id = t.dataset.gorselara;
       const kutu = $(`#adaylar-${id}`);
-      if (kutu.hasAttribute('data-acik')) {
-        kutu.removeAttribute('data-acik');
-        kutu.hidden = true;
-        return;
-      }
+      if (kutu.hasAttribute('data-acik')) { kutu.removeAttribute('data-acik'); kutu.hidden = true; return; }
       kutu.hidden = false;
       kutu.setAttribute('data-acik', '1');
       kutu.innerHTML = '<div class="muted small">aranıyor…</div>';
-      await gorselAra(id, '');
-      return;
+      return gorselAra(id, '');
     }
-
     if (t.dataset.arabuton) return gorselAra(t.dataset.arabuton, $(`#sorgu-${t.dataset.arabuton}`).value);
 
     if (t.dataset.secaday) {
       const kutu = t.closest('.adaylar');
       const aday = JSON.parse(decodeURIComponent(t.dataset.secaday));
       kutu.innerHTML = '<div class="muted small">indiriliyor…</div>';
-      const r = await call('/api/post/gorsel-sec', { id: kutu.id.replace('adaylar-', ''), aday });
-      toast(r.message);
+      toast((await call('/api/post/gorsel-sec', { id: kutu.id.replace('adaylar-', ''), aday })).message);
       return refresh();
     }
+
+    if (t.dataset.decide) { await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide }); return refresh(); }
+    if (t.dataset.del) { await call('/api/post/delete', { id: t.dataset.del }); toast('silindi'); return refresh(); }
+    if (t.dataset.verify) { toast('bağlantı iyi: ' + (await call('/api/account/verify', { id: t.dataset.verify })).verifiedAs); return refresh(); }
+    if (t.dataset.toggle) { await call('/api/account/toggle', { id: t.dataset.toggle }); return refresh(); }
+    if (t.dataset.rm) { if (!confirm('Hesap silinsin mi?')) return; await call('/api/account/delete', { id: t.dataset.rm }); return refresh(); }
 
     if (t.dataset.kkaydet) {
       const id = t.dataset.kkaydet;
       const k = STATE.kategoriler.find((x) => x.id === id);
-      await call('/api/kategori/kaydet', {
-        ...k,
+      await call('/api/kategori/kaydet', Object.assign({}, k, {
         yonerge: $(`[data-kyonerge="${id}"]`).value,
         medya: $(`[data-kmedya="${id}"]`).value,
         agirlik: Number($(`[data-kagirlik="${id}"]`).value) || 1,
-      });
-      toast('kategori kaydedildi');
+      }));
+      toast('kaydedildi');
       return refresh();
     }
     if (t.dataset.ktoggle) {
       const k = STATE.kategoriler.find((x) => x.id === t.dataset.ktoggle);
-      await call('/api/kategori/kaydet', { ...k, aktif: !k.aktif });
+      await call('/api/kategori/kaydet', Object.assign({}, k, { aktif: !k.aktif }));
       return refresh();
     }
-    if (t.dataset.ksil) {
-      await call('/api/kategori/sil', { id: t.dataset.ksil });
-      toast('silindi');
-      return refresh();
-    }
-    if (t.id === 'yk-kaydet') {
-      await call('/api/kategori/kaydet', {
-        id: $('#yk-id').value.trim(),
-        ad: $('#yk-ad').value.trim(),
-        aciklama: $('#yk-aciklama').value.trim(),
-        yonerge: $('#yk-yonerge').value.trim(),
-      });
-      toast('kategori eklendi');
-      return refresh();
-    }
-
-    if (t.dataset.decide) {
-      await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide });
-      return refresh();
-    }
-    if (t.dataset.del) {
-      // Begenilmeyeni silmek normal akisin parcasi; ekstra surtunme yok.
-      await call('/api/post/delete', { id: t.dataset.del });
-      toast('silindi');
-      return refresh();
-    }
-    if (t.dataset.verify) {
-      const r = await call('/api/account/verify', { id: t.dataset.verify });
-      toast('bağlantı iyi: ' + r.verifiedAs);
-      return refresh();
-    }
-    if (t.dataset.toggle) {
-      await call('/api/account/toggle', { id: t.dataset.toggle });
-      return refresh();
-    }
-    if (t.dataset.rm) {
-      if (!confirm('Hesap silinsin mi?')) return;
-      await call('/api/account/delete', { id: t.dataset.rm });
-      return refresh();
-    }
+    if (t.dataset.ksil) { await call('/api/kategori/sil', { id: t.dataset.ksil }); toast('silindi'); return refresh(); }
 
     if (t.id === 'save-account') {
       const def = platformOf($('#new-platform').value);
       const credentials = {};
-      for (const f of def.fields) credentials[f.key] = $(`[data-f="${f.key}"]`).value.trim();
+      def.fields.forEach((f) => { credentials[f.key] = $(`[data-f="${f.key}"]`).value.trim(); });
       t.disabled = true;
       try {
         await call('/api/account/save', { platform: def.id, label: $('#f-label').value, credentials });
         toast('hesap eklendi ve doğrulandı');
         await refresh();
-      } finally {
-        t.disabled = false;
-      }
-      return;
-    }
-
-    if (t.id.startsWith('tab-')) {
-      const which = t.id.slice(4);
-      for (const name of ['queue', 'kategoriler', 'teams', 'accounts']) {
-        $(`#tab-${name}`).setAttribute('aria-selected', name === which);
-        $(`#view-${name}`).hidden = name !== which;
-      }
+      } finally { t.disabled = false; }
     }
   } catch (err) {
     toast('hata: ' + err.message, 6000);
   }
 });
 
-// Metin ve hedef degisikligi aninda kaydedilir; ayri "kaydet" dugmesi gereksiz surtunme.
 document.addEventListener('change', async (e) => {
   const el = e.target;
   try {
@@ -610,43 +592,23 @@ document.addEventListener('change', async (e) => {
       await call('/api/post/text', { id: el.dataset.text, platform: el.dataset.platform, text: el.value });
       toast('metin kaydedildi');
     }
-    if (el.dataset.kategori !== undefined && el.tagName === 'SELECT') {
-      const r = await call('/api/post/kategori', { id: el.dataset.kategori, kategori: el.value });
-      toast(r.message);
-      return refresh();
-    }
     if (el.dataset.medya) {
-      const r = await call('/api/post/media', { id: el.dataset.medya, tercih: el.value });
-      toast(r.not);
+      toast((await call('/api/post/media', { id: el.dataset.medya, tercih: el.value })).not);
       return refresh();
-    }
-    if (el.dataset.target) {
-      const id = el.dataset.target;
-      const targets = [...document.querySelectorAll(`[data-target="${id}"]:checked`)].map((i) => i.value);
-      await call('/api/post/targets', { id, targets });
-      toast('hedefler güncellendi');
     }
   } catch (err) {
     toast('hata: ' + err.message, 6000);
   }
 });
 
-refresh().catch((e) => toast('yüklenemedi: ' + e.message, 8000));
-/**
- * Otomatik yenileme formu baştan çizip yazılanları siliyordu.
- * Kullanıcı bir alana odaklandıysa ya da doldurulmuş ama kaydedilmemiş
- * bir değer varsa yenileme atlanır.
- */
+/* Yazarken yenileme yapma: form alanlarini sifirliyordu. */
 function formMesgul() {
   const el = document.activeElement;
-  if (el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return true;
-  return [...document.querySelectorAll('#view-accounts input')].some((i) => i.value.trim());
+  return Boolean(el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 }
+setInterval(() => { if (!document.hidden && !formMesgul()) refresh().catch(() => {}); }, 20000);
 
-setInterval(() => {
-  if (document.hidden || formMesgul()) return;
-  refresh().catch(() => {});
-}, 15000);
+refresh().catch((e) => toast('yüklenemedi: ' + e.message, 8000));
 </script>
 </body>
 </html>

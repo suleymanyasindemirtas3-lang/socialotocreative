@@ -12,7 +12,23 @@
     ],
     "results": [],
     "fingerprint": "1331675867e9ae56",
-    "kategori": "son-dakika",
+    "kategori": "muzik",
+    "medya": "gorsel"
+  },
+  {
+    "id": "da762d72",
+    "createdAt": "2026-09-06T08:34:35.071Z",
+    "topic": "Çanakkale lezzetlerinin geleceği belirlendi",
+    "angle": "Müşteri tercihlerine dayalı yeni uygulamalar",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "a59e1d20811e95e0",
+    "kategori": "haber",
     "medya": "gorsel"
   }
 ]

@@ -31,6 +31,7 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
     ].filter(Boolean);
 
     const variants: Record<string, string> = {};
+    const metinAdaylari: Record<string, { metin: string }[]> = {};
     for (const p of platforms) {
       /**
        * Modele sinirin biraz altini hedef gosteriyoruz. Tam siniri soyleyince
@@ -76,6 +77,32 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
         throw new Error(`kalite kapisi (${p.id}): ${issues.map((i) => `${i.code}=${i.detail}`).join(', ')}`);
       }
       variants[p.id] = clean;
+
+      /**
+       * Ikinci ve ucuncu aday: ayni haber farkli acilarla yazilabilir ve
+       * hangisinin tutacagi onceden belli degil. Kullaniciya secenek sunmak
+       * tek metin dayatmaktan iyi; sosyal medya uzmani hepsini puanliyor.
+       */
+      const adaylar: { metin: string }[] = [];
+      for (const aci of ['soru sorarak tartisma baslatan', 'carpici bir sayi ya da iddiayla acan']) {
+        try {
+          const alt = tidy(
+            await llm.complete(
+              [
+                ...konu,
+                `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin.`,
+                `Bu sefer ${aci} bir versiyon yaz.`,
+                'Onceki versiyonu tekrarlama. Sadece post metnini yaz.',
+              ].join('\n'),
+              { system: voice, maxTokens: 600 },
+            ),
+          );
+          if (alt && alt.length <= p.limit && !inspect(alt, p.limit).length) adaylar.push({ metin: alt });
+        } catch (e) {
+          log.warn(`aday uretilemedi (${p.id}): ${String(e).slice(0, 70)}`);
+        }
+      }
+      if (adaylar.length) metinAdaylari[p.id] = adaylar;
     }
 
     const visualPrompt = (
@@ -85,7 +112,7 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
       )
     ).trim();
 
-    if (!narrationNeeded) return { variants, visualPrompt };
+    if (!narrationNeeded) return { variants, visualPrompt, metinAdaylari };
 
     const narration = tidy(
       await llm.complete(
@@ -99,7 +126,7 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
       ),
     );
 
-    return { variants, narration, visualPrompt };
+    return { variants, narration, visualPrompt, metinAdaylari };
   },
 };
 

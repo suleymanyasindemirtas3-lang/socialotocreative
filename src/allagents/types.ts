@@ -61,6 +61,8 @@ export interface Senaryo {
   narration?: string;
   /** Goruntu uretimi icin ingilizce istem. */
   visualPrompt: string;
+  /** Platform basina alternatif metinler; kullanici secsin diye. */
+  metinAdaylari?: Record<string, { metin: string }[]>;
 }
 
 // ----------------------------------------------------------------------- 3. ses
@@ -121,6 +123,7 @@ export type GorevTuru =
   | 'fikir-bul'
   | 'icerik-yaz'
   | 'medya-uret'
+  | 'puanla'
   | 'yayinla'
   | 'tekrar-dene';
 

@@ -16,6 +16,8 @@ import { uret as yonetmenUret } from '../allagents/yonetmen.ts';
 import { accounts as hesapDeposu } from '../core/accounts.ts';
 import { platform as platformBul } from '../platforms/index.ts';
 import { tumKategoriler, kategoriBul, kategoriYaz, kategoriSil, type Kategori } from '../kategoriler/index.ts';
+import { puanla } from '../allagents/ekipler/strateji.ts';
+import { algoritmaTabani } from '../strateji/algoritma.ts';
 import type { Account, MedyaTercihi, PostStatus } from '../core/types.ts';
 import type { GorevTuru } from '../allagents/types.ts';
 
@@ -104,6 +106,7 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
       })),
       teams: kadro(),
       kategoriler: await tumKategoriler(),
+      algoritma: await algoritmaTabani(),
       plan: await planla(),
       config: {
         dryRun: cfg.safety.dryRun,
@@ -276,6 +279,38 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
   }
 
   /** Postun kategorisini degistir; bicim ve varsayilan medya ondan gelir. */
+  /** Tek postu yeniden puanla; metin adaylari da puanlanir. */
+  if (path === '/api/post/puanla' && method === 'POST') {
+    const { id } = await readJson<{ id: string }>(req);
+    try {
+      const yildiz = await puanla(id);
+      return send(res, 200, { ok: true, message: `${yildiz} yildiz` });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 250) });
+    }
+  }
+
+  /** Metin adaylarindan birini secili metin yap. */
+  if (path === '/api/post/metin-sec' && method === 'POST') {
+    const { id, platform: pid, index } = await readJson<{ id: string; platform: string; index: number }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    const adaylar = post.metinAdaylari?.[pid];
+    const secilen = adaylar?.[index];
+    if (!secilen) return send(res, 400, { error: 'aday yok' });
+
+    // Secilen aday ana metin olur; eski ana metin aday listesine geri doner
+    // ki karsilastirma imkani kaybolmasin.
+    const eski = post.variants[pid];
+    post.variants[pid] = secilen.metin;
+    if (eski) adaylar![index] = { metin: eski, ...(post.puan ? { puan: post.puan } : {}) };
+    if (secilen.puan) post.puan = secilen.puan;
+
+    await store.upsert(post);
+    return send(res, 200, { ok: true, message: 'metin degistirildi' });
+  }
+
   if (path === '/api/post/kategori' && method === 'POST') {
     const { id, kategori } = await readJson<{ id: string; kategori: string }>(req);
     const post = await store.get(id);

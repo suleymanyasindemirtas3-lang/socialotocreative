@@ -95,6 +95,9 @@ async function yaz(adet: number): Promise<number> {
       });
 
       post.variants = script.variants;
+      if (script.metinAdaylari && Object.keys(script.metinAdaylari).length) {
+        post.metinAdaylari = script.metinAdaylari;
+      }
       post.script = {
         visualPrompt: script.visualPrompt,
         ...(script.narration ? { narration: script.narration } : {}),

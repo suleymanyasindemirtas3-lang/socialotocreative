@@ -24,6 +24,14 @@ export interface MediaAsset {
   mime: string;
 }
 
+/** Sosyal medya uzmaninin verdigi yayilma puani. */
+export interface PostPuani {
+  yildiz: number;
+  gerekce: string;
+  sinyaller: { id: string; aciklama: string; etki: number }[];
+  oneri?: string;
+}
+
 export interface PublishResult {
   /** Hangi hesaba gitti. Coklu hesapta platform tek basina yetmiyor. */
   accountId: string;
@@ -54,6 +62,16 @@ export interface Post {
   medya?: MedyaTercihi;
   /** Icerik kategorisi id'si. Bicimi ve varsayilan medyayi belirler. */
   kategori?: string;
+  /**
+   * Platform basina METIN SECENEKLERI, her biri puanli.
+   * Tek metin uretip dayatmak yerine secenek sunuluyor: ayni haber farkli
+   * acilarla yazilabilir ve hangisinin tutacagi onceden belli degil.
+   */
+  metinAdaylari?: Record<string, { metin: string; puan?: PostPuani }[]>;
+  /** Gorsel secenekleri; kullanici birini secer. */
+  gorselAdaylari?: MediaAsset[];
+  /** Secili metnin puani. Panelde yildiz olarak gorunur. */
+  puan?: PostPuani;
   scheduledAt?: string;
   results: PublishResult[];
   approvalRef?: string;

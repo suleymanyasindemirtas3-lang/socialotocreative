@@ -68,6 +68,15 @@ export async function planla(): Promise<Gorev[]> {
   if (n.approved > 0) {
     plan.push({ tur: 'yayinla', adet: birim, sebep: `${n.approved} onayli post bekliyor` });
   }
+  // Puanlama uretimden sonra, yayindan once. Yayilma potansiyeli dusuk
+  // bir postu kullanicinin onaydan once gormesi gerekiyor.
+  const puansiz = (await store.all()).filter(
+    (p) => Object.keys(p.variants).length && !p.puan && p.status !== 'published',
+  ).length;
+  if (puansiz > 0) {
+    plan.push({ tur: 'puanla', adet: birim, sebep: `${puansiz} post puanlanmamis` });
+  }
+
   if (n.scripted > 0) {
     plan.push({ tur: 'medya-uret', adet: birim, sebep: `${n.scripted} metin medya bekliyor` });
   }
