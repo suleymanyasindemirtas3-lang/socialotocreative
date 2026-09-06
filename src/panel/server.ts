@@ -9,7 +9,7 @@ import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
 import { calistir, gorevYolla, planla, kadro } from '../allagents/index.ts';
 import { publish } from '../pipeline/publish.ts';
-import type { Account, PostStatus } from '../core/types.ts';
+import type { Account, MedyaTercihi, PostStatus } from '../core/types.ts';
 import type { GorevTuru } from '../allagents/types.ts';
 
 const PORT = Number(process.env['PANEL_PORT'] ?? 8787);
@@ -90,6 +90,7 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
         id: p.id,
         label: p.label,
         limits: p.limits,
+        needs: p.needs,
         fields: p.fields,
         setupUrl: p.setupUrl,
         setupHint: p.setupHint,
@@ -135,6 +136,33 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     post.variants[pid] = text.slice(0, limit);
     await store.upsert(post);
     return send(res, 200, { ok: true, text: post.variants[pid] });
+  }
+
+  if (path === '/api/post/media' && method === 'POST') {
+    const { id, tercih } = await readJson<{ id: string; tercih: MedyaTercihi }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+    if (!['otomatik', 'gorsel', 'video', 'yok'].includes(tercih)) {
+      return send(res, 400, { error: 'gecersiz tercih' });
+    }
+
+    post.medya = tercih;
+
+    /**
+     * Medyasi zaten uretilmis bir postta tercih degistirmek tek basina ise
+     * yaramaz; eski medya duruyor olurdu. Post uretim asamasina geri alinir
+     * ki yeni tercihle yeniden uretilsin. Yazilan metin korunur.
+     */
+    let notu = 'tercih kaydedildi';
+    if (post.media.length && post.status !== 'scripted') {
+      post.media = [];
+      post.results = [];
+      post.status = post.script ? 'scripted' : 'draft';
+      notu = 'tercih kaydedildi, medya yeniden uretilecek';
+    }
+
+    await store.upsert(post);
+    return send(res, 200, { ok: true, tercih, not: notu, status: post.status });
   }
 
   if (path === '/api/post/delete' && method === 'POST') {

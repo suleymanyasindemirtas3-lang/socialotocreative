@@ -168,6 +168,29 @@ function renderTeams() {
     </div>`).join('')}`;
 }
 
+/**
+ * Seçim hedefle çelişiyorsa uyar. Örneğin YouTube hedefliyken "sadece görsel"
+ * seçmek yayın anında anlaşılmaz bir hataya dönüşür; burada söylemek daha iyi.
+ */
+function medyaUyarisi(p) {
+  const tercih = p.medya ?? 'otomatik';
+  if (tercih === 'otomatik') return '';
+  const gerekli = new Set(
+    p.targets
+      .map((id) => accountOf(id))
+      .filter(Boolean)
+      .map((a) => (platformOf(a.platform) || {}).needs)
+      .filter(Boolean),
+  );
+  if (gerekli.has('video') && tercih !== 'video') {
+    return `<span class="muted small" style="color:var(--bad)">hedeflerden biri video istiyor</span>`;
+  }
+  if (gerekli.has('image') && tercih === 'yok') {
+    return `<span class="muted small" style="color:var(--bad)">hedeflerden biri görsel istiyor</span>`;
+  }
+  return '';
+}
+
 /* ------------------------------------------------------------------ kuyruk */
 
 function renderQueue() {
@@ -212,6 +235,14 @@ function renderQueue() {
       ${variants}
       ${media}
       ${STATE.accounts.length ? `<div class="targets">${targets}</div>` : '<div class="muted small">Hedef hesap yok — Hesaplar sekmesinden ekle.</div>'}
+      <div class="row" style="margin-top:10px">
+        <label style="margin:0;font-size:12px">Medya</label>
+        <select data-medya="${p.id}" style="width:auto;min-width:190px">
+          ${[['otomatik','Otomatik (hedefe göre)'],['gorsel','Sadece görsel'],['video','Video üret'],['yok','Medyasız (yalnız metin)']]
+            .map(([v,t]) => `<option value="${v}" ${(p.medya ?? 'otomatik') === v ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+        ${medyaUyarisi(p)}
+      </div>
       ${results}
       <div class="row" style="margin-top:10px">
         <button class="ok" data-decide="approved" data-id="${p.id}">Onayla</button>
@@ -373,6 +404,11 @@ document.addEventListener('change', async (e) => {
     if (el.dataset.text) {
       await call('/api/post/text', { id: el.dataset.text, platform: el.dataset.platform, text: el.value });
       toast('metin kaydedildi');
+    }
+    if (el.dataset.medya) {
+      const r = await call('/api/post/media', { id: el.dataset.medya, tercih: el.value });
+      toast(r.not);
+      return refresh();
     }
     if (el.dataset.target) {
       const id = el.dataset.target;

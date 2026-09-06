@@ -10,6 +10,13 @@ export type PostStatus =
   | 'published'
   | 'failed';
 
+/**
+ * Post basina medya tercihi.
+ * 'otomatik' hedef platformlarin ihtiyacindan turer (YouTube/TikTok video ister).
+ * Digerleri o turetmeyi ezer; kullanici bilerek secmisse sistem karismaz.
+ */
+export type MedyaTercihi = 'otomatik' | 'gorsel' | 'video' | 'yok';
+
 export interface MediaAsset {
   kind: 'image' | 'video';
   path: string;
@@ -43,6 +50,8 @@ export interface Post {
    * yazilan metin kaybolmamali; tekrar denerken bastan yazilmaz.
    */
   script?: { visualPrompt: string; narration?: string };
+  /** Bos ise 'otomatik'. Panelden degistirilir. */
+  medya?: MedyaTercihi;
   scheduledAt?: string;
   results: PublishResult[];
   approvalRef?: string;

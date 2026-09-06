@@ -49,9 +49,23 @@ export async function uret(adet: number): Promise<number> {
         if (acc) platformIds.add(acc.platform);
       }
 
+      // Hedeflerin ihtiyaci varsayilan; kullanici panelden ezebilir.
       const needs = [...platformIds].map((id) => platform(id)?.needs ?? 'none');
-      const wantsVideo = needs.includes('video');
-      const wantsImage = wantsVideo || needs.includes('image') || imageEnabled();
+      const tercih = post.medya ?? 'otomatik';
+
+      const wantsVideo =
+        tercih === 'video' ? true : tercih === 'gorsel' || tercih === 'yok' ? false : needs.includes('video');
+      const wantsImage =
+        tercih === 'yok' ? false : tercih === 'gorsel' || wantsVideo || needs.includes('image') || imageEnabled();
+
+      // Secim hedefle celisiyorsa sessizce gecme: yayin asamasinda anlasilmaz
+      // bir hataya donusur, burada soylemek daha yararli.
+      if (!wantsVideo && needs.includes('video')) {
+        log.warn(`${post.id}: hedef video istiyor ama tercih "${tercih}" - o platformlarda yayin basarisiz olacak`);
+      }
+      if (!wantsImage && needs.includes('image')) {
+        log.warn(`${post.id}: hedef gorsel istiyor ama tercih "${tercih}"`);
+      }
 
       const media: MediaAsset[] = [];
 
