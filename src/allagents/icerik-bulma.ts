@@ -30,7 +30,7 @@ import type { Agent, Fikir, FikirIstegi } from './types.ts';
  * numara veriyor ve haberin ozeti bambaska bir habere ait oluyor.
  * Bu yuzden indeks dogrulaniyor, tutmuyorsa en cok ortusen haber secilir.
  */
-function ortusme(a: string, b: string): number {
+function kelimeOrtusmesi(a: string, b: string): number {
   const kelime = (t: string) =>
     new Set(
       t.toLocaleLowerCase('tr')
@@ -44,6 +44,50 @@ function ortusme(a: string, b: string): number {
   let kesisim = 0;
   for (const w of A) if (B.has(w)) kesisim++;
   return kesisim / Math.min(A.size, B.size);
+}
+
+/**
+ * Ozel isim ve sayi ortusmesi (0-1).
+ *
+ * NEDEN AYRI BIR OLCU GEREKTI
+ *
+ * Kaynaklarin buyuk kismi yabanci (BBC, Billboard, Variety, Deadline,
+ * TechCrunch, The Verge, Anime News Network). Model konuyu TURKCE yaziyor.
+ * Kelime ortusmesi bu durumda dogru eslesmeyi bile eleyemiyordu:
+ *
+ *   "US temsilcileri Kiev'de Zelensky ile gorustu"
+ *   "US representatives meet Zelensky in Kyiv for talks"   -> 0.25
+ *
+ *   "Oasis'in yeniden bir araya geldigi turneyi konu alan belgesel"
+ *   "Oasis Reunion Tour Documentary Set for Release"        -> 0.20
+ *
+ * Ikisi de esik olan 0.30'un altinda kaldigi icin kaynak DUSURULUYORDU:
+ * post ozetsiz, linksiz ve fotografsiz kaliyor, geriye yalnizca AI'nin
+ * konudan kopuk cizimi kaliyordu. Gorsellerin zayif olmasinin ikinci
+ * kok sebebi buydu.
+ *
+ * Ozel isimler ve sayilar cevrilmez: Zelensky, Oasis, Boox Picco, 2001.
+ * Ayni ciftlerde bu olcu 0.50-1.00 veriyor, alakasiz cift ise 0.00 -
+ * yani ayirt etme gucu kaybolmadan ceviriye dayanikli hale geliyor.
+ */
+function cekirdekOrtusmesi(a: string, b: string): number {
+  const cekirdek = (t: string) =>
+    new Set((t.match(/\p{Lu}[\p{L}]{2,}|\d[\d.,]*/gu) ?? []).map((x) => x.toLocaleLowerCase('tr')));
+  const A = cekirdek(a);
+  const B = cekirdek(b);
+  if (!A.size || !B.size) return 0;
+  let kesisim = 0;
+  for (const w of A) if (B.has(w)) kesisim++;
+  return kesisim / Math.min(A.size, B.size);
+}
+
+/**
+ * Konu ile haber basligi ne kadar ayni seyden bahsediyor (0-1).
+ * Iki olcunun buyugu alinir: Turkce kaynakta kelime ortusmesi,
+ * yabanci kaynakta ozel isim ortusmesi is goruyor.
+ */
+function benzerlik(a: string, b: string): number {
+  return Math.max(kelimeOrtusmesi(a, b), cekirdekOrtusmesi(a, b));
 }
 
 export const icerikBulma: Agent<FikirIstegi, Fikir[]> = {
@@ -83,9 +127,9 @@ ${kategori.yonerge}
 
         // Once modelin verdigi indeks; ortusme dusukse benzerlikle duzelt.
         let g = Number.isInteger(idx) && idx >= 0 ? gundem[idx] : undefined;
-        if (!g || ortusme(topic, g.title) < 0.3) {
+        if (!g || benzerlik(topic, g.title) < 0.3) {
           const enIyi = gundem
-            .map((h) => ({ h, p: ortusme(topic, h.title) }))
+            .map((h) => ({ h, p: benzerlik(topic, h.title) }))
             .sort((x, y) => y.p - x.p)[0];
           if (enIyi && enIyi.p >= 0.3) g = enIyi.h;
           else g = undefined;

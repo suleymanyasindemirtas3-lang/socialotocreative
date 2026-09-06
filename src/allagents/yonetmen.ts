@@ -10,6 +10,7 @@ import { video } from './video.ts';
 import { isteKonulu } from './ekipler/arastirma.ts';
 import { seslendirmeYaz } from './senaryo.ts';
 import { adayiIndir } from '../providers/image/arama.ts';
+import { haberFotografi } from '../kaynaklar/index.ts';
 import type { MediaAsset } from '../core/types.ts';
 
 /**
@@ -80,6 +81,24 @@ export async function uret(adet: number): Promise<number> {
          * birebir ilgili hem de okuyucunun akista tanidigi gorsel dil.
          * AI uretimi yalnizca fotograf yoksa devreye giriyor.
          */
+        /**
+         * RSS fotografi vermediyse haberin kendi sayfasindan al.
+         *
+         * Kaynaklarin %36'si RSS'te fotograf vermiyor ama hepsinin haber
+         * sayfasinda og:image var (olcum: 27/27). Onceden bu haberler dogruca
+         * AI uretimine dusuyor ve konudan kopuk gorsel aliyordu.
+         *
+         * Bulunan adres posta yaziliyor: ayni post tekrar uretilirse sayfa
+         * ikinci kez indirilmez.
+         */
+        if (!post.kaynak?.gorsel && post.kaynak?.url) {
+          const bulunan = await haberFotografi(post.kaynak.url);
+          if (bulunan) {
+            post.kaynak.gorsel = bulunan;
+            log.info(`${post.id}: fotograf haber sayfasindan alindi`);
+          }
+        }
+
         let eklendi = false;
         if (post.kaynak?.gorsel) {
           try {

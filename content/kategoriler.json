@@ -12,7 +12,7 @@
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true,
-    "sonKullanim": "2026-09-06T09:48:22.210Z"
+    "sonKullanim": "2026-09-06T17:23:56.345Z"
   },
   {
     "id": "haber",
@@ -82,7 +82,7 @@
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true,
-    "sonKullanim": "2026-09-06T10:05:13.450Z"
+    "sonKullanim": "2026-09-06T18:04:49.524Z"
   },
   {
     "id": "muzik",
@@ -95,7 +95,8 @@
     ],
     "medya": "gorsel",
     "agirlik": 2,
-    "aktif": true
+    "aktif": true,
+    "sonKullanim": "2026-09-06T17:35:16.727Z"
   },
   {
     "id": "oyun",
@@ -125,7 +126,8 @@
     ],
     "medya": "gorsel",
     "agirlik": 3,
-    "aktif": true
+    "aktif": true,
+    "sonKullanim": "2026-09-06T17:56:01.939Z"
   },
   {
     "id": "ai",

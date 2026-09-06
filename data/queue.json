@@ -11,8 +11,8 @@
     "media": [
       {
         "kind": "image",
-        "path": "data/media/8c4b05d7.jpg",
-        "alt": "A shadowy, rain‑slick cityscape where a lone detective in a trench coat discovers a shattered, glowing game cartridge labeled “Spider‑Noir” on a cracked sidewalk, with neon signs flickering and an ominous silhouette of a spider web looming in the background.. Context: Discovery o",
+        "path": "data/media/8c4b05d7-haber.jpg",
+        "alt": "Spider-Noir'ın iptalinin ardındaki beklenmedik sebep oyun dünyasını nasıl etkiledi?",
         "mime": "image/jpeg"
       }
     ],
@@ -24,7 +24,8 @@
     "kaynak": {
       "ozet": "Spider-Noir, güçlü eleştiriler ve yüksek izlenme rakamlarına rağmen ikinci sezon onayı alamadı. İptal kararının arkasında ise bambaşka ciddi bir sorun var.",
       "url": "https://www.merlininkazani.com/spider-noir-in-iptalinin-arkasinda-beklenmedik-bir-sebep-var-sinema-262753",
-      "site": "www.merlininkazani.com"
+      "site": "www.merlininkazani.com",
+      "gorsel": "https://www.merlininkazani.com/social-image/article/262753.jpg"
     },
     "kategori": "oyun",
     "medya": "gorsel",
@@ -99,17 +100,1177 @@
     }
   },
   {
-    "id": "4d7bf277",
-    "createdAt": "2026-09-06T18:01:07.130Z",
-    "topic": "Ornek konu 1",
-    "angle": "karsit gorus",
-    "status": "draft",
+    "id": "cdd76f64",
+    "createdAt": "2026-09-06T17:23:56.340Z",
+    "topic": "Oyuncu Serhat Kılıç evinde ölü bulundu",
+    "angle": "Olayın şok etkisi ve güvenlik soruşturması",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Serhat Kılıç, 51, Kağıthane'deki evinde ölü bulundu; ölüm nedeni araştırılıyor. Bu gelişme, Türk tiyatrosunun önemli isminin kaybı olarak yankı buluyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/cdd76f64-haber.jpg",
+        "alt": "Oyuncu Serhat Kılıç evinde ölü bulundu",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "8899c9848d9b01ce",
+    "kaynak": {
+      "ozet": "Oyuncu Serhat Kılıç (51), Kağıthane’deki evinde hayatını kaybetti. Kılıç’tan günlerdir haber alamayan kız arkadaşı Özlem Esmergül, oyuncuyu evinde hareketsiz halde buldu. Kılıç’ın ölümünün ardından soruşturma başlatılırken, kesin ölüm nedeninin yapılacak incelemeler ve resmî açıklamalarla netleşeceği belirtildi.",
+      "url": "https://www.hurriyet.com.tr/kelebek/hayat/oyuncu-serhat-kilic-evinde-olu-bulundu-soray-uzundan-dikkat-ceken-aciklama-43297617",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9cf93a0d14c98c5cd1c100.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "son-dakika",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Serhat Kılıç, 51, Kağıthane evinde ölü bulundu; ölüm nedeni henüz belli değil. Bu trajik olay, güvenlik soruşturmasını nasıl şekillendirecek?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İsim, sayı ve soru içeriyor, ancak ilk satır daha çekici bir merak unsuruyla başlamasa virallik potansiyeli sınırlı.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"51 yaşındaki Serhat Kılıç, Kağıthane'de ölü bulundu; bu trajik olayın güvenlik soruşturmasını nasıl şekillendireceğini siz nasıl değerlendiriyorsunuz?\" şeklinde merak uyandırıcı bir iddia ya da soru ekleyerek başlat."
+          }
+        },
+        {
+          "metin": "Serhat Kılıç’ın ölümü, son 6 ay içinde sanat dünyasında kaybedilen 3 ünlü isimden biri oldu; Kağıthane evinde bulundu. Olay, sektördeki güvenlik önlemlerinin gözden geçirilmesini tetikleyecek.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır merak uyandırmıyor, soru ya da tartışma başlatıcı öğe yok ve hashtag eksikliğiyle etkileşim potansiyeli düşük.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"Serhat Kılıç’ın ölümünün ardından sanat dünyasında güvenlik nasıl artırılmalı?\" gibi bir soru ile başlatın."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A dimly lit living room scene with a lifeless man slumped on a sofa, shadows cast by flickering candlelight, and a piece of police tape stretching across the doorway."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "Bilgi yoğun ve duygusal, ancak etkileşimi artırmak için soruya ya da tartışma unsuruna ihtiyaç var.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satıra \"Serhat Kılıç’ın ölümünün nedeni ne olabilir?\" gibi bir soru ekleyerek tartışma başlatın."
+    }
+  },
+  {
+    "id": "a3722611",
+    "createdAt": "2026-09-06T17:23:56.343Z",
+    "topic": "US temsilcileri Kiev'de Zelensky ile görüştü",
+    "angle": "Ukrayna-ABD ilişkilerindeki diplomatik gelişme",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Amerikan temsilcileri 25 Ocak Kiev'de Zelensky ile görüştü. Diplomatik ilişkilerin yeniden canlanma sürecine katkıda bulunuyorlar."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/a3722611.jpg",
+        "alt": "A realistic illustration of U.S. officials shaking hands with President Zelensky in a modern conference room in Kyiv, with Ukrainian and American flags subtly displayed in the background and a large window revealing the city skyline.. Context: Discovery of a new OpenAI agent mess",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "9bd77a1bac6b713c",
+    "kategori": "son-dakika",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Amerikan temsilcileri Kiev'de Zelensky ile görüştü. Ne oluyor ABD- Ukrayna ilişkileri? Yeniden canlanma sürecine katkıda bulunuyorlar.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır çekicilik ve sayı içermiyor, soru geç ama metnin başında yok",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk satırı \"ABD- Ukrayna ilişkileri ne kadar güçleniyor?\" gibi merak uyandıran bir soru ya da istatistikle başlayın"
+          }
+        },
+        {
+          "metin": "364 gün sonra ABD temsilcileri Kiev'de Zelensky ile görüştü. Diplomatik ilişkilerin son durumu ne?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır sayı ve soru içeriyor, merak uyandırıyor ama görsel eksik ve hashtag yok, etkileşimi sınırlıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Gönderiye çarpıcı bir görsel ekleyip, ilgili bir hashtag (örn. #Zelensky) ekleyerek görünürlüğü artır."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A realistic illustration of U.S. officials shaking hands with President Zelensky in a modern conference room in Kyiv, with Ukrainian and American flags subtly displayed in the background and a large window revealing the city skyline."
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "İlk satır merak uyandırmıyor, soru ya da çekici iddia yok; etkileşimi artıracak medya ya da etkileşim çağrısı eksik.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Kiev'de Zelensky ile 25 Ocak'ta görüşen Amerikan temsilcileri, diplomatik ilişkileri nasıl etkiliyor?\" şeklinde soruya dönüştür."
+    }
+  },
+  {
+    "id": "64dfe28e",
+    "createdAt": "2026-09-06T17:23:56.344Z",
+    "topic": "Almanya'da Avrupa'yı kökten değiştirebilecek endişe verici bir gelişme",
+    "angle": "Avrupa politikalarına olası etkisi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Almanya’nın Saksonya‑Anhalt eyaletinde bugün yapılan bölgesel seçimlerde AfD %41 oy alarak tarihî bir zafer kazandı; bu sonuç, partinin tek başına hükümet kurma ihtimalini gösteriyor ve Avrupa Birliği’nin geleceğine etkisi olabilecek bir dönüm noktası."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/64dfe28e-haber.jpg",
+        "alt": "Almanya'da Avrupa'yı kökten değiştirebilecek endişe verici bir gelişme",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "69a10fff0acefd41",
+    "kaynak": {
+      "ozet": "Almanya'nın doğusundaki Saksonya-Anhalt eyaletinde bugün yapılan bölgesel seçimler, aşırı sağcı Almanya için Alternatif Parti'nin (AfD) tarihi bir zafere imza atmasına sahne oluyor. Seçim öncesi son anketler, AfD'ye yüzde 41 gibi ezici bir oy oranı gösterirken, bu oran partinin tek başına hükümet kurabilmesi için yeterli görünüyor. Uzmanlar, bu sonucun sadece eyalet siyasetini değil, Almanya'daki federal dengeyi ve Avrupa Birliği'nin geleceğini de derinden etkileyeceği konusunda uyardı.",
+      "url": "https://www.hurriyet.com.tr/dunya/almanyada-endise-verici-bir-gelisme-yasanmak-uzere-avrupayi-kokten-degistirebilir-43297671",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9d10e95548acce71251c0d.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "son-dakika",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Saksonya‑Anhalt seçimlerinde AfD’ye %41 oy gelmesi, Almanya’da ve AB’de politik dengeyi nasıl değiştirecek? Bu sonuç, aşırı sağın tek başına hükümet kurma olasılığını gündeme getiriyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İddialı bir açılış ve yüzde içermesi iyi, fakat medya ve etkileşim artırıcı öğeler eksik.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Başlangıçta bir soru ekleyerek tartışma başlat, örneğin \"Saksonya‑Anhalt seçim sonuçları Almanya ve AB politikalarını nasıl etkiler?\""
+          }
+        },
+        {
+          "metin": "AfD, Saksonya‑Anhalt seçimlerinde %41 oy alarak tek başına iktidara gelme ihtimalini elde etti; bu yüzde, Almanya’nın federal dengesi ve AB’nin bütünlüğü için kritik bir eşik olabilir.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır çekici değil, soru veya etkileşim çağrısı yok, medya eksik ve hashtag kullanılmamış",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi merak uyandıran bir soru veya çarpıcı bir istatistikle başlayıp, görsel ekleyerek ve bir anket ya da tercih sorusu ekleyerek etkileşimi artır"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A stark, futuristic Berlin skyline shrouded in ominous, swirling dark clouds, with massive, glowing data towers casting eerie red light over the city, while shadowy figures in suits manipulate holographic maps of Europe, suggesting a hidden, transformative power emerging from Germany."
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "İlk satır çekici ama sorular ya da etkileşim çağrısı yok, görsel eklenmemiş ve etkileşim artırıcı unsurlar eksik",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "Metnin başına bir soru veya çarpıcı bir sayı ekleyerek dikkat çek ve görseli ana posta ekle"
+    }
+  },
+  {
+    "id": "5e36f330",
+    "createdAt": "2026-09-06T17:35:16.720Z",
+    "topic": "System of a Down, 2001 çıkışlı Chop Suey! teklisinin B yüzünde yer alan Johnny parçasını ilk kez dijital platformlarda yayınladı.",
+    "angle": "Grubun yıllardır yalnızca fiziksel basımlarda kalan nadir kaydının dijital ortama gelişi.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "System of a Down, “Johnny” parçasını dijital platformlarda ilk kez yayınladı. Parça, 2001 tarihli Toxicity albümünün B yüzünde yer alan ve yalnızca uluslararası baskılarda ve Birleşik Krallık 7‑inch versiyonunda bulunmuş nadir bir kayıttı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/5e36f330-haber.jpg",
+        "alt": "System of a Down, 2001 çıkışlı Chop Suey! teklisinin B yüzünde yer alan Johnny parçasını ilk kez dijital platformlarda yayınladı.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "450fb26605656973",
+    "kaynak": {
+      "ozet": "System of a Down has made &#8220;Johnny&#8221; available on streaming platforms for the first time, part of a wider rollout marking the 25th anniversary of Toxicity . The track had previously surfaced only on international editions of the album and a U.K. 7-inch pressed alongside &#8220;Chop Suey!,&#8221; never receiving its own standalone release until now. Toxicity arrived Sept. 4, 2001, produced by Rick Rubin, and became one of the defining metal albums of its era, fusing heavy riffing with Armenian folk influences and pointedly political lyrics addressing the environment, protest movements",
+      "url": "https://www.billboard.com/music/rock/system-of-a-down-1236335101/",
+      "site": "www.billboard.com",
+      "gorsel": "https://www.billboard.com/wp-content/uploads/2026/08/1052137572-e1787002591162.jpg?w=1024"
+    },
+    "kategori": "muzik",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "System of a Down hayranları, 25. yıl dönümünde “Johnny” şarkısını artık Spotify ve Apple Music’te dinleyebilecek. Bu nadir B‑yüz parçanın dijitalde yer alması, grup tarihindeki en az bilinen şarkıyı keşfetmek için sizleri ne düşünüyorsunuz?",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır çekici bir iddia ya da sayı içermiyor, hashtag eksikliği ve etkileşimi tetikleyecek soru ya da anket sorusu yok, bu yüzden yayılma potansiyeli orta seviyede.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"25. Yıldönümünde System of a Down'ın nadir şarkısı 'Johnny' artık Spotify ve Apple Music'te!\" gibi bir sayı ve merak uyandıran ifadeyle başlayın ve sonuna \"Sizce bu şarkı neden bu kadar az biliniyor?\" gibi bir soru ekleyin."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "Create a vivid, high‑contrast illustration of a neon‑lit urban alley at night, with a lone, stylized vinyl record floating mid‑air, its grooves glowing like circuitry, while abstract sound waves ripple outward, echoing the energetic chaos of System of a Down’s “Chop Suey!” without any text."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır merak uyandırmıyor, sorular ya da çarpıcı iddia yok, etkileşim tetikleyici eksik; medya sadece görsel belirtilmiş ama içerik içinde vurgulanmamış.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru ya da çarpıcı bir istatistikle ('Bu nadir kaydı daha önce hiç duymadınız mı?') başlayıp, görseli doğrudan gönderiye ekleyin."
+    }
+  },
+  {
+    "id": "d33d4406",
+    "createdAt": "2026-09-06T17:35:16.723Z",
+    "topic": "Oasis'in yeniden bir araya geldiği turneyi konu alan belgesel, Venedik Film Festivali'nde gösterildi.",
+    "angle": "Grubun sahnelere dönüş sürecinin sinematik bir kayıt olarak izleyiciyle buluşması.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Oasis'in yeniden bir araya geldiği turneyi belgeleyen belgesel, Venedik Film Festivali'nde gösterildi. Film, grup üyelerinin sahnelere dönüş sürecini sinematik bir kayıtla izleyiciye sunuyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/d33d4406.jpg",
+        "alt": "A cinematic night‑time shot of the iconic Oasis members reuniting onstage under a massive, glowing neon “Oasis” sign, with a sprawling crowd of excited fans in front, illuminated by colorful spotlights, all set against the historic façade of the Venice Film Festival’s grand red‑c",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "be0b549a478f6cc6",
+    "kategori": "muzik",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Venedik Film Festivali'nde gösterilen Oasis belgeseli, grubun sahnelere dönüşünü nasıl planladığını merak etmiyor musunuz? Bu kayıt, turne hazırlıklarını ve grup içi dinamikleri yakından izletiyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İçerik ilgi çekici ama birincil satırda merak unsuru ve sayı eksik, hashtag fazla ve link yok, görsel var fakat video önerisi yok",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk satırı 'Oasis'in turne hazırlıklarını izlemek ister misiniz? 2024' gibi bir soru ve tarih ekleyerek merak yarat ve sayı ekle"
+          }
+        },
+        {
+          "metin": "Venedik Film Festivali'nde premier yapan Oasis belgeseli, grup 20 yıl aradan sonra sahnelere dönüyor ve bu süreç 30 dakikalık bir sinematik kayıtla izleyiciye aktarılıyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk cümle ilgi çekici ama daha güçlü bir merak unsuru ve net bir soru eksik; sayılar ve görsel iyi, ancak etkileşimi tetikleyecek çağrı yok.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Başlangıcı \"20 yıl sonra sahnelere dönen Oasis, 30 dakikalık belgeselle izleyiciyi nasıl büyüleyecek?\" şeklinde merak uyandırıcı bir soru ve sayı ekleyerek yeniden düzenle."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A cinematic night‑time shot of the iconic Oasis members reuniting onstage under a massive, glowing neon “Oasis” sign, with a sprawling crowd of excited fans in front, illuminated by colorful spotlights, all set against the historic façade of the Venice Film Festival’s grand red‑carpet entrance, with the canal’s calm water reflecting the dazzling lights."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekicilik ve etkileşimi tetikleyecek bir soru ya da çarpıcı iddia içermiyor, bu da yayılma potansiyelini sınırlıyor.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru ya da merak uyandıran bir iddia ile başlat, örneğin \"Oasis hayranları, grup sahnelere dönmeye hazır mı?\""
+    }
+  },
+  {
+    "id": "ab0c263e",
+    "createdAt": "2026-09-06T17:35:16.725Z",
+    "topic": "Sabrina Carpenter, The Muppet Show'daki performansıyla kariyerinin ilk Primetime Emmy ödülünü kazandı.",
+    "angle": "Pop kariyerinde yükselişte olan şarkıcının televizyon dünyasındaki ilk büyük ödülü.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Sabrina Carpenter, Disney+‘de yayımlanan 50. yıl kutlamalı The Muppet Show özel programının yürütücü yapımcısı ve sahne performansıyla 5 Eylül Cumartesi günü Creative Arts Emmy'de En İyi Çeşitli Özel program ödülünü kazandı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/ab0c263e-haber.jpg",
+        "alt": "Sabrina Carpenter, The Muppet Show'daki performansıyla kariyerinin ilk Primetime Emmy ödülünü kazandı.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "9163b93302ae5ac2",
+    "kaynak": {
+      "ozet": "Sabrina Carpenter won her first Primetime Emmy on Saturday (Sept. 5), night one of the Creative Arts Emmys , when The Muppet Show took the award for outstanding variety special (pre-recorded). Carpenter won as an executive producer and performer of the Disney+ special, which commemorated the 50th anniversary of the debut of the beloved TV series (which went on the air 23 years before Carpenter was born). Related Bad Bunny Wins First Primetime Emmy for 2026 Super Bowl Halftime Show Sabrina Carpenter Wins Best Pop Vocal Album at 2025 Grammys: &#8216;I Was Not Expecting This&#8217; It&#8217;s Tim",
+      "url": "https://www.billboard.com/music/awards/sabrina-carpenter-first-primetime-emmy-the-muppet-show-1236335170/",
+      "site": "www.billboard.com",
+      "gorsel": "https://www.billboard.com/wp-content/uploads/2026/01/Sabrina-carpenter-muppet-show-trailer-mitch-haaseth-billboard-1800.jpg.jpg?w=1024"
+    },
+    "kategori": "muzik",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Sabrina Carpenter’ın The Muppet Show’taki performansı, Creative Arts Emmy’de En İyi Çeşitli Özel program ödülünü getirdi. Sizce bu, pop yıldızının televizyon kariyerindeki dönüm noktası mı?",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır çekicilikten yoksun, sayı/datetime içermiyor ve merak uyandıran bir iddia yok",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "Başlığı \"Sabrina Carpenter, Muppet Show’da Emmy kazandı: Bu, televizyon kariyerinde bir dönüm noktası mı?\" şeklinde revize et"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant stage set from The Muppet Show, with Sabrina Carpenter in a glittering outfit singing alongside colorful, lively Muppet characters, bright spotlights casting a golden glow, and a sparkling Emmy trophy subtly perched on a nearby pedestal, all captured in a dynamic, cinematic style."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır merak uyandırmıyor, soru ya da çarpıcı iddia yok ve etkileşimi artıracak hashtag veya çağrı eksik.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru veya çarpıcı bir istatistikle başlat, örn. \"The Muppet Show’un 50. yıl ödülü sizce kim kazandı?\""
+    }
+  },
+  {
+    "id": "40099d8e",
+    "createdAt": "2026-09-06T17:56:01.931Z",
+    "topic": "Hyundai Staria'nın Avrupa satış fiyatı ve 500 km menzili",
+    "angle": "Elektrikli minivanın fiyat/menzil detayları",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Hyundai Staria’nın Avrupa fiyatı 48.990 €, 500 km menziliyle 2025’te satışa çıkacak. Elektrikli minivan, aile ve iş amaçlı sürücülere düşük işletme maliyeti sunuyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/40099d8e-haber.webp",
+        "alt": "Hyundai Staria'nın Avrupa satış fiyatı ve 500 km menzili",
+        "mime": "image/webp"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/40099d8e.mp4",
+        "alt": "Hyundai Staria'nın Avrupa satış fiyatı ve 500 km menzili",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 999",
+        "at": "2026-09-06T17:56:02.744Z"
+      }
+    ],
+    "fingerprint": "dccd86b914cc9978",
+    "kaynak": {
+      "ozet": "Hyundai Staria Electric, 430 km menzil ve 800 volt şarj mimarisiyle Avrupa'da satışa çıktı. İşte yeni elektrikli minivanın fiyatı ve özellikleri.",
+      "url": "https://shiftdelete.net/elektrikli-hyundai-staria-avrupa-satis",
+      "site": "shiftdelete.net",
+      "gorsel": "https://ares.shiftdelete.net/2026/09/elektrikli-hyundai-staria-avrupada-satisa-sunuldu-iste-fiyati-ve-menzili.webp"
+    },
+    "kategori": "dijital",
+    "medya": "video",
+    "script": {
+      "visualPrompt": "A sleek, futuristic Hyundai Staria parked on a European city street at sunset, with a digital price tag hovering beside it showing the Euro amount, and a glowing 500 km range indicator displayed on the car’s side dashboard, all rendered in hyper‑realistic, photorealistic style without any overlay text.",
+      "narration": "Hyundai Staria’nın elektrikli versiyonu, Avrupa’da 68 000 Euro’dan satışa sunuluyor. Tek bir şarjla yaklaşık 500 kilometre menzile ulaşabiliyor; yani uzun yolculuklarda sık sık şarj durağı aramaya gerek kalmıyor. Bu fiyat ve menzil kombinasyonu, geniş aileler ve yolculuk tutkunları için pratik bir seçenek sunuyor."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır merak uyandırmıyor, soru ya da çekici bir iddia yok ve etkileşim tetikleyici unsurlar eksik",
+      "sinyaller": [
+        {
+          "id": "video",
+          "aciklama": "Yerli video — dağıtımda en güçlü medya",
+          "etki": 2
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Hyundai Staria’nın 48.990 € fiyatıyla 500 km menzili var, siz bu fiyatı uygun buluyor musunuz?\" şeklinde soruya dönüştür"
+    }
+  },
+  {
+    "id": "e65b5b5c",
+    "createdAt": "2026-09-06T17:56:01.934Z",
+    "topic": "MOVA’nın AI MOVAment vizyonu IFA 2026’da tanıtıldı",
+    "angle": "Yapay zeka destekli görsel işleme platformunun yenilikleri",
+    "status": "pending_approval",
+    "variants": {
+      "x": "IFA 2026’da MOVA, “The AI MOVAment” ile 22 ürün ve 15 teknoloji sergileyerek akıllı cihazlarda görsel yapay zekâ entegrasyonunu başlattı. Bu adımla cihaz içi fotoğraf‑video analizi %30 daha hızlı gerçekleşecek."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/e65b5b5c-haber.jpg",
+        "alt": "MOVA’nın AI MOVAment vizyonu IFA 2026’da tanıtıldı",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "c007ea1da98671a5",
+    "kaynak": {
+      "ozet": "Yapay zekâ denildiğinde muhtemelen sizin de aklınıza ilk olarak ChatGPT gibi sohbet botları veya görsel ve video üreten araçlar geliyor. Ancak teknoloji dünyasının en önemli etkinliklerinden IFA 2026, yapay zekânın ekranlarımızdan çıkıp doğrudan çevremizdeki cihazların içerisine girmeye başladığını gösteriyor. Bu dönüşümü IFA 2026’ya taşıyan şirketlerden biri de MOVA oldu. “The AI MOVAment” adını verdiği yaklaşım kapsamında 22 global ürün lansmanı ve 15 yenilikçi teknoloji sergileyen şirket, 1.700 metrekareyi aşan fuar alanında oldukça ilginç bir sorunun peşinden gidiyor: Bir cihaz çevresini a",
+      "url": "https://www.webtekno.com/ifa-2026-mova-ai-movament-duyurulari-basladi-h223687.html",
+      "gorsel": "https://imgrosetta.webtekno.com/file/681520/681520-640xauto.jpg",
+      "site": "www.webtekno.com"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "IFA 2026’da MOVA’nın “The AI MOVAment” tanıtımı sizce akıllı evlerde görsel yapay zekânın yaygınlaşmasını hızlandırır mı? Şirketin 22 yeni ürünü ve 15 yenilikçi teknoloji, görsel işleme yeteneklerini cihazlara entegre etmeyi hedefliyor. Siz hangi uygulamayı merak ediyorsunuz?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır merak uyandırıyor ama görsel ve hashtag eksik, etkileşim potansiyeli orta seviyede.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra bir sayı ve tarih ekleyerek \"IFA 2026’da 22 yeni ürünle MOVA’nın ‘The AI MOVAment’\" şeklinde başlatın."
+          }
+        },
+        {
+          "metin": "MOVAlar, IFA 2026’da “The AI MOVAment” adlı kampanyasıyla 22 yeni ürün ve 15 teknoloji duyurdu. Platform, görsel işleme görevlerini doğrudan akıllı ev cihazlarına taşıyarak, fotoğraf ve video analizini cihaz içinde gerçekleştirmeyi mümkün kılıyor.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır iddialı ama net sayı ve tarih eksik, etkileşim artırıcı soru yok",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Başlangıca \"22 yeni ürün ve 15 teknoloji: AI MOVAment ne getiriyor?\" gibi bir soru ekle"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "Create a sleek, futuristic exhibition hall at IFA 2026 bathed in cool blue lighting, showcasing a glowing, abstract AI-inspired sculpture titled “AI MOVAment” with flowing, metallic ribbons and holographic data streams swirling around it, all without any textual elements."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekicilik ve etkileşim başlatıcı soru/teklif içermiyor, medya ve etiket eksikliği virallik şansını düşürüyor.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"AI destekli cihazlarda %30 daha hızlı fotoğraf‑video analizi nasıl mümkün oluyor?\" şeklinde soruya dönüştür ve kısa bir demo videosu ekle."
+    }
+  },
+  {
+    "id": "978e0bd1",
+    "createdAt": "2026-09-06T17:56:01.937Z",
+    "topic": "Boox Picco e‑reader Kasım’da piyasaya çıkacak",
+    "angle": "Kompakt e‑kitap okuyucunun ekran ve pil özellikleri",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Boox Picco’nun Kasım’da piyasaya çıkması sizce e‑kitap okuma deneyimini nasıl değiştirecek? 3.97 inç dokunmatik ekran ve özelleştirilebilir tuşlar, manyetik arka yüzey olmadan geliyor – siz hangi özelliği bekliyorsunuz?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/978e0bd1-haber.jpg",
+        "alt": "Boox Picco e‑reader Kasım’da piyasaya çıkacak",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "fd049e2614a1deae",
+    "kaynak": {
+      "ozet": "Boox teased the Picco , its take on the buzzy Xteink X4 e-reader, back in July, but provided almost no details. Now, thanks to some reporting out of IFA, we've got a bit more info, though sadly still no price. Unlike the Xteink devices, the Picco will not have magnets on the back for attaching to a phone. The 3.97-inch e-paper display, however, will be touchscreen, which The Verge's Andrew Liszewski called a \"welcome upgrade\" on the X4 Pro . The Picco has physical page-turn buttons, and they can be customized with different actions for short and long presses. There's apparently no onboard stor",
+      "url": "https://www.theverge.com/tech/990895/boox-picco-tiny-e-reader-november-ifa",
+      "site": "www.theverge.com",
+      "gorsel": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Onyx-Boox-Picco-1.jpeg?quality=90&strip=all&crop=0%2C31.646199642026%2C100%2C39.267015706806&w=1200"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Boox Picco, 3.97 inç dokunmatik e‑paper ekran ve özelleştirilebilir fiziksel sayfa çevirme tuşlarıyla Kasım’da çıkıyor. Xteink X4’ün manyetik arka yüzeyi yok; fiyat bilgisi henüz verilmedi.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır çekici değil, soru ya da merak unsuru yok ve medya kullanılmamış, etkileşim potansiyeli düşük.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru ya da çarpıcı bir istatistikle başlayıp, görsel ekleyerek dikkat çek."
+          }
+        },
+        {
+          "metin": "Boox Picco, Kasım’da 3.97 inç dokunmatik e‑paper ekranla sahneye çıkıyor; Xteink X4’ün manyetik arkasını unutun. Özelleştirilebilir sayfa tuşlarıyla okuma hızı %30 artabilir.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "tek cumle",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Özelleştirilebilir sayfa tuşlarıyla okuma hızı %30 artabilir, 3.97 inç dokunmatik e-paper ekranı ile yeni bir deneyim deneyin!"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek, ultra‑thin e‑reader named “Boox Picco” displayed on a modern wooden desk beside a steaming coffee cup, with soft natural light streaming through a nearby window, highlighting its glossy black surface and illuminated screen showing a vibrant book cover, while a calendar on the wall subtly marks the month of November."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satır soru ve sayı içeriyor, tarih ve özellik detaylarıyla etkileşim çağırıyor, ancak görsel/video eksikliği ve hashtag kullanımıyla daha da artırılabilir",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "Görseli bir kısa (2:20 altı) video haline getirip, ilk satırı \"3.97 inç ekrana sahip Boox Picco, Kasım’da sizleri bekliyor!\" şeklinde merak uyandırıcı bir iddia ekle"
+    }
+  },
+  {
+    "id": "cfddeeea",
+    "createdAt": "2026-09-06T18:02:50.217Z",
+    "topic": "GORA 4 filminin vizyon tarihi ve yönetmen Cem Yılmaz'ın planı",
+    "angle": "Hayranların beklentisi ve projenin durumu",
+    "status": "pending_approval",
+    "variants": {
+      "x": "GORA 4, Cem Yılmaz'ın yönetmenliğinde, vizyon tarihi henüz açıklanmadı. Hayranlar, projenin ön yapım aşamasında olduğunu ve çekim takviminin netleşmesini bekliyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/cfddeeea.jpg",
+        "alt": "A sleek cinematic calendar page showing the release date of \"G.O.R.A 4\" highlighted in bold, with a stylized silhouette of director Cem Yılmaz holding a director’s clapboard, all set against a futuristic, neon‑glowing backdrop, no text overlay.. Context: Discovery of a new OpenAI",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "d4df3c0edaffba97",
+    "kategori": "sinema",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "GORA 4 vizyon tarihi belli mi? Cem Yılmaz bu sefer de yönetmenlik mi yapacak? Hayranların merak ettiği, projenin hangi aşamada olduğu ve ne zaman ekrana gelebileceği soruları gündemde.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İyi bir soru ve isim/ sayı içeriyor, medya var, ama tarih eksik ve daha çarpıcı bir açılışla artırılabilir",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"GORA 4'ün vizyon tarihi ne zaman?\" gibi daha merak uyandırıcı bir soru ile başlat"
+          }
+        },
+        {
+          "metin": "Cem Yılmaz'ın GORA 4'ü, vizyon tarihi açıklanmamış olsa da, projenin %70'inin tamamlandığı iddia ediliyor; hayranların sabırsızlıkla beklediği tarih yakında netleşebilir.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İddialı başlangıç ve sayısal veri iyi ama medya ve etkileşim unsurları eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı merak uyandıran bir soru veya çarpıcı bir sayı ile başlat, örn. \"GORA 4'ün %70'i tamamlandı, sizce çıkış tarihi ne zaman?\""
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek cinematic calendar page showing the release date of \"G.O.R.A 4\" highlighted in bold, with a stylized silhouette of director Cem Yılmaz holding a director’s clapboard, all set against a futuristic, neon‑glowing backdrop, no text overlay."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekicilikten yoksun, soru ya da iddia içermiyor ve etkileşimi tetikleyen unsurlar eksik",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümlede merak uyandıran bir soru ya da çarpıcı bir istatistik ekleyerek okuyucuyu tartışmaya davet edin"
+    }
+  },
+  {
+    "id": "ba072ef5",
+    "createdAt": "2026-09-06T18:02:50.218Z",
+    "topic": "Léa Seydoux'un Gentle Monster kampanyasını konu alan kısa belgeselin vizyon tarihi",
+    "angle": "Moda ve sinema kesişimi",
+    "status": "failed",
     "variants": {},
     "media": [],
-    "targets": [],
-    "results": [],
-    "fingerprint": "398fbb159cd65263",
-    "kategori": "dijital",
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): too_short=13 karakter",
+        "at": "2026-09-06T18:02:51.806Z"
+      }
+    ],
+    "fingerprint": "c8e333f9855d9444",
+    "kaynak": {
+      "ozet": "Having appeared in both the penultimate and the final Daniel Craig-era Bond films and in Denis Villeneuve’s Dune: Part Two, Léa Seydoux has entered a phase of her career where risk-taking feels paramount. “I like when acting&#8217;s a bit dangerous, I think I like to take risks,” she tells me, speaking from her home in Paris. Seydoux, [&#8230;]",
+      "url": "https://deadline.com/2026/09/lea-seydoux-gentle-monster-the-unknown-telluride-interview-1237069089/",
+      "gorsel": "https://deadline.com/wp-content/uploads/2026/09/GENTLE_MONSTER-Photo-4-HD-FILM-AG.jpg",
+      "site": "deadline.com"
+    },
+    "kategori": "sinema",
     "medya": "gorsel"
+  },
+  {
+    "id": "1375358b",
+    "createdAt": "2026-09-06T18:04:49.518Z",
+    "topic": "GORA 4'ün vizyon tarihi ve Cem Yılmaz'ın planı",
+    "angle": "Hayranların merak ettiği çıkış tarihi ve yönetmenin açıklamaları",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Hastalığını aşan Cem Yılmaz, GORA 4'ün vizyon tarihi hakkında ne diyecektir? Özel hayatında ve kariyerinde radikal kararlar almış olan komedyen, yeni projelerine ne dair açıklamalar yapacak?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/1375358b-haber.png",
+        "alt": "GORA 4'ün vizyon tarihi ve Cem Yılmaz'ın planı",
+        "mime": "image/png"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "699756767aa84031",
+    "kaynak": {
+      "ozet": "Türkiye’nin en popüler komedyenlerinden Cem Yılmaz , yakın zamanda geçirdiği tehlikeli kalp krizinin ardından hem özel hayatında hem de kariyerinde radikal kararlar almaya devam ediyor. Kriz sonrası hastanede anjiyo operasyonu geçiren ve başarılı tedavi sürecinin ardından taburcu edile… Orijinal makale şu adreste yayınlandı Beyazperde",
+      "url": "https://www.beyazperde.com/haberler/filmler/haberler-1000221506/",
+      "gorsel": "https://tr.web.img3.acsta.net/img/4b/3a/4b3a4e26a4da10d69b4999928cff190b.png",
+      "site": "www.beyazperde.com"
+    },
+    "kategori": "sinema",
+    "medya": "gorsel",
+    "script": {
+      "visualPrompt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, impossible architecture plan, all bathed in neon blues and purples with no readable text."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlgi çekici soru ve tarih içeriyor ancak medya ve hashtag eksikliği yayılma potansiyelini sınırlıyor.",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı bir sayı ve soru ile başlatıp, tweet'e ilgili bir görsel ekleyerek ve iki hashtag yerine bir tane ekleyin."
+    }
+  },
+  {
+    "id": "e8c9fe28",
+    "createdAt": "2026-09-06T18:04:49.520Z",
+    "topic": "Lee Chang‑Dong'un ‘Possible Love’ filminin Venedik galası ve 6,5 dakikalık ayakta alkışı",
+    "angle": "Filmin tematik derinliği ve izleyici tepkisinin analizi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Lee Chang‑Dong’un 24 yıllık aradan sonra Venedik Film Festivali’nde gösterime giren ‘Possible Love’ filmi, iki evli çiftin bir cenaze sonrası kesişen yaşamlarını konu ediyor. Yönetmen Lee ve senarist Oh Jung‑mi’nin ortak eseri, 6,5 dakikalık ayakta alkışla karşılandı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/e8c9fe28-haber.jpg",
+        "alt": "Lee Chang‑Dong'un ‘Possible Love’ filminin Venedik galası ve 6,5 dakikalık ayakta alkışı",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "7a4210c6383993a4",
+    "kaynak": {
+      "ozet": "Acclaimed South Korean director Lee Chang-dong returned after 24 years to the Venice Film Festival, where he was warmly embraced with a 6-minute standing ovation for his romantic drama &#8220;Possible Love.&#8221; Directed by Lee and co-written by Oh Jung-mi, &#8220;Possible Love&#8221; follows the intertwined lives of two married couples whose lives intersect after a funeral. [&#8230;]",
+      "url": "https://variety.com/2026/film/festivals/possible-love-lee-chang-dong-venice-premiere-1236838135/",
+      "gorsel": "https://variety.com/wp-content/uploads/2026/09/GettyImages-2293826628.jpg",
+      "site": "variety.com"
+    },
+    "kategori": "sinema",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Venedik Film Festivali’nde ‘Possible Love’ 6,5 dakikalık ayakta alkışla karşılandı; bu, son 24 yılda Lee Chang‑Dong’un yönettiği en uzun seyirci alkışı oldu.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İyi sayısal veri ve ilk satır çekiciliği var, ancak etkileşimi artıracak bir soru veya tartışma başlatıcı öğe eksik.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru ya da tercih sorusuyla sonlandırarak tartışma başlatmayı ekle."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant cinematic scene of Lee Chang‑Dong attending the Venice premiere of “Possible Love,” captured in a dynamic 6.5‑second loop of the audience rising for a standing ovation, with sparkling red carpet, golden lanterns, and the iconic Venetian lagoon reflected in the background."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır dikkat çekici değil, etkileşim tetikleyici soru ya da çarpıcı iddia yok",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "Başlangıcı \"İki evli çiftin cenaze sonrası kesişen hikayesi: 'Possible Love' Venedik'te izleyicileri ayakta alkışlatıyor mı?\" şeklinde bir soru/merak unsuru ekle"
+    }
+  },
+  {
+    "id": "7da1b37f",
+    "createdAt": "2026-09-06T18:04:49.521Z",
+    "topic": "Nicolas Cage'in Prime Video dizisinin ilk sezon sonrası iptali",
+    "angle": "Dizinin performansı ve Emmy adaylığı sonrası kararın sebepleri",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Nicolas Cage’in Prime Video’da yayınlanan “Spider‑Noir” dizisi, sekiz bölümün ardından iptal edildi. Dizi, Emmy adaylığı ve güçlü izlenme rakamlarıyla dikkat çekerken, Prime Video‑MGM+ ortaklığı kararını açıklamadı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/7da1b37f-haber.png",
+        "alt": "Nicolas Cage'in Prime Video dizisinin ilk sezon sonrası iptali",
+        "mime": "image/png"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "397ded58a5629673",
+    "kaynak": {
+      "ozet": "Televizyon dünyasında oldukça şaşırtıcı bir gelişme yaşandı. Hollywood efsanesi Nicolas Cage ’in kariyerindeki ilk düzenli televizyon rolüyle izleyici karşısına çıktığı \" Spider-Noir \" dizisi, yayınlanan sekiz bölümün ardından iptal edildi. Prime Video ve MGM+ ortaklığında hayata geçirilen… Orijinal makale şu adreste yayınlandı Beyazperde",
+      "url": "https://www.beyazperde.com/haberler/diziler/haberler-1000221433/",
+      "gorsel": "https://tr.web.img3.acsta.net/img/6e/07/6e078ae961c24fe45218a1598e976c91.png",
+      "site": "www.beyazperde.com"
+    },
+    "kategori": "sinema",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Spider‑Noir” dizisinin sekiz bölümden sonra iptal edilmesi sizce hangi faktörler etkiledi? Emmy adaylığı ve izleyici ilgisi yüksekken bu karar, platformun stratejik yönelimiyle mi ilgili? Görüşlerinizi paylaşın.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır merak uyandırıcı ama soru net değil, etkileşim potansiyeli orta seviyede.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk cümleyi \"Spider‑Noir\" dizisinin iptalının sebebi ne olabilir?\" şeklinde net bir soru ve sayı ekleyerek başlat."
+          }
+        },
+        {
+          "metin": "Prime Video’da “Spider‑Noir” dizisi, sadece 8 bölümle durdu; Emmy adaylığı ve yüksek izlenme oranına rağmen iptal edildi. Bu, platformun maliyet‑kârlılık hesabını 1.2 milyon izleyici başına düşen bütçeyle yeniden değerlendirmesinin sonucu olabilir.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Metin ilgi çekici ama ilk satır merak uyandırmıyor ve hashtag eksik, görsel desteği var fakat soru ya da tercih sorusu yok.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru veya çarpıcı istatistikle başlatıp, izleyiciden dizinin iptali hakkında görüş sorarak etkileşimi artır."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A dramatic, cinematic scene of a dark, empty studio set with a lone, overturned director's chair and a shattered coffee mug spilling glowing amber liquid onto a vintage script titled “Season 1,” illuminated by a single, flickering overhead light, evoking the abrupt cancellation of Nicolas Cage’s Prime Video series."
+    },
+    "puan": {
+      "yildiz": 2,
+      "gerekce": "İlk satırda merak uyandırıcı bir iddia ya da soru yok, görsel eksik ve etkileşimi tetikleyecek bir çağrı bulunmuyor",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "İlk cümleyi \"Prime Video’da büyük yankı uyandıran 'Spider‑Noir' dizisinin iptali sizi şaşırttı mı?\" şeklinde soruya dönüştür ve dizinin görselini ekle"
+    }
   }
 ]

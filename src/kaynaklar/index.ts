@@ -179,10 +179,33 @@ async function rssOku(feedler: string[], limit: number): Promise<TrendItem[]> {
           etiket(b, 'content'),
         ].sort((x, y) => y.length - x.length)[0];
 
-        // Haberin kendi fotografi: enclosure ya da media:content.
+        /**
+         * Haberin kendi fotografi, ucuzdan pahaliya:
+         *   1. enclosure / media:content - standart yer
+         *   2. ozetin icine gomulmus <img> - Billboard gibi siteler boyle
+         * Ikisi de yoksa gorsel burada birakilir; yonetmen gerektiginde
+         * haber sayfasindan og:image ile alir (bkz. haberFotografi).
+         */
+        const gomulu = () => {
+          const govde = [
+            /<content:encoded[^>]*>([\s\S]*?)<\/content:encoded>/i.exec(b)?.[1],
+            /<description[^>]*>([\s\S]*?)<\/description>/i.exec(b)?.[1],
+            /<summary[^>]*>([\s\S]*?)<\/summary>/i.exec(b)?.[1],
+          ]
+            .filter(Boolean)
+            .join(' ')
+            // RSS govdesi cogu zaman kacisli HTML tasir; once cozulmeli.
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&amp;/g, '&');
+          return /<img[^>]+src=["']([^"']+)/i.exec(govde)?.[1];
+        };
+
         const gorsel =
           /<enclosure[^>]*url=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)/i.exec(b)?.[1] ??
-          /<media:(?:content|thumbnail)[^>]*url=["']([^"']+)/i.exec(b)?.[1];
+          /<media:(?:content|thumbnail)[^>]*url=["']([^"']+)/i.exec(b)?.[1] ??
+          gomulu();
 
         const tarih = etiket(b, 'pubDate') || etiket(b, 'published') || etiket(b, 'updated');
 
@@ -286,4 +309,92 @@ export async function gundemTopla(
 
   log.info(`gundem: ${mixed.length} madde (${active.map((s) => s.id).join(', ')})`);
   return mixed;
+}
+
+/* ==================================================== HABER FOTOGRAFI ==== */
+
+/**
+ * HABERIN SAYFASINDAN FOTOGRAF CIKARMA
+ *
+ * Olcum (15 kaynak, 75 haber):
+ *   %60 RSS'te enclosure/media:content ile fotograf veriyor
+ *   %4  fotografi description icindeki <img> etiketinde saklıyor
+ *   %36 RSS'te HIC fotograf vermiyor
+ *
+ * O %36'lik dilim (Anime News Network, Merlin'in Kazani, ShiftDelete,
+ * The Verge, TechCrunch) AI uretimine dusuyordu ve cikan gorsel konudan
+ * kopuk oluyordu: "Sabrina Carpenter Muppet Show" haberine model jenerik
+ * bir sahne cizdi, oysa Billboard'un haber sayfasinda gercek fotograf
+ * duruyordu.
+ *
+ * Bu 27 habere sayfalarindan bakildiginda 27'sinde de og:image bulundu -
+ * yani kayip veri degil, ALINMAYAN veri. Sosyal medyada paylasilmak icin
+ * konan etiket zaten bu; her haber sitesi koyuyor.
+ *
+ * Neden RSS toplarken degil de burada: gundem toplarken 20 haberin 20
+ * sayfasini indirmek gereksiz, cunku sonunda 1-3 tanesi kullaniliyor.
+ * Yonetmen gorseli gercekten isteyince tek sayfa indiriliyor.
+ *
+ * ---------------------------------------------------------------------------
+ * MUDAHALE NOKTASI - Bir kaynak fotograf vermiyorsa once RSS'ine bak
+ * (enclosure var mi), sonra haber sayfasinda og:image var mi diye bak.
+ * Ikisi de yoksa o kaynak gorsel icin uygun degil.
+ * ---------------------------------------------------------------------------
+ */
+
+/** Tarayici gibi gorunmek gerekiyor: bazi siteler bot UA'ya sayfa vermiyor. */
+const TARAYICI_UA = {
+  'user-agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36',
+  accept: 'text/html,application/xhtml+xml',
+};
+
+/** og:image, twitter:image ya da link rel=image_src. Ilk bulunan kazanir. */
+function metaGorsel(html: string): string | undefined {
+  const desenler = [
+    /<meta[^>]+property=["']og:image(?::url|:secure_url)?["'][^>]*content=["']([^"']+)/i,
+    /<meta[^>]+content=["']([^"']+)["'][^>]*property=["']og:image(?::url|:secure_url)?["']/i,
+    /<meta[^>]+name=["']twitter:image(?::src)?["'][^>]*content=["']([^"']+)/i,
+    /<link[^>]+rel=["']image_src["'][^>]*href=["']([^"']+)/i,
+  ];
+  for (const d of desenler) {
+    const m = d.exec(html)?.[1];
+    if (m) return m.replace(/&amp;/g, '&').trim();
+  }
+  return undefined;
+}
+
+/**
+ * Haber sayfasini acip paylasim fotografini dondurur.
+ *
+ * Sayfanin tamami indirilmez; </head> gorulunce durulur, cunku og:image
+ * orada. Boyut siniri yalnizca emniyet freni.
+ *
+ * Sinir neden 1 MB: ilk denemede 300 KB koymustum ve Billboard'da
+ * calismadi - o sitenin <head>'i 567 KB (satir ici script ve stil yigini),
+ * og:image 558. kilobayttaydi. Olcmeden konan sinir, duzelttigi sorunun
+ * aynisini uretiyordu.
+ */
+export async function haberFotografi(url: string): Promise<string | undefined> {
+  try {
+    const res = await fetch(url, { headers: TARAYICI_UA, signal: AbortSignal.timeout(10_000) });
+    if (!res.ok || !res.body) return undefined;
+
+    let html = '';
+    const cozucu = new TextDecoder();
+    for await (const parca of res.body as unknown as AsyncIterable<Uint8Array>) {
+      html += cozucu.decode(parca, { stream: true });
+      if (html.length > 1_000_000 || /<\/head>/i.test(html)) break;
+    }
+    await res.body.cancel().catch(() => {});
+
+    const bulunan = metaGorsel(html);
+    if (!bulunan) return undefined;
+
+    // Goreli adres olabilir; haberin kendi adresine gore cozulur.
+    return new URL(bulunan, url).toString();
+  } catch (e) {
+    log.warn(`haber fotografi alinamadi: ${String(e).slice(0, 80)}`);
+    return undefined;
+  }
 }
