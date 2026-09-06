@@ -220,9 +220,11 @@ function renderHesapSayfasi(el) {
           <h2>${esc(a.label)}</h2>
           <div class="muted small">${esc((platformOf(a.platform) || {}).label || a.platform)} · ${esc(a.verifiedAs || '')}</div>
         </div>
-        <button class="primary" data-hesapyaz="${a.id}">Bu hesap için içerik üret</button>
+        ${SECILI_KATEGORI
+          ? `<button class="primary" data-katuret="${SECILI_KATEGORI}">${esc((katOf(SECILI_KATEGORI) || {}).ad || '')} içeriği getir</button>`
+          : `<button class="primary" data-hesapyaz="${a.id}">Tüm kategorilerden üret</button>`}
       </div>
-      <label>Post kategorisi</label>
+      <label>Post kategorisi ${SECILI_KATEGORI ? '<span class="muted">— seçili kategoriden üretince yalnızca o kaynaklar çekilir</span>' : ''}</label>
       <div class="row">
         <button class="mini ${SECILI_KATEGORI ? '' : 'primary'}" data-katfiltre="">Tümü (${hepsi.length})</button>
         ${kategoriler.map((k) => {
@@ -505,6 +507,19 @@ document.addEventListener('click', async (e) => {
     if (t.dataset.katfiltre !== undefined) {
       SECILI_KATEGORI = t.dataset.katfiltre || null;
       return renderAna();
+    }
+
+    if (t.dataset.katuret) {
+      // Yalnizca secili kategori: digerlerinin kaynaklarina hic gidilmez.
+      t.disabled = true;
+      const eski = t.textContent;
+      t.textContent = 'üretiliyor…';
+      toast('yalnızca bu kategoriden üretiliyor…', 120000);
+      try {
+        toast((await call('/api/kategoriden-uret', { kategori: t.dataset.katuret })).message, 8000);
+        await refresh();
+      } finally { t.disabled = false; t.textContent = eski; }
+      return;
     }
 
     if (t.dataset.stage || t.dataset.hesapyaz) {

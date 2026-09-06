@@ -7,7 +7,7 @@ import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
-import { calistir, gorevYolla, planla, kadro } from '../allagents/index.ts';
+import { calistir, gorevYolla, planla, kadro, kategoridenUret } from '../allagents/index.ts';
 import { publish } from '../pipeline/publish.ts';
 import { gorselAra, adayiIndir, type GorselAday } from '../providers/image/arama.ts';
 import { getImage } from '../providers/image/index.ts';
@@ -280,6 +280,32 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
 
   /** Postun kategorisini degistir; bicim ve varsayilan medya ondan gelir. */
   /** Tek postu yeniden puanla; metin adaylari da puanlanir. */
+  /**
+   * Tek kategori icin bastan sona uretim.
+   * Yalnizca o kategorinin kaynaklari cekilir; diger kaynaklara ve
+   * kategorilere hic dokunulmaz.
+   */
+  if (path === '/api/kategoriden-uret' && method === 'POST') {
+    if (busy) return send(res, 200, { ok: true, message: 'zaten calisiyor' });
+    const { kategori, adet } = await readJson<{ kategori: string; adet?: number }>(req);
+    if (!kategori) return send(res, 400, { error: 'kategori secilmedi' });
+
+    busy = true;
+    try {
+      const r = await kategoridenUret(kategori, adet ?? cfg.safety.maxPerRun);
+      const ozet = r.filter((x) => x.ok).map((x) => `${x.ekip}: ${x.ozet}`).join(' | ');
+      const hata = r.find((x) => !x.ok);
+      return send(res, 200, {
+        ok: true,
+        message: ozet || (hata ? `hata: ${hata.error}` : 'sonuc yok'),
+      });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 300) });
+    } finally {
+      busy = false;
+    }
+  }
+
   if (path === '/api/post/puanla' && method === 'POST') {
     const { id } = await readJson<{ id: string }>(req);
     try {

@@ -8,7 +8,7 @@ import type { Agent } from './types.ts';
 
 export { icerikBulma, videoUretim, ses, video, senaryo, gundemToplayici };
 export { ekipler, ekipBul, gundemIste, isteKonulu } from './ekipler/index.ts';
-export { planla, calistir, gorevYolla, kadro } from './lider.ts';
+export { planla, calistir, gorevYolla, kadro, kategoridenUret } from './lider.ts';
 export * from './types.ts';
 
 /**

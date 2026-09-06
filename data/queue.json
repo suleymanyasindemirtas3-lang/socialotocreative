@@ -4,13 +4,21 @@
     "createdAt": "2026-09-06T09:15:04.140Z",
     "topic": "Kuji Furumiya's Unnamed Memory -after the end- Sequel Light Novel Series Ends in December",
     "angle": "Hayranlar için en son rüya hikayesi!",
-    "status": "draft",
+    "status": "failed",
     "variants": {},
     "media": [],
     "targets": [
       "x-d30409"
     ],
-    "results": [],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): telltale=markdown isareti (sosyal medya islemez)",
+        "at": "2026-09-06T09:19:06.980Z"
+      }
+    ],
     "fingerprint": "a6f6aa4aec3eccf1",
     "kaynak": {
       "ozet": "Can the relaxed bear overcome the “world's toughest obstacle course”?",
@@ -19,5 +27,49 @@
     },
     "kategori": "anime",
     "medya": "gorsel"
+  },
+  {
+    "id": "77e32075",
+    "createdAt": "2026-09-06T09:20:10.569Z",
+    "topic": "Nicolas Cage'ın yeni projeleri",
+    "angle": "Beklenen filmler ve diziler",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Hollywood efsanesi Nicolas Cage'in kariyerindeki ilk televizyon rolüyle 'Spider-Noir' dizisi, Prime Video ve MGM+ ortaklığında hayata geçirildi. Dizinin sekiz bölümünden sonra iptal edildi."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/77e32075-haber.png",
+        "alt": "Nicolas Cage'ın yeni projeleri",
+        "mime": "image/png"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "e6a82f58b07c0718",
+    "kaynak": {
+      "ozet": "Televizyon dünyasında oldukça şaşırtıcı bir gelişme yaşandı. Hollywood efsanesi Nicolas Cage ’in kariyerindeki ilk düzenli televizyon rolüyle izleyici karşısına çıktığı \" Spider-Noir \" dizisi, yayınlanan sekiz bölümün ardından iptal edildi. Prime Video ve MGM+ ortaklığında hayata geçirilen… Orijinal makale şu adreste yayınlandı Beyazperde",
+      "url": "https://www.beyazperde.com/haberler/diziler/haberler-1000221433/",
+      "gorsel": "https://tr.web.img3.acsta.net/img/6e/07/6e078ae961c24fe45218a1598e976c91.png",
+      "site": "www.beyazperde.com"
+    },
+    "kategori": "sinema",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" iptal oldu. Hangi yönetime attribute vereceksiniz? 🤔 Vizyondan ne düşünüyorsunuz?"
+        },
+        {
+          "metin": "Nicolas Cage'ın yeni televizyon dizisi \"Spider-Noir\" 8 bölümünden sonra iptal. Orijinal produce Prime Video ve MGM+."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "Nicolas Cage's latest ventures in the spotlight"
+    }
   }
 ]

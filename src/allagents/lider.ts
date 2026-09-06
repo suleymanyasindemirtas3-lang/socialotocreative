@@ -3,6 +3,7 @@ import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { enabledAccounts } from '../core/accounts.ts';
 import { ekipler, ekipBul } from './ekipler/index.ts';
+import { kategoriBul } from '../kategoriler/index.ts';
 import type { Gorev, GorevSonucu } from './types.ts';
 import type { PostStatus as Durum } from '../core/types.ts';
 
@@ -144,11 +145,69 @@ export async function calistir(): Promise<GorevSonucu[]> {
 }
 
 /** Tek bir gorevi elle yollamak icin; panel dugmeleri bunu kullanir. */
-export async function gorevYolla(tur: Gorev['tur'], adet = cfg.safety.maxPerRun): Promise<GorevSonucu> {
-  const gorev: Gorev = { tur, adet, sebep: 'elle tetiklendi' };
+export async function gorevYolla(
+  tur: Gorev['tur'],
+  adet = cfg.safety.maxPerRun,
+  secenek?: { kategori?: string },
+): Promise<GorevSonucu> {
+  const gorev: Gorev = {
+    tur,
+    adet,
+    sebep: secenek?.kategori ? `elle: ${secenek.kategori}` : 'elle tetiklendi',
+    ...(secenek?.kategori ? { kategori: secenek.kategori } : {}),
+  };
   const ekip = ekipBul(tur);
   if (!ekip) return { gorev, ekip: '-', ok: false, ozet: 'ekip yok' };
   return ekip.run(gorev);
+}
+
+/**
+ * Tek kategori icin bastan sona uretim.
+ *
+ * Panelde "bu kategoriden icerik getir" bunu cagirir. Tam turdan farki:
+ * yalnizca istenen kategorinin kaynaklari cekilir, digerlerine hic
+ * dokunulmaz. Hem kullanicinin secimi uygulanir hem gereksiz is olmaz.
+ */
+export async function kategoridenUret(
+  kategoriId: string,
+  adet = cfg.safety.maxPerRun,
+): Promise<GorevSonucu[]> {
+  const kat = await kategoriBul(kategoriId);
+  if (!kat) return [];
+
+  const sonuclar: GorevSonucu[] = [];
+  log.step(`KATEGORI URETIMI: ${kat.ad}`);
+
+  // 1) Yalnizca bu kategorinin kaynaklarindan gundem.
+  const arastirma = ekipBul('gundem-topla');
+  let gundem: unknown;
+  if (arastirma && kat.kaynaklar?.length) {
+    const r = await arastirma.run({
+      tur: 'gundem-topla',
+      adet: cfg.sources.limit,
+      sebep: `${kat.ad} kaynaklari`,
+      kategori: kat.id,
+    });
+    sonuclar.push(r);
+    gundem = r.veri;
+  }
+
+  // 2) Fikir -> metin -> medya -> puan, hepsi bu kategori icin.
+  for (const tur of ['fikir-bul', 'icerik-yaz', 'medya-uret', 'puanla'] as const) {
+    const ekip = ekipBul(tur);
+    if (!ekip) continue;
+    const r = await ekip.run({
+      tur,
+      adet,
+      sebep: `${kat.ad} (elle)`,
+      kategori: kat.id,
+      ...(tur === 'fikir-bul' && gundem !== undefined ? { girdi: gundem } : {}),
+    });
+    sonuclar.push(r);
+    if (r.ok) log.ok(`${ekip.id}: ${r.ozet}`);
+    else log.err(`${ekip.id}: ${r.error}`);
+  }
+  return sonuclar;
 }
 
 /** Panel ve doctor icin: kim hangi gorevi ustleniyor. */

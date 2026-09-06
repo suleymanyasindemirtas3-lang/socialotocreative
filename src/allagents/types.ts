@@ -143,6 +143,12 @@ export interface Gorev {
    * baska bir ekibi cagirmaz, lider sonucu bir sonrakine girdi olarak verir.
    */
   girdi?: unknown;
+  /**
+   * Belirli bir kategori istendiyse id'si. Verilirse rotasyon atlanir ve
+   * YALNIZCA o kategorinin kaynaklari cekilir - hem kullanicinin secimi
+   * uygulanmis olur hem de gereksiz kaynak trafigi olusmaz.
+   */
+  kategori?: string;
 }
 
 export interface GorevSonucu {

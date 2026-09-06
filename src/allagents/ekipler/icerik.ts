@@ -22,13 +22,20 @@ import type { Post } from '../../core/types.ts';
  * uretilmemesini saglar.
  */
 
-async function fikirBul(adet: number, gundem: { title: string; source: string }[]): Promise<Post[]> {
+async function fikirBul(
+  adet: number,
+  gundem: { title: string; source: string; ozet?: string; gorsel?: string; url?: string }[],
+  istenenKategori?: string,
+): Promise<Post[]> {
   const targets = (await enabledAccounts()).map((a) => a.id);
 
-  // Rotasyon: en uzun suredir kullanilmayan kategori secilir. Ayni kalibin
-  // ust uste gelmesi hem okuyucuyu hem algoritmayi yoruyor.
-  const kategori = await siradakiKategori();
-  if (kategori) log.info(`kategori: ${kategori.ad}`);
+  /**
+   * Kullanici panelden bir kategori sectiyse rotasyon atlanir.
+   * Rotasyon otomatik turlar icin: ayni kalibin ust uste gelmesi hem
+   * okuyucuyu hem algoritmayi yoruyor. Elle istek varsa secim kullanicinin.
+   */
+  const kategori = istenenKategori ? await kategoriBul(istenenKategori) : await siradakiKategori();
+  if (kategori) log.info(`kategori: ${kategori.ad}${istenenKategori ? ' (elle secildi)' : ' (rotasyon)'}`);
 
   // Kategorinin kendi kaynaklari varsa gundem onlardan toplanir.
   if (kategori?.kaynaklar?.length) {
@@ -144,7 +151,7 @@ export const icerikEkibi: Ekip = {
         const gundem = Array.isArray(gorev.girdi)
           ? (gorev.girdi as { title: string; source: string }[])
           : [];
-        const n = (await fikirBul(gorev.adet, gundem)).length;
+        const n = (await fikirBul(gorev.adet, gundem, gorev.kategori)).length;
         return {
           ...head,
           ok: true,
