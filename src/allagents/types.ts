@@ -89,10 +89,26 @@ export interface SesIstegi {
   voice?: string;
 }
 
+/** Konusulan tek kelime ve ne zaman soylendigi. */
+export interface Kelime {
+  /** Baslangic, saniye. */
+  t: number;
+  /** Sure, saniye. */
+  d: number;
+  /** Kelimenin kendisi. */
+  k: string;
+}
+
 export interface SesSonucu {
   path: string;
   seconds: number;
   provider: string;
+  /**
+   * Kelime zamanlamalari - varsa altyazi konusmayla birebir eslesir.
+   * Yalnizca destekleyen saglayici doldurur (edge). Yoksa montaj
+   * zamanlamayi harf sayisina gore dagitir; kabaca dogru ama kaymali.
+   */
+  kelimeler?: Kelime[];
 }
 
 // -------------------------------------------------------------- 2. video uretim

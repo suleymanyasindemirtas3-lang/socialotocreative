@@ -1,7 +1,8 @@
+import { readFile, rm } from 'node:fs/promises';
 import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { getTts, duration } from '../providers/tts/index.ts';
-import type { Agent, SesIstegi, SesSonucu } from './types.ts';
+import type { Agent, Kelime, SesIstegi, SesSonucu } from './types.ts';
 
 /**
  * 3. SES
@@ -43,6 +44,27 @@ export const ses: Agent<SesIstegi, SesSonucu> = {
     }
 
     await tts.speak(konusulacak, outPath, voice ?? cfg.tts.voice);
-    return { path: outPath, seconds: await duration(outPath), provider: tts.id };
+
+    /**
+     * Kelime zamanlamalari varsa okunur. Saglayici uretmiyorsa (elevenlabs)
+     * sessizce atlanir; montaj o zaman harf sayisina gore dagitim yapar.
+     */
+    let kelimeler: Kelime[] | undefined;
+    const zamanDosyasi = `${outPath}.kelime.json`;
+    try {
+      kelimeler = JSON.parse(await readFile(zamanDosyasi, 'utf8')) as Kelime[];
+      if (!kelimeler.length) kelimeler = undefined;
+      else log.info(`seslendirme: ${kelimeler.length} kelime zamanlamasi alindi`);
+    } catch {
+      kelimeler = undefined;
+    }
+    await rm(zamanDosyasi, { force: true });
+
+    return {
+      path: outPath,
+      seconds: await duration(outPath),
+      provider: tts.id,
+      ...(kelimeler ? { kelimeler } : {}),
+    };
   },
 };

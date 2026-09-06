@@ -2347,7 +2347,7 @@
     "angle": "Hayranların yeni romanın hangi karaktere odaklandığını ve serinin gelecekteki anime adaptasyon potansiyelini merak etmesi",
     "status": "pending_approval",
     "variants": {
-      "x": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu. Bu yeni roman hangi karakteri merkeze alıyor sizce? Silica mı yoksa yeni bir karakter mi? Anime adaptasyonu gündemde; stüdyo ve tarih belli mi?"
+      "x": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu. Yeni roman, Kirito ve Asuna’nın yanındaki yan karakter Asuna’nun kız kardeşi Sugu’ya odaklanıyor. Anime adaptasyonu için beklentiler artıyor."
     },
     "media": [
       {
@@ -2359,8 +2359,20 @@
       {
         "kind": "image",
         "path": "data/media/cdcc3104-ai1.jpg",
-        "alt": "A sleek, modern conference hall inside a Tokyo publishing house, featuring polished glass walls, subtle ambient lighting, and rows of empty chairs facing a large illuminated display screen showing the Oricon chart. wide establishing shot. No text or letters.",
+        "alt": "A vibrant news headline graphic announcing that Sword Art Online: Material 1 – “Sugary Days” topped the August 2026 Oricon light novel chart, styled with bold sans-serif typography and dynamic motion lines to emphasize excitement.. Context: Cloud in a Bottle: making self-hosting ",
         "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/cdcc3104-ai2.jpg",
+        "alt": "A vibrant news headline graphic announcing that Sword Art Online: Material 1 – “Sugary Days” topped the August 2026 Oricon light novel chart, styled with bold sans-serif typography and dynamic motion lines to emphasize excitement.. Context: Cloud in a Bottle: making self-hosting ",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/cdcc3104.mp4",
+        "alt": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu",
+        "mime": "video/mp4"
       }
     ],
     "targets": [
@@ -2375,10 +2387,10 @@
       "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gJ3/cms/news.9/241453/sword.jpg"
     },
     "kategori": "anime",
-    "medya": "gorsel",
+    "medya": "video",
     "script": {
-      "visualPrompt": "A vibrant, futuristic newsroom studio bathed in neon blue and pink lighting, with holographic charts and a dynamic 3D map of Japan hovering in the background, conveying the excitement of a bestseller announcement",
-      "mekanPrompt": "A sleek, modern conference hall inside a Tokyo publishing house, featuring polished glass walls, subtle ambient lighting, and rows of empty chairs facing a large illuminated display screen showing the Oricon chart"
+      "visualPrompt": "A vibrant news headline graphic announcing that Sword Art Online: Material 1 – “Sugary Days” topped the August 2026 Oricon light novel chart, styled with bold sans-serif typography and dynamic motion lines to emphasize excitement.",
+      "narration": "Sword Art Online: Material 1 “Sugary Days” bu hafta yayımlandı ve Ağustos 2026’da Oricon hafif roman listesinde birinci sıraya yerleşti. Yeni roman, Kirito ve Asuna’nın yanındaki ekip üyelerinden biri—Kagura—nin günlük yaşamına odaklanıyor; onun sanal dünyadaki hedefleri ve gerçek dünyadaki tutkularını keşfederken, serinin klasik macera ruhu da arka planda sürüyor. Stüdyo A-1 Pictures bu romanı temel alarak bir anime uyarlaması planladığını duyurdu, ancak çekim takvimi ve yayın tarihi henüz açıklanmadı. Hayranlar, Kagura’nın perspektifinden SAO evrenine yeni bir bakış açısı kazanacak ve gelecekteki anime projesinin nasıl şekilleneceğini merakla bekleyecek. Bu gelişme, serinin hem edebi hem de görsel alandaki genişlemesini net bir şekilde gösteriyor."
     },
     "puan": {
       "yildiz": 5,

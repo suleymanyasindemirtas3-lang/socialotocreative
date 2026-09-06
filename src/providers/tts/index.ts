@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, rm } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import { cfg } from '../../core/config.ts';
 import { log } from '../../core/logger.ts';
@@ -10,24 +11,35 @@ const run = promisify(execFile);
 
 const ensureDir = async (p: string) => mkdir(dirname(p), { recursive: true });
 
-/** Microsoft Edge'in TTS ucu. Anahtar istemez, Turkce sesleri var. */
+/**
+ * Microsoft Edge'in TTS ucu. Anahtar istemez, Turkce sesleri var.
+ *
+ * `python -m edge_tts` yerine kendi betigimizi cagiriyoruz: komut satiri
+ * yalnizca CUMLE sinirlarini veriyor, altyazinin konusmayla birlikte
+ * kelime kelime yazilabilmesi icin KELIME zamanlamalari gerekiyor.
+ * Betik sesin yanina <ses>.kelime.json yaziyor (bkz. edge_kelime.py).
+ *
+ * Metin gecici dosyadan okunuyor: komut satirindan gecirilince Turkce
+ * karakterler Windows konsol kod sayfasinda bozuluyordu.
+ */
 const edge: TtsProvider = {
   id: 'edge',
   tier: 'free',
   isConfigured: () => true,
   async speak(text, outPath, voice) {
     await ensureDir(outPath);
-    await run(
-      'python',
-      [
-        '-m', 'edge_tts',
-        '--voice', voice || cfg.tts.voice,
-        '--rate', cfg.tts.rate,
-        '--text', text,
-        '--write-media', outPath,
-      ],
-      { maxBuffer: 1 << 24 },
-    );
+    const betik = fileURLToPath(new URL('./edge_kelime.py', import.meta.url));
+    const metinDosyasi = `${outPath}.metin.txt`;
+    await writeFile(metinDosyasi, text, 'utf8');
+    try {
+      await run(
+        'python',
+        [betik, outPath, voice || cfg.tts.voice, cfg.tts.rate, metinDosyasi],
+        { maxBuffer: 1 << 24 },
+      );
+    } finally {
+      await rm(metinDosyasi, { force: true });
+    }
     return outPath;
   },
 };
