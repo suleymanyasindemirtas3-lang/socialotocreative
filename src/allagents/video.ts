@@ -140,10 +140,48 @@ function buildAss(text: string, total: number, kelimeler?: Kelime[]): string {
  * (konusmaci nokta sonrasi duraklar). Kelime zamanlamasi yoksa esit
  * bolunur.
  */
-function kareSureleri(kareAdet: number, toplam: number, kelimeler?: Kelime[]): number[] {
+function kareSureleri(
+  kareAdet: number,
+  toplam: number,
+  kelimeler?: Kelime[],
+  bolumler?: string[],
+): number[] {
   const esit = () => Array.from({ length: kareAdet }, () => toplam / kareAdet);
   if (kareAdet < 2) return [toplam];
   if (!kelimeler?.length) return esit();
+
+  /**
+   * BOLUM METNINE GORE KESIM - tercih edilen yol.
+   *
+   * Her karenin hangi anlatim bolumune ait oldugu biliniyorsa kesim
+   * tahmin edilmez: bolumdeki kelime sayisi kadar ilerlenip tam o
+   * noktada kesilir. Kare, kendi bolumunun metni okunurken ekranda olur.
+   *
+   * Duraklardan tahmin etmek buna gore korlemeydi: duraklar cumle
+   * sinirini veriyordu ama HANGI cumlenin hangi kareye ait oldugunu
+   * bilmiyordu.
+   */
+  if (bolumler?.length === kareAdet) {
+    const kelimeSay = (t: string) => t.trim().split(/\s+/).filter(Boolean).length;
+    const sureler: number[] = [];
+    let indeks = 0;
+    let onceki = 0;
+    let saglam = true;
+
+    for (let i = 0; i < kareAdet - 1; i++) {
+      indeks += kelimeSay(bolumler[i]!);
+      const sinir = kelimeler[indeks];
+      if (!sinir) { saglam = false; break; }
+      sureler.push(sinir.t - onceki);
+      onceki = sinir.t;
+    }
+
+    if (saglam) {
+      sureler.push(toplam - onceki);
+      // Cok kisa kare goz yorar; boyle bir sey cikarsa duraklara don.
+      if (sureler.every((x) => x >= 1.5)) return sureler;
+    }
+  }
 
   // Kelime aralarindaki bosluklar; en uzun bosluklar cumle sinirlaridir.
   const bosluklar: { yer: number; uzunluk: number }[] = [];
@@ -233,7 +271,7 @@ export const video: Agent<MontajIstegi, string> = {
   role: 'Goruntu, ses ve altyaziyi dikey mp4 olarak kurgular',
   uses: ['ffmpeg'],
 
-  async run({ clip, audio, caption, outPath, ekGorseller = [] }): Promise<string> {
+  async run({ clip, audio, caption, outPath, ekGorseller = [], bolumler }): Promise<string> {
     await mkdir(dirname(outPath), { recursive: true });
     const assPath = outPath.replace(/\.mp4$/, '.ass');
     await writeFile(assPath, buildAss(caption, audio.seconds, audio.kelimeler), 'utf8');
@@ -304,7 +342,7 @@ export const video: Agent<MontajIstegi, string> = {
        * Kareler esit degil, CUMLE sinirlarinda degisiyor: anlatim yeni
        * cumleye gecince arka plan da degisiyor.
        */
-      const sureler = kareSureleri(kareler.length, audio.seconds, audio.kelimeler);
+      const sureler = kareSureleri(kareler.length, audio.seconds, audio.kelimeler, bolumler);
 
       /**
        * DIKKAT: burada `-loop 1 -t <sure>` KULLANILMAZ.
@@ -339,7 +377,7 @@ export const video: Agent<MontajIstegi, string> = {
       ];
       log.info(
         `montaj: ${kareler.length} kare (${sureler.map((x) => x.toFixed(1)).join('s / ')}s)` +
-          `${audio.kelimeler?.length ? ', kesimler cumle sinirinda' : ''}`,
+          `${bolumler?.length === kareler.length ? ', kesimler anlatim bolumlerinde' : audio.kelimeler?.length ? ', kesimler cumle sinirinda' : ''}`,
       );
     } else {
       // Hazir hareketli klibe zoompan eklemek titretir.

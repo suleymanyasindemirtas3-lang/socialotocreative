@@ -186,3 +186,152 @@ export async function seslendirmeYaz(fikir: { topic: string; angle?: string }): 
     ),
   );
 }
+
+/**
+ * SAHNE BOLUMLEME
+ *
+ * Seslendirme metnini `adet` bolume ayirir ve HER BOLUM ICIN ayri bir
+ * gorsel istemi yazar.
+ *
+ * ---------------------------------------------------------------------------
+ * NEDEN GEREKTI
+ *
+ * Video uc gorsel gosteriyordu ve ucu de konuyla YALNIZCA GENEL olarak
+ * ilgiliydi. Anlatim "Oricon listesinde birinci oldu" derken ekranda
+ * konuyla alakali ama o cumleyle alakasiz bir kare duruyordu. Izleyici
+ * icin goruntu ile ses ayri iki sey oluyordu; video "izlenecek" bir sey
+ * olmuyordu.
+ *
+ * Artik goruntu metni TAKIP EDIYOR: anlatimin her bolumu icin o bolumde
+ * ne anlatiliyorsa onu gosteren bir kare uretiliyor.
+ *
+ * Tek LLM cagrisi: bolme ve istem yazma ayri istekler olsaydi kota iki
+ * katina cikardi.
+ * ---------------------------------------------------------------------------
+ */
+export interface Sahne {
+  /** Bu sahnede seslendirilen metin parcasi. */
+  bolum: string;
+  /** O parcayi anlatan ingilizce gorsel istemi. */
+  istem: string;
+}
+
+/**
+ * Metni `adet` bolume ayirir - CUMLE sinirlarindan, dengeli uzunlukta.
+ *
+ * Bolme neden kodda: ilk surumde modelden hem bolmesi hem istem yazmasi
+ * istenmisti. Model bolum metnini geri yazmak yerine ozetliyordu
+ * ("Metnin ilk bolumu: ...") ve uzun cevap token siniriná takilip JSON'u
+ * yarida kesiyordu. Bolme kesin bir is; kodda hem bedava hem hatasiz.
+ * Modele yalnizca yapabildigi is birakildi: gorseli tarif etmek.
+ */
+export function metniBol(metin: string, adet: number): string[] {
+  const cumleler = metin
+    .split(/(?<=[.!?])\s+/)
+    .map((c) => c.trim())
+    .filter(Boolean);
+
+  if (cumleler.length <= adet) {
+    // Cumle sayisi bolum sayisindan azsa her cumle bir bolum olur.
+    return cumleler;
+  }
+
+  const hedefUzunluk = metin.length / adet;
+  const bolumler: string[] = [];
+  let biriken = '';
+
+  for (let i = 0; i < cumleler.length; i++) {
+    biriken = biriken ? `${biriken} ${cumleler[i]}` : cumleler[i]!;
+
+    const kalanBolum = adet - bolumler.length - 1;
+    const kalanCumle = cumleler.length - i - 1;
+
+    /**
+     * Bolumu kapatma sarti: hedef uzunluga ulasildi VE geride kalan
+     * cumleler kalan bolumleri doldurmaya yetiyor. Ikinci sart olmazsa
+     * son bolumler bos kaliyor.
+     */
+    if (kalanBolum > 0 && biriken.length >= hedefUzunluk && kalanCumle >= kalanBolum) {
+      bolumler.push(biriken);
+      biriken = '';
+    }
+  }
+
+  if (biriken) bolumler.push(biriken);
+
+  // Beklenenden az bolum ciktiysa sondan doldurmak yerine oldugu gibi don;
+  // cagiran kare sayisini buna gore ayarlar.
+  return bolumler;
+}
+
+export async function sahneleriYaz(narration: string, adet: number): Promise<Sahne[]> {
+  const bolumler = metniBol(narration, adet);
+  if (!bolumler.length) throw new Error('anlatim bolunemedi');
+
+  const llm = getLlm();
+
+  const ham = await llm.complete(
+    [
+      'Bir dikey videonun sahneleri icin gorsel istemi yazacaksin.',
+      'Asagida anlatimin bolumleri numarali veriliyor.',
+      'HER BOLUM ICIN, O BOLUMDE ANLATILANI gosteren bir ingilizce gorsel',
+      'istemi yaz.',
+      '',
+      ...bolumler.map((b, i) => `${i + 1}. ${b}`),
+      '',
+      'Kurallar:',
+      '- Istem o bolumdeki olayi, yeri, nesneyi ya da ani gostersin;',
+      '  konunun genel bir resmi olmasin.',
+      '- Taninabilir gercek kisi ya da yuz olmasin.',
+      '- Gorselde yazi, harf, rakam ya da logo OLMASIN.',
+      '- Istemler birbirinden gorsel olarak farkli olsun.',
+      '- Her istem tek cumle, en fazla 30 kelime.',
+      /**
+       * Isik sarti bilincli: "gercek kisi olmasin" kurali modeli
+       * siluete ve karanliga itiyordu. Cikan kareler kompozisyon
+       * olarak dogru ama telefon ekraninda camur gibi gorunuyordu -
+       * ustune altyazi perdesi de binince hic okunmuyordu.
+       */
+      '- Sahne AYDINLIK ve net olsun: gunduz isigi, parlak renkler,',
+      '  aydinlatilmis ic mekan. Siluet, koyu golge ve gece karanligi YAZMA.',
+      /**
+       * Sonuc cumleleri ("bu gelisme sunu gosteriyor") somut bir goruntu
+       * icermiyor; model bunlari resmetmeye calisinca konudan kopuk,
+       * bos kareler cikiyordu. Boyle bolumlerde konunun kendi gorsel
+       * dunyasina donmesi soyleniyor.
+       */
+      '- Bolum soyut bir degerlendirme cumlesiyse onu resmetmeye calisma;',
+      '  KONUNUN kendi gorsel dunyasindan carpici bir sahne yaz.',
+      /**
+       * Kurum yasagi: model "studyo bir uyarlama planliyor" cumlesini
+       * birebir okuyup bos bir ofis koridoru ciziyordu. Haberin ozunde
+       * kurum degil, kurumun URETTIGI SEY var; izleyiciyi tutan da o.
+       */
+      '- OFIS, koridor, toplanti odasi, sirket binasi, bos ic mekan YAZMA.',
+      '  Haber bir studyodan, sirketten ya da yayincidan bahsetse bile',
+      '  onlarin binasini degil URETTIKLERI ESERIN dunyasini goster:',
+      '  animenin sahnesi, oyunun manzarasi, konserin sahnesi, macin sahasi.',
+      '',
+      `Yalnizca su semada JSON dondur (${bolumler.length} istem):`,
+      '{"istemler":["birinci sahne","ikinci sahne"]}',
+    ].join('\n'),
+    { maxTokens: 700, json: true },
+  );
+
+  const nesne = extractObjects(ham)[0] ?? {};
+  const dizi = Array.isArray(nesne['istemler'])
+    ? (nesne['istemler'] as unknown[])
+    : Object.values(nesne).filter((v) => typeof v === 'string');
+
+  const istemler = dizi.filter((v): v is string => typeof v === 'string').map((v) => v.trim()).filter(Boolean);
+  if (!istemler.length) throw new Error('sahne istemleri alinamadi');
+
+  /**
+   * Istem sayisi bolum sayisini tutmayabilir; eslesen kadari alinir.
+   * Eksik kalan bolum videoda gosterilmez, kare sayisi ona gore duser -
+   * yanlis bolume yanlis gorsel koymaktan iyidir.
+   */
+  return bolumler
+    .slice(0, istemler.length)
+    .map((bolum, i) => ({ bolum, istem: istemler[i]! }));
+}

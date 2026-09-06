@@ -1954,226 +1954,6 @@
     }
   },
   {
-    "id": "061a6261",
-    "createdAt": "2026-09-06T19:51:20.889Z",
-    "topic": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
-    "angle": "Bankacılıkta yapay zekanın müşteri hizmetleri ve risk yönetimine etkisi",
-    "status": "pending_approval",
-    "variants": {
-      "x": "M&T Bank, AI copilotlarını 15.000 çalışanına dağıttı; bu durum sizce bankacılık hizmetlerini nasıl değiştirecek? Yapay zekâ müşterilere daha hızlı yanıt ve riskleri daha erken tespit sağlayabilir mi? Görüşlerinizi paylaşın."
-    },
-    "media": [
-      {
-        "kind": "image",
-        "path": "data/media/061a6261-haber.png",
-        "alt": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
-        "mime": "image/png"
-      },
-      {
-        "kind": "image",
-        "path": "data/media/061a6261-ai1.jpg",
-        "alt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels. wide establishing shot. No text or letters.",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "image",
-        "path": "data/media/061a6261-ai2.jpg",
-        "alt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels. close detail of the setting. No text or letters.",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "video",
-        "path": "data/media/061a6261.mp4",
-        "alt": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
-        "mime": "video/mp4"
-      }
-    ],
-    "targets": [
-      "x-d30409"
-    ],
-    "results": [],
-    "fingerprint": "e7896d60d42027f5",
-    "kaynak": {
-      "ozet": "M&T Bank has deployed AI copilots to more than 15,000 employees as the US regional bank applies AI to internal operations, customer service, software development, and risk management. The bank uses AI to analyse call-centre conversations, draft reports, generate code, identify customer needs, and flag portfolio risks, according to Fast Company. M&T is also examining agentic AI applications in cybersecurity and fraud detection. American Banker reported in September 2025 that 16,000 of M&T&#8217;s roughly 22,000 employees were already using Microsoft Copilot for tasks including drafting emails a",
-      "url": "https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/",
-      "gorsel": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/image.png",
-      "site": "www.artificialintelligence-news.com"
-    },
-    "kategori": "ai",
-    "medya": "video",
-    "metinAdaylari": {
-      "x": [
-        {
-          "metin": "M&T Bank, 15.000+ çalışanına AI copilotları sundu. Çağrı merkezi konuşmalarını analiz ediyor, rapor yazar, kod üretiyor, müşteri ihtiyaçlarını belirliyor ve portföy risklerini işaretliyor. Ayrıca siber güvenlik ve sahtecilik tespitinde yapay zekayı inceliyor.",
-          "puan": {
-            "yildiz": 5,
-            "gerekce": "İlk cümlede merak uyandıran bir iddia ve sayı bulunuyor, görsel eklenmesi de dağıtımı artırıyor, ancak hashtag eksik ve link ayrı yanıt olarak eklenmeli.",
-            "sinyaller": [
-              {
-                "id": "gorsel",
-                "aciklama": "Yerli görsel — dağıtımı destekler",
-                "etki": 1
-              },
-              {
-                "id": "somut",
-                "aciklama": "Sayı ve özel isim içeriyor — somut",
-                "etki": 2
-              }
-            ],
-            "oneri": "İlk satırı \"15.000+ çalışanı olan M&T Bank, AI copilotlarıyla verimliliği %X artırdı\" şeklinde sayısal bir fayda ekleyerek güçlendirin."
-          }
-        },
-        {
-          "metin": "M&T Bank, çalışanlarının %72’si (16.000/22.000) Microsoft Copilot kullanıyor. Bu oran, Amerika’nın bölgesel bankalarında yapay zekâ kullanımının en yüksek seviyelerinden biri.",
-          "puan": {
-            "yildiz": 4,
-            "gerekce": "İddialı veri ve istatistik iyi, ancak soru veya tartışma tetikleyici yok, görsel eksik ve etkileşim artırıcı öğeler sınırlı",
-            "sinyaller": [
-              {
-                "id": "gorsel",
-                "aciklama": "Yerli görsel — dağıtımı destekler",
-                "etki": 1
-              },
-              {
-                "id": "somut",
-                "aciklama": "Sayı ve özel isim içeriyor — somut",
-                "etki": 2
-              }
-            ],
-            "oneri": "İlk satıra bir soru ekleyerek (ör. \"Bankalar AI’yı ne kadar benimsiyor?\") ve bir görsel ekleyerek paylaşımın etkileşimini artır."
-          }
-        }
-      ]
-    },
-    "script": {
-      "visualPrompt": "A sleek, high‑tech conference hall filled with glowing holographic data streams showcasing AI integration",
-      "mekanPrompt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels",
-      "narration": "M&T Bank, kurumsal yapay zekâ çözümlerini genişletiyor. Yeni AI destekli sohbet botları, müşterilerin 24 saat içinde hesap sorgulama, kredi başvurusu ve dolandırıcılık uyarılarını anlık olarak çözmelerini sağlıyor. Aynı zamanda risk yönetiminde kullanılan makine öğrenimi modelleri, şüpheli işlemleri yüzde 85 daha hızlı tespit ederek potansiyel kayıpları önceden engelliyor. Bu sayede M&T, hem müşteri memnuniyetini artırıyor hem de güvenlik seviyesini yükseltiyor."
-    },
-    "puan": {
-      "yildiz": 5,
-      "gerekce": "Soru ve tartışma çağrısı var ama ilk satır çekici bir hook eksik ve görsel doğrudan eklenmemiş",
-      "sinyaller": [
-        {
-          "id": "soru",
-          "aciklama": "Soru içeriyor — yanıt daveti",
-          "etki": 2
-        },
-        {
-          "id": "gorsel",
-          "aciklama": "Yerli görsel — dağıtımı destekler",
-          "etki": 1
-        },
-        {
-          "id": "somut",
-          "aciklama": "Sayı ve özel isim içeriyor — somut",
-          "etki": 2
-        }
-      ],
-      "oneri": "İlk satırı \"15.000 çalışanına AI copilotları dağıtan M&T Bank: Bankacılık nasıl değişecek?\" şeklinde bir merak uyandıran iddia ile başlat ve görseli ana posta ekle"
-    }
-  },
-  {
-    "id": "761c9f8d",
-    "createdAt": "2026-09-06T19:51:20.891Z",
-    "topic": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
-    "angle": "Özel araç paylaşımının otonom sürüşle entegrasyonu ve mevcut sınırlamalar",
-    "status": "pending_approval",
-    "variants": {
-      "x": "Atoms, Uber’in kurucusu Travis Kalanick’in yeni girişimi, robotaksi pazarına giriş yapıyor. Otonom araçlarla özel paylaşım hizmeti sunmayı hedefliyor, ancak güvenlik ve düzenleyici izinler hâlâ çözülmesi gereken sorunlar."
-    },
-    "media": [
-      {
-        "kind": "image",
-        "path": "data/media/761c9f8d-haber.jpg",
-        "alt": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "image",
-        "path": "data/media/761c9f8d-ai1.jpg",
-        "alt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.. wide establishing shot. No text or letters.",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "image",
-        "path": "data/media/761c9f8d-ai2.jpg",
-        "alt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.. close detail of the setting. No text or letters.",
-        "mime": "image/jpeg"
-      },
-      {
-        "kind": "video",
-        "path": "data/media/761c9f8d.mp4",
-        "alt": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
-        "mime": "video/mp4"
-      }
-    ],
-    "targets": [
-      "x-d30409"
-    ],
-    "results": [],
-    "fingerprint": "797f0e785a36d364",
-    "kaynak": {
-      "ozet": "The Uber founder has said that Atoms will allow him to complete \"unfinished business.\"",
-      "url": "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/",
-      "site": "techcrunch.com",
-      "gorsel": "https://techcrunch.com/wp-content/uploads/2026/08/travis-kalanick-fii.jpg?resize=1200,800"
-    },
-    "kategori": "ai",
-    "medya": "video",
-    "metinAdaylari": {
-      "x": [
-        {
-          "metin": "Travis Kalanick’in Atoms projesi robotaksiye atılıyor; sizce otonom taksiler, özel araç paylaşımını nasıl değiştirecek? Hâlâ yol testleri ve yasal izin eksikliği, bu dönüşümün hızını sınırlıyor mu?",
-          "puan": {
-            "yildiz": 5,
-            "gerekce": "İlgi çekici bir soru ve tarih/sayı eksikliği var, ancak hashtag ve link eksikliği ceza puanı alıyor.",
-            "sinyaller": [
-              {
-                "id": "soru",
-                "aciklama": "Soru içeriyor — yanıt daveti",
-                "etki": 2
-              },
-              {
-                "id": "video",
-                "aciklama": "Yerli video — dağıtımda en güçlü medya",
-                "etki": 2
-              },
-              {
-                "id": "kismen-somut",
-                "aciklama": "Kısmen somut",
-                "etki": 1
-              }
-            ],
-            "oneri": "İlk satırı \"2024'te Travis Kalanick’in Atoms projesi robotaksiye atılıyor: Otonom taksiler özel araç paylaşımını nasıl değiştirecek?\" şeklinde revize edin."
-          }
-        }
-      ]
-    },
-    "script": {
-      "visualPrompt": "A sleek futuristic laboratory filled with holographic displays and autonomous robot‑taxi prototypes lining a polished white floor, illuminated by cool blue ambient lighting.",
-      "mekanPrompt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.",
-      "narration": "Travis Kalanick, Uber’in kurucusu, otonom sürüş teknolojisi şirketi Atoms’u, robotaksi hizmetiyle piyasaya sürmek için harekete geçti. Şirket, hâlâ sınırlı test bölgelerinde çalışan tam otonom araçları, hâlihazırda çalışan Uber Lite gibi özel araç paylaşım uygulamalarıyla entegre etmeyi planlıyor. Bu sayede sürücüsüz taksiler, yolcuyu bulduğunda anında bir araba ayarlayabiliyor ve hem yolculuk süresi hem de maliyet açısından mevcut taksi hizmetlerine göre %15‑20 daha hızlı ve ucuz olabiliyor. Ancak altyapı eksikliği, regülasyon onayları ve hâlâ insan kontrolüne ihtiyaç duyan güvenlik sistemleri, bu entegrasyonun geniş çapta yayılmasını şu an için sınırlandırıyor. Yine de Atoms, bu sınırlamaları aşarak otonom robotaksileri şehir içinde bir sonraki ulaşım standardı haline getirmeyi hedefliyor."
-    },
-    "puan": {
-      "yildiz": 5,
-      "gerekce": "İlk satır merak uyandırıcı değil ve hashtag eksik, etkileşim artırıcı bir soru veya veri yok",
-      "sinyaller": [
-        {
-          "id": "video",
-          "aciklama": "Yerli video — dağıtımda en güçlü medya",
-          "etki": 2
-        },
-        {
-          "id": "kismen-somut",
-          "aciklama": "Kısmen somut",
-          "etki": 1
-        }
-      ],
-      "oneri": "İlk cümleyi \"Robot taksi pazarına giriş yapan Atoms, Travis Kalanick'in yeni girişimi, güvenlik ve izin sorunlarıyla nasıl başa çıkacak?\" şeklinde soruya dönüştür."
-    }
-  },
-  {
     "id": "26d0bf08",
     "createdAt": "2026-09-06T19:56:11.479Z",
     "topic": "Serhat Kılıç'ın cenaze töreni ne zaman?",
@@ -2358,14 +2138,14 @@
       },
       {
         "kind": "image",
-        "path": "data/media/cdcc3104-ai1.jpg",
-        "alt": "A vibrant news headline graphic announcing that Sword Art Online: Material 1 – “Sugary Days” topped the August 2026 Oricon light novel chart, styled with bold sans-serif typography and dynamic motion lines to emphasize excitement.. Context: Cloud in a Bottle: making self-hosting ",
+        "path": "data/media/cdcc3104-sahne2.jpg",
+        "alt": "Kagura perched on a neon-lit balcony overlooking a sprawling cyber city, her avatar holding a glowing sword, sunrise casting vivid colors Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no readable text or logos.",
         "mime": "image/jpeg"
       },
       {
         "kind": "image",
-        "path": "data/media/cdcc3104-ai2.jpg",
-        "alt": "A vibrant news headline graphic announcing that Sword Art Online: Material 1 – “Sugary Days” topped the August 2026 Oricon light novel chart, styled with bold sans-serif typography and dynamic motion lines to emphasize excitement.. Context: Cloud in a Bottle: making self-hosting ",
+        "path": "data/media/cdcc3104-sahne3.jpg",
+        "alt": "Kagura in a bustling virtual market stall, trading exotic digital artifacts, vibrant stalls and animated crowds surrounding her Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no readable text or logos.",
         "mime": "image/jpeg"
       },
       {
@@ -2681,6 +2461,218 @@
     "script": {
       "visualPrompt": "A sleek digital billboard flashes the cover of the Kingdom manga with vibrant artwork, highlighted by neon backlighting against a dark studio backdrop.",
       "mekanPrompt": "An empty, high‑ceiling exhibition hall bathed in soft ambient light, with polished concrete floors reflecting the glow of spotlights aimed at the displayed manga poster."
+    }
+  },
+  {
+    "id": "a0cb2948",
+    "createdAt": "2026-09-06T20:56:18.638Z",
+    "topic": "M&T Bank'ın kurumsal yapay zeka hizmetlerini genişletmesi",
+    "angle": "KOBİ’lerin veri analitiği ve otomasyonla maliyet tasarrufu",
+    "status": "pending_approval",
+    "variants": {
+      "x": "M&T Bank, 15.000 çalışanına AI copilotlarını entegre etti. Çağrı merkezi görüşmelerini analiz ediyor, rapor hazırlıyor, kod üretiyor ve riskleri belirliyor. KOBİ’ler bu sayede süreçlerini otomatikleştirerek iş gücü maliyetlerini düşürebilir."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/a0cb2948-haber.png",
+        "alt": "M&T Bank'ın kurumsal yapay zeka hizmetlerini genişletmesi",
+        "mime": "image/png"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/a0cb2948-ai1.jpg",
+        "alt": "A vibrant, high‑tech conference hall filled with glowing holographic displays, dynamic neon lighting, and sleek metallic architecture, showcasing an immersive AI‑driven environment without any recognizable faces.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "425a9dcf8f41f3cc",
+    "kaynak": {
+      "ozet": "M&T Bank has deployed AI copilots to more than 15,000 employees as the US regional bank applies AI to internal operations, customer service, software development, and risk management. The bank uses AI to analyse call-centre conversations, draft reports, generate code, identify customer needs, and flag portfolio risks, according to Fast Company. M&T is also examining agentic AI applications in cybersecurity and fraud detection. American Banker reported in September 2025 that 16,000 of M&T&#8217;s roughly 22,000 employees were already using Microsoft Copilot for tasks including drafting emails a",
+      "url": "https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/",
+      "gorsel": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/image.png",
+      "site": "www.artificialintelligence-news.com"
+    },
+    "kategori": "ai",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "M&T Bank’ın AI copilotları 15.000 çalışanı destekliyor. Sizce KOBİ’lerde bu teknoloji, maliyet tasarrufu ve daha hızlı karar alımını nasıl etkiler? Görüşlerinizi bekliyoruz.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve KOBİ odaklı içerik etkileşimi artırır, ancak ilk satır daha merak uyandırıcı olabilirdi.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi '15.000 çalışanı destekleyen AI copilotlarıyla M&T Bank nasıl fark yaratıyor?' şeklinde, çekici bir iddia veya sayı ekleyerek başlat."
+          }
+        },
+        {
+          "metin": "M&T Bank, çalışanlarının %68’ini AI copilotlarıyla donattı. Bu, KOBİ’lerin ortalama %20’ye varan iş gücü tasarrufu sağlayabilir.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır çekici değil, soru ya da tartışma başlatıcı öğe eksik ve medya yer almıyor",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru ya da çarpıcı bir istatistikle başlayıp görseli ekleyerek etkileşimi artır"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek corporate newsroom illustration depicting a headline about M&T Bank expanding its enterprise AI services, with futuristic data streams and digital graphs hovering above a modern office desk.",
+      "mekanPrompt": "A vibrant, high‑tech conference hall filled with glowing holographic displays, dynamic neon lighting, and sleek metallic architecture, showcasing an immersive AI‑driven environment without any recognizable faces."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekici bir iddia ya da soru içermiyor, etkileşim tetikleyici eksik ve hashtag yok, bu yüzden yayılma potansiyeli düşük.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"15.000 çalışanı AI copilotlarıyla güçlendiren M&T Bank, sizce bu yenilik KOBİ'lerin verimliliğini %30 artırabilir mi?\" şeklinde soruya dönüştür."
+    }
+  },
+  {
+    "id": "7c9761e0",
+    "createdAt": "2026-09-06T20:56:18.641Z",
+    "topic": "Yazarlar, Anthropic tazminatını yayıncı ve ajanslarla paylaşma isteği",
+    "angle": "Yazar hakları ve yapay zeka destekli içerik üretiminin gelir modeli",
+    "status": "failed",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): too_short=13 karakter",
+        "at": "2026-09-06T20:56:20.091Z"
+      }
+    ],
+    "fingerprint": "f3627f7c66c202c2",
+    "kaynak": {
+      "ozet": "Authors say publishers seem to be claiming more than their fair share of settlement payments.",
+      "url": "https://techcrunch.com/2026/09/06/authors-push-back-as-publishers-and-agents-seek-share-of-anthropic-settlement/",
+      "site": "techcrunch.com"
+    },
+    "kategori": "ai",
+    "medya": "gorsel"
+  },
+  {
+    "id": "7429248c",
+    "createdAt": "2026-09-06T20:56:18.644Z",
+    "topic": "Amerikalıların %50,5’i AI tabanlı romantik ilişkileri aldatma olarak görüyor",
+    "angle": "Dijital ilişki algısı ve güven sorunları",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Amerikalıların %50,5’i AI tabanlı romantik ilişkileri aldatma olarak görüyor. Anket, ABD’deki kullanıcıların yarısının bu tür ilişkileri güven sorunları nedeniyle sahte olarak algıladığını gösterdi. AI‑partnerler hâlâ duygusal destek sunabilir, fakat güvenilirlik hâlâ sınırlı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/7429248c-ai1.jpg",
+        "alt": "A futuristic newsroom anchor desk illuminated by neon blue and magenta lights, with holographic data streams displaying the headline about 50.5% of Americans viewing AI-driven romantic relationships as cheating, while a sleek AI assistant hovers nearby, its digital interface puls",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/7429248c-ai2.jpg",
+        "alt": "A futuristic newsroom anchor desk illuminated by neon blue and magenta lights, with holographic data streams displaying the headline about 50.5% of Americans viewing AI-driven romantic relationships as cheating, while a sleek AI assistant hovers nearby, its digital interface puls",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "c2402257fa9502a5",
+    "kategori": "ai",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "%50,5 oranla Amerikalıların yarısı, AI‑romantik ilişkileri aldatma olarak nitelendiriyor. Bu yüksek yüzde, dijital aşkın güven krizini ortaya koyuyor ve teknolojiyle duygusal bağların ne kadar sağlam olabileceğini sorguluyor.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlgi çekici veri ve soru içermiyor, etkileşim başlatıcı öğe eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra bir soru veya çarpıcı istatistik ekleyerek merak uyandır"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A futuristic newsroom anchor desk illuminated by neon blue and magenta lights, with holographic data streams displaying the headline about 50.5% of Americans viewing AI-driven romantic relationships as cheating, while a sleek AI assistant hovers nearby, its digital interface pulsing gently.",
+      "mekanPrompt": "A vibrant, high‑tech lounge filled with glowing holo‑screens, pastel‑colored floating UI elements, and ambient neon lighting that reflects off polished chrome surfaces, creating a richly textured backdrop of a modern AI‑centric world."
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "İlgi çekici veri ve soru eksikliği yayılma potansiyelini sınırlıyor.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı bir soru veya çarpıcı bir istatistikle açıp, okuyucuyu yanıt vermeye teşvik edecek bir anket sorusu ekle."
     }
   }
 ]

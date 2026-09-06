@@ -8,8 +8,9 @@ import { ses } from './ses.ts';
 import { videoUretim } from './video-uretim.ts';
 import { video } from './video.ts';
 import { isteKonulu } from './ekipler/arastirma.ts';
-import { seslendirmeYaz } from './senaryo.ts';
+import { seslendirmeYaz, sahneleriYaz, type Sahne } from './senaryo.ts';
 import { adayiIndir } from '../providers/image/arama.ts';
+import { karanligiDuzelt } from '../providers/image/parlaklik.ts';
 import { haberFotografi, gundemTopla } from '../kaynaklar/index.ts';
 import { kategoriBul } from '../kategoriler/index.ts';
 import { benzerlik } from './icerik-bulma.ts';
@@ -200,6 +201,97 @@ async function gorselleriTopla(
 }
 
 /**
+ * SAHNE GORSELLERI
+ *
+ * Videonun kareleri. Her kare bir anlatim bolumune ait ve o bolumde
+ * ANLATILANI gosteriyor.
+ *
+ * Sira:
+ *   1. sahne - haberin kendi fotografi (varsa). Gercek fotograf uretilmis
+ *      kareden her zaman iyidir ve video tanidik bir goruntuyle acilir.
+ *   diger sahneler - o bolumun kendi istemiyle uretilir.
+ *
+ * Sahne bolumlemesi alinamadiysa (model cevap vermedi) eski yola
+ * dusuluyor: konu bazli genel gorseller. Video yine cikar, yalniz
+ * goruntu metni takip etmez.
+ */
+async function sahneGorselleri(
+  post: Post,
+  sahneler: Sahne[],
+  hedef: number,
+  script: { visualPrompt: string; mekanPrompt?: string },
+  media: MediaAsset[],
+): Promise<void> {
+  if (!sahneler.length) {
+    log.warn(`${post.id}: sahne yok, konu bazli gorsellere dusuluyor`);
+    await gorselleriTopla(post, script.visualPrompt, script.mekanPrompt, hedef, media);
+    return;
+  }
+
+  // 1. sahne: haberin kendi fotografi.
+  if (!post.kaynak?.gorsel && post.kaynak?.url) {
+    const bulunan = await haberFotografi(post.kaynak.url);
+    if (bulunan && post.kaynak) post.kaynak.gorsel = bulunan;
+  }
+
+  let ilkSahneHazir = false;
+  if (post.kaynak?.gorsel) {
+    try {
+      media.push(
+        await adayiIndir(
+          {
+            kaynak: post.kaynak.site ?? 'haber',
+            url: post.kaynak.gorsel,
+            thumb: post.kaynak.gorsel,
+            baslik: post.topic,
+          },
+          `data/media/${post.id}-haber.jpg`,
+        ),
+      );
+      ilkSahneHazir = true;
+      log.ok(`${post.id}: 1. sahne - haberin kendi fotografi`);
+    } catch {
+      log.warn(`${post.id}: haber fotografi alinamadi, 1. sahne de uretilecek`);
+    }
+  }
+
+  if (!imageEnabled()) {
+    if (!ilkSahneHazir) throw new Error('IMAGE_PROVIDER=none ve haber fotografi yok');
+    return;
+  }
+
+  /**
+   * Uretilecek sahneler. Ilk sahne fotografla karsilandiysa 2.'den
+   * baslanir; karsilanmadiysa 1. sahne de uretilir.
+   */
+  const baslangic = ilkSahneHazir ? 1 : 0;
+
+  for (let i = baslangic; i < sahneler.length && media.length < hedef; i++) {
+    const sahne = sahneler[i]!;
+    /**
+     * Istem sahnenin kendi metninden geliyor. Sonuna eklenen kurallar
+     * modelin gercek kisi cizmesini ve yazi koymasini engelliyor -
+     * ucretsiz modeller ikisinde de kotu.
+     */
+    const istem = [
+      sahne.istem,
+      'Cinematic vertical composition, rich colour and light, shallow depth of field.',
+      'No recognizable real people, no readable text or logos.',
+    ].join(' ');
+
+    try {
+      const yol = `data/media/${post.id}-sahne${i + 1}.jpg`;
+      media.push(await getImage().generate(istem, yol));
+      // Model "aydinlik olsun" demeye ragmen koyu uretebiliyor; olcup duzeltiyoruz.
+      await karanligiDuzelt(yol);
+      log.ok(`${post.id}: ${i + 1}. sahne - "${sahne.bolum.slice(0, 48)}..."`);
+    } catch (e) {
+      log.warn(`${post.id}: ${i + 1}. sahne uretilemedi: ${String(e).slice(0, 80)}`);
+    }
+  }
+}
+
+/**
  * `kategori` verilirse YALNIZ o kategorinin postlari islenir.
  *
  * Neden gerekti: kuyruk global. Kullanici panelden "Anime icerigi getir"
@@ -257,13 +349,24 @@ export async function uret(adet: number, kategori?: string): Promise<number> {
          * gosteriliyor; gorsel postta ise yan yana duruyorlar.
          */
         const hedefAdet = wantsVideo ? 3 : 2;
-        await gorselleriTopla(post, script.visualPrompt, script.mekanPrompt, hedefAdet, media);
 
-        if (!media.length) {
-          throw new Error('hic gorsel uretilemedi (haber fotografi yok, arama bos, AI kapali)');
-        }
-        if (media.length < hedefAdet) {
-          log.warn(`${post.id}: ${hedefAdet} gorsel hedeflendi, ${media.length} bulundu`);
+        /**
+         * VIDEODA GORSEL TOPLAMA ERTELENIR.
+         *
+         * Video icin gorseller anlatim metnine gore uretiliyor; anlatim
+         * daha yazilmadan gorsel toplamak, sonra atilacak kareler
+         * uretmek demek. Video dalinda toplama sahneler belli olduktan
+         * sonra yapiliyor.
+         */
+        if (!wantsVideo) {
+          await gorselleriTopla(post, script.visualPrompt, script.mekanPrompt, hedefAdet, media);
+
+          if (!media.length) {
+            throw new Error('hic gorsel uretilemedi (haber fotografi yok, arama bos, AI kapali)');
+          }
+          if (media.length < hedefAdet) {
+            log.warn(`${post.id}: ${hedefAdet} gorsel hedeflendi, ${media.length} bulundu`);
+          }
         }
       }
 
@@ -279,6 +382,29 @@ export async function uret(adet: number, kategori?: string): Promise<number> {
         if (!script.narration) throw new Error('seslendirme metni uretilemedi');
         const stem = `data/media/${post.id}`;
 
+        /**
+         * SAHNE BAZLI GORSEL
+         *
+         * Anlatim bolumlere ayriliyor ve HER BOLUM icin o bolumde
+         * anlatilani gosteren bir kare uretiliyor. Boylece goruntu metni
+         * takip ediyor: anlatim neyden bahsediyorsa ekranda o var.
+         *
+         * Ilk sahnede HABERIN KENDI FOTOGRAFI tercih ediliyor - varsa
+         * gercek fotograf her zaman uretilmis kareden iyidir ve videonun
+         * acilisi tanidik bir goruntuyle basliyor.
+         */
+        const sahneAdet = 3;
+        const sahneler = await sahneleriYaz(script.narration, sahneAdet).catch((e) => {
+          log.warn(`${post.id}: sahne bolumlemesi alinamadi (${String(e).slice(0, 70)})`);
+          return [];
+        });
+
+        await sahneGorselleri(post, sahneler, sahneAdet, script, media);
+
+        if (!media.filter((m) => m.kind === 'image').length) {
+          throw new Error('video icin hic gorsel uretilemedi');
+        }
+
         const audio = await ses.run({ text: script.narration, outPath: `${stem}.mp3` });
         const clip = await videoUretim.run({
           visualPrompt: script.visualPrompt,
@@ -287,10 +413,7 @@ export async function uret(adet: number, kategori?: string): Promise<number> {
           // Ucretsiz kaynak bunu aynen kullanir; AI kaynagi yok sayar.
           ...(media[0] ? { existingStill: media[0].path } : {}),
         });
-        /**
-         * Toplanan butun gorseller montaja gidiyor: video tek kareye
-         * sabitlenmek yerine sirayla hepsini gosteriyor.
-         */
+
         const kareler = media.filter((m) => m.kind === 'image').map((m) => m.path);
         const mp4 = await video.run({
           clip,
@@ -298,6 +421,11 @@ export async function uret(adet: number, kategori?: string): Promise<number> {
           caption: script.narration,
           outPath: `${stem}.mp4`,
           ...(kareler.length > 1 ? { ekGorseller: kareler } : {}),
+          /**
+           * Kesim noktalari: her karenin, kendi sahnesinin metni
+           * okunurken ekranda olmasi icin bolum metinleri de gidiyor.
+           */
+          ...(sahneler.length === kareler.length ? { bolumler: sahneler.map((x) => x.bolum) } : {}),
         });
         media.push({ kind: 'video', path: mp4, alt: post.topic, mime: 'video/mp4' });
       }

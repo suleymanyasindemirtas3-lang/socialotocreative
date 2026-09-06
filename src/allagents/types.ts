@@ -141,6 +141,16 @@ export interface MontajIstegi {
    * (clip.motion) yok sayilir - o zaten hareketli.
    */
   ekGorseller?: string[];
+  /**
+   * Her karenin ait oldugu anlatim bolumu (sirayla, kare sayisi kadar).
+   *
+   * Verilirse kesim noktalari bu bolumlerin metninden hesaplanir: kare,
+   * kendi bolumunun metni okunurken ekranda olur. Yani goruntu ile ses
+   * ayni seyi anlatir.
+   *
+   * Yoksa kesimler konusmadaki uzun duraklardan tahmin edilir.
+   */
+  bolumler?: string[];
 }
 
 // ------------------------------------------------------------------ 6. yonetmen
