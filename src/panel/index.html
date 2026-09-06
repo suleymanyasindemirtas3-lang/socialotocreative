@@ -228,6 +228,13 @@ function renderQueue() {
 
 function renderAccounts() {
   const el = $('#view-accounts');
+
+  // Yeniden çizim yazılanları uçurmasın: önce sakla, sonra geri koy.
+  const saklanan = {};
+  for (const i of el.querySelectorAll('input[data-f], #f-label')) {
+    if (i.value) saklanan[i.dataset.f ?? i.id] = i.value;
+  }
+  const secili = $('#new-platform')?.value;
   const rows = STATE.accounts.map((a) => `<tr>
       <td><b>${esc(a.label)}</b><div class="muted small">${esc(a.id)}</div></td>
       <td>${esc(platformOf(a.platform)?.label ?? a.platform)}</td>
@@ -262,8 +269,14 @@ function renderAccounts() {
     </div>`;
 
   const sel = $('#new-platform');
+  if (secili) sel.value = secili;
   sel.onchange = renderFields;
   renderFields();
+
+  for (const [k, v] of Object.entries(saklanan)) {
+    const alan = $(`[data-f="${k}"]`) ?? $(`#${k}`);
+    if (alan) alan.value = v;
+  }
 }
 
 function renderFields() {
@@ -373,7 +386,21 @@ document.addEventListener('change', async (e) => {
 });
 
 refresh().catch((e) => toast('yüklenemedi: ' + e.message, 8000));
-setInterval(() => { if (!document.hidden) refresh().catch(() => {}); }, 15000);
+/**
+ * Otomatik yenileme formu baştan çizip yazılanları siliyordu.
+ * Kullanıcı bir alana odaklandıysa ya da doldurulmuş ama kaydedilmemiş
+ * bir değer varsa yenileme atlanır.
+ */
+function formMesgul() {
+  const el = document.activeElement;
+  if (el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return true;
+  return [...document.querySelectorAll('#view-accounts input')].some((i) => i.value.trim());
+}
+
+setInterval(() => {
+  if (document.hidden || formMesgul()) return;
+  refresh().catch(() => {});
+}, 15000);
 </script>
 </body>
 </html>
