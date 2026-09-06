@@ -58,6 +58,15 @@
   table{width:100%;border-collapse:collapse}
   td,th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   th{font-size:12px;color:var(--muted);font-weight:600}
+  .adaylar{display:none;margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+  .adaylar[data-acik]{display:block}
+  .adaylar .ust{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .adaylar .ust input{flex:1;min-width:180px}
+  .izgara{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .aday{border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;background:var(--card)}
+  .aday:hover{border-color:var(--accent)}
+  .aday img{width:100%;height:110px;object-fit:cover;display:block}
+  .aday .bilgi{padding:6px 8px;font-size:11px;color:var(--muted);line-height:1.35}
   #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
          padding:10px 18px;border-radius:10px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:80vw}
   #toast.on{opacity:1}
@@ -191,6 +200,44 @@ function medyaUyarisi(p) {
   return '';
 }
 
+/**
+ * Web görsel adaylarını getirip ızgarada gösterir.
+ * Kullanıcı arama terimini değiştirebilir; boş bırakırsa senaryo ajanının
+ * ürettiği görsel istemi kullanılır.
+ */
+async function gorselAra(id, sorgu) {
+  const kutu = $(`#adaylar-${id}`);
+  const kaynaklar = [...document.querySelectorAll(`[data-kaynak="${id}"]:checked`)].map((c) => c.value);
+  try {
+    const r = await call('/api/post/gorsel-ara', {
+      id,
+      sorgu,
+      kaynaklar: kaynaklar.length ? kaynaklar : ['openverse'],
+    });
+
+    kutu.innerHTML = `
+      <div class="ust">
+        <input id="sorgu-${id}" value="${esc(r.terim)}" placeholder="arama terimi">
+        <button data-arabuton="${id}">Ara</button>
+        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
+          <input type="checkbox" data-kaynak="${id}" value="openverse" checked style="width:auto"> foto (CC)
+        </label>
+        <label style="margin:0;display:flex;gap:5px;align-items:center;color:var(--ink)">
+          <input type="checkbox" data-kaynak="${id}" value="imgflip" style="width:auto"> mizah
+        </label>
+      </div>
+      ${r.adaylar.length
+        ? `<div class="izgara">${r.adaylar.map((a) => `
+            <div class="aday" data-secaday="${encodeURIComponent(JSON.stringify(a))}" title="tıkla ve bu görseli kullan">
+              <img src="${esc(a.thumb)}" loading="lazy" alt="">
+              <div class="bilgi"><b>${esc(a.kaynak)}</b><br>${esc((a.baslik || '').slice(0, 46))}${a.lisans ? `<br>${esc(a.lisans.slice(0, 40))}` : ''}</div>
+            </div>`).join('')}</div>`
+        : '<div class="muted small">sonuç yok — arama terimini değiştir</div>'}`;
+  } catch (e) {
+    kutu.innerHTML = `<div class="small" style="color:var(--bad)">hata: ${esc(e.message)}</div>`;
+  }
+}
+
 /* ------------------------------------------------------------------ kuyruk */
 
 function renderQueue() {
@@ -245,6 +292,15 @@ function renderQueue() {
         ${medyaUyarisi(p)}
       </div>
       ${results}
+      <div class="row" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">
+        <span class="muted small" style="min-width:52px">Üret</span>
+        <button data-yaz="${p.id}">Metin yaz</button>
+        <button data-medyauret="${p.id}" ${p.script ? '' : 'disabled title="Önce metin yazılmalı"'}>Medya üret</button>
+        <button data-gorseluret="${p.id}" ${p.script ? '' : 'disabled title="Önce metin yazılmalı"'}>AI görsel</button>
+        <button data-gorselara="${p.id}">Web'den görsel ara</button>
+      </div>
+      <div class="adaylar" id="adaylar-${p.id}" hidden></div>
+
       <div class="row" style="margin-top:10px">
         <button class="ok" data-decide="approved" data-id="${p.id}"
           ${Object.keys(p.variants).length ? '' : 'disabled title="Önce metin yazılmalı"'}>Onayla</button>
@@ -348,24 +404,59 @@ document.addEventListener('click', async (e) => {
       return refresh();
     }
 
+    // ---- post basina uretim islemleri ----
+    const isle = async (yol, govde, dugme) => {
+      dugme.disabled = true;
+      const eski = dugme.textContent;
+      dugme.textContent = 'calisiyor...';
+      try {
+        const r = await call(yol, govde);
+        toast(r.message ?? 'tamam');
+        await refresh();
+      } finally {
+        dugme.disabled = false;
+        dugme.textContent = eski;
+      }
+    };
+
+    if (t.dataset.yaz) return isle('/api/post/yaz', { id: t.dataset.yaz }, t);
+    if (t.dataset.medyauret) return isle('/api/post/medya-uret', { id: t.dataset.medyauret }, t);
+    if (t.dataset.gorseluret) return isle('/api/post/gorsel-uret', { id: t.dataset.gorseluret }, t);
+
+    if (t.dataset.gorselara) {
+      const id = t.dataset.gorselara;
+      const kutu = $(`#adaylar-${id}`);
+      if (kutu.hasAttribute('data-acik')) {
+        kutu.removeAttribute('data-acik');
+        kutu.hidden = true;
+        return;
+      }
+      kutu.hidden = false;
+      kutu.setAttribute('data-acik', '1');
+      kutu.innerHTML = '<div class="muted small">aranıyor…</div>';
+      await gorselAra(id, '');
+      return;
+    }
+
+    if (t.dataset.arabuton) return gorselAra(t.dataset.arabuton, $(`#sorgu-${t.dataset.arabuton}`).value);
+
+    if (t.dataset.secaday) {
+      const kutu = t.closest('.adaylar');
+      const aday = JSON.parse(decodeURIComponent(t.dataset.secaday));
+      kutu.innerHTML = '<div class="muted small">indiriliyor…</div>';
+      const r = await call('/api/post/gorsel-sec', { id: kutu.id.replace('adaylar-', ''), aday });
+      toast(r.message);
+      return refresh();
+    }
+
     if (t.dataset.decide) {
       await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide });
       return refresh();
     }
     if (t.dataset.del) {
-      // Yazilmis metin ve uretilmis gorsel geri getirilemez; onay metni
-      // neyin gittigini acikca soylesin. Yanlislikla silme yasandi.
-      const p = STATE.posts.find((x) => x.id === t.dataset.del);
-      const emek = [];
-      if (p && Object.keys(p.variants).length) emek.push('yazilmis metin');
-      if (p && p.media.length) emek.push(`${p.media.length} medya dosyasi`);
-      const uyari = emek.length ? `
-
-Bu post ${emek.join(' ve ')} iceriyor. Geri alinamaz.` : '';
-      if (!confirm(`Silinecek:
-"${p ? p.topic : t.dataset.del}"${uyari}`)) return;
+      // Begenilmeyeni silmek normal akisin parcasi; ekstra surtunme yok.
       await call('/api/post/delete', { id: t.dataset.del });
-      toast('post silindi');
+      toast('silindi');
       return refresh();
     }
     if (t.dataset.verify) {

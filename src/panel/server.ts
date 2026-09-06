@@ -9,6 +9,12 @@ import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
 import { calistir, gorevYolla, planla, kadro } from '../allagents/index.ts';
 import { publish } from '../pipeline/publish.ts';
+import { gorselAra, adayiIndir, type GorselAday } from '../providers/image/arama.ts';
+import { getImage } from '../providers/image/index.ts';
+import { senaryo } from '../allagents/senaryo.ts';
+import { uret as yonetmenUret } from '../allagents/yonetmen.ts';
+import { accounts as hesapDeposu } from '../core/accounts.ts';
+import { platform as platformBul } from '../platforms/index.ts';
 import type { Account, MedyaTercihi, PostStatus } from '../core/types.ts';
 import type { GorevTuru } from '../allagents/types.ts';
 
@@ -145,6 +151,124 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     post.variants[pid] = text.slice(0, limit);
     await store.upsert(post);
     return send(res, 200, { ok: true, text: post.variants[pid] });
+  }
+
+  /**
+   * TEK POST UZERINDE ISLEM
+   * Ust cubuktaki dugmeler tum kuyrugu isliyordu; hangi postun uzerinde
+   * calisildigi belirsizdi. Bu uclar tek bir posta etki eder.
+   */
+  if (path === '/api/post/yaz' && method === 'POST') {
+    const { id } = await readJson<{ id: string }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    try {
+      const platformIds = new Set<string>();
+      for (const accId of post.targets) {
+        const acc = await hesapDeposu.get(accId);
+        if (acc) platformIds.add(acc.platform);
+      }
+      if (!platformIds.size) return send(res, 400, { error: 'once hedef hesap sec' });
+
+      const wantsVideo =
+        post.medya === 'video' ||
+        (post.medya !== 'gorsel' && post.medya !== 'yok' &&
+          [...platformIds].some((pid) => platformBul(pid)?.needs === 'video'));
+
+      const script = await senaryo.run({
+        fikir: { topic: post.topic, angle: post.angle },
+        platforms: [...platformIds].map((pid) => ({ pid, limit: platformBul(pid)?.limits.text ?? 500 }))
+          .map((x) => ({ id: x.pid, limit: x.limit })),
+        narrationNeeded: wantsVideo,
+      });
+
+      post.variants = script.variants;
+      post.script = {
+        visualPrompt: script.visualPrompt,
+        ...(script.narration ? { narration: script.narration } : {}),
+      };
+      post.status = 'scripted';
+      await store.upsert(post);
+      return send(res, 200, { ok: true, message: 'metin yazildi' });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 300) });
+    }
+  }
+
+  if (path === '/api/post/medya-uret' && method === 'POST') {
+    const { id } = await readJson<{ id: string }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+    if (!post.script) return send(res, 400, { error: 'once metin yazilmali' });
+
+    // Yonetmen 'scripted' postlari isler; bu postu ona veriyoruz.
+    const oncekiDurum = post.status;
+    post.status = 'scripted';
+    await store.upsert(post);
+    try {
+      const n = await yonetmenUret(1);
+      const guncel = await store.get(id);
+      return send(res, 200, {
+        ok: true,
+        message: n ? `medya uretildi (${guncel?.media.length ?? 0} dosya)` : 'medya uretilemedi',
+      });
+    } catch (e) {
+      post.status = oncekiDurum;
+      await store.upsert(post);
+      return send(res, 400, { error: String(e).slice(0, 300) });
+    }
+  }
+
+  /** Web'den ve AI'dan gorsel adaylari; kullanici secsin diye. */
+  if (path === '/api/post/gorsel-ara' && method === 'POST') {
+    const { id, sorgu, kaynaklar } = await readJson<{ id: string; sorgu?: string; kaynaklar?: string[] }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    // Arama terimi: kullanici yazdiysa o, yoksa senaryo ajaninin ingilizce istemi.
+    const terim = sorgu?.trim() || post.script?.visualPrompt || post.topic;
+    try {
+      const adaylar = await gorselAra(terim, 8, kaynaklar?.length ? kaynaklar : ['openverse']);
+      return send(res, 200, { ok: true, terim, adaylar });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 200) });
+    }
+  }
+
+  if (path === '/api/post/gorsel-sec' && method === 'POST') {
+    const { id, aday } = await readJson<{ id: string; aday: GorselAday }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    try {
+      const asset = await adayiIndir(aday, `data/media/${post.id}-secili.jpg`);
+      // Secilen gorsel varsa uretilen gorselin yerini alir; video korunur.
+      post.media = [asset, ...post.media.filter((m) => m.kind === 'video')];
+      await store.upsert(post);
+      return send(res, 200, { ok: true, message: `gorsel eklendi (${aday.kaynak})` });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 250) });
+    }
+  }
+
+  /** Yalnizca AI gorseli yeniden uret. */
+  if (path === '/api/post/gorsel-uret' && method === 'POST') {
+    const { id, istem } = await readJson<{ id: string; istem?: string }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    const prompt = istem?.trim() || post.script?.visualPrompt;
+    if (!prompt) return send(res, 400, { error: 'once metin yazilmali (gorsel istemi ondan geliyor)' });
+
+    try {
+      const asset = await getImage().generate(prompt, `data/media/${post.id}.jpg`);
+      post.media = [asset, ...post.media.filter((m) => m.kind === 'video')];
+      await store.upsert(post);
+      return send(res, 200, { ok: true, message: 'AI gorseli uretildi' });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 250) });
+    }
   }
 
   if (path === '/api/post/media' && method === 'POST') {
