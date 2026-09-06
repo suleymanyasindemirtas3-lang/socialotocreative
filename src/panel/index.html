@@ -43,6 +43,11 @@
            border:1px solid var(--line);background:var(--bg);color:var(--ink)}
   input,select{font:inherit;padding:8px 10px;border-radius:8px;border:1px solid var(--line);
                background:var(--bg);color:var(--ink);width:100%}
+  /* Maskeleme CSS ile: type=password kullanmak tarayici parola yoneticisini
+     tetikliyor ve API anahtarlarini kasasina kaydetmeyi teklif ediyordu. */
+  input.gizli{-webkit-text-security:disc;text-security:disc;font-family:monospace;letter-spacing:.08em}
+  input.gizli:focus{-webkit-text-security:none;text-security:none;letter-spacing:0}
+  .ipucu{font-size:12px;color:var(--muted);margin-top:6px}
   label{display:block;margin:10px 0 4px;font-size:12px;color:var(--muted)}
   .variant{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
   .variant h4{margin:0 0 6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
@@ -268,8 +273,11 @@ function renderFields() {
     <input id="f-label" placeholder="${esc(def.label)} — ana hesap">
     ${def.fields.map((f) => `
       <label>${esc(f.label)}${f.optional ? ' <span class="muted">(isteğe bağlı)</span>' : ''}</label>
-      <input data-f="${f.key}" type="${f.secret ? 'password' : 'text'}" placeholder="${esc(f.placeholder ?? '')}">
+      <input data-f="${f.key}" type="text" class="${f.secret ? 'gizli' : ''}"
+             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+             placeholder="${esc(f.placeholder ?? '')}">
     `).join('')}
+    ${def.fields.some((f) => f.secret) ? `<div class="ipucu">Gizli alanlar maskeli; icine tikladiginda gorunur. Tarayici "parolayi kaydet" teklif ederse <b>Simdi degil</b> de.</div>` : ''}
     ${def.setupHint ? `<div class="muted small" style="margin-top:10px">${esc(def.setupHint)}
       ${def.setupUrl ? `<a href="${esc(def.setupUrl)}" target="_blank" rel="noreferrer">kurulum →</a>` : ''}</div>` : ''}`;
 }
