@@ -73,7 +73,7 @@
     "id": "sinema",
     "ad": "Sinema",
     "aciklama": "Vizyon, fragman, dizi ve film haberleri.",
-    "yonerge": "Film/dizi adını ve yönetmen ya da başrolü belirt. Vizyon tarihi varsa yaz. SPOILER VERME. Eleştiri yapıyorsan gerekçe göster, tek kelimelik yargı yazma.",
+    "yonerge": "Film/dizi adını ve yönetmen ya da başrolü belirt. Vizyon tarihi kaynakta varsa yaz; yoksa uydurma. SPOILER VERME. Eleştiri yapıyorsan gerekçe göster, tek kelimelik yargı yazma.",
     "kaynaklar": [
       "https://www.beyazperde.com/rss/haberler.xml",
       "https://deadline.com/feed/",
@@ -88,7 +88,7 @@
     "id": "muzik",
     "ad": "Müzik",
     "aciklama": "Yeni şarkılar, albümler, konserler.",
-    "yonerge": "Sanatçı ve parça/albüm adını net yaz. Çıkış tarihi ya da konser bilgisi varsa ekle. Övgü yağdırma; neyin yeni ya da farklı olduğunu söyle.",
+    "yonerge": "Sanatçı ve parça/albüm adını net yaz. Çıkış tarihi ya da konser bilgisi kaynakta varsa ekle; yoksa uydurma. Övgü yağdırma; neyin yeni ya da farklı olduğunu söyle.",
     "kaynaklar": [
       "https://www.hurriyet.com.tr/rss/kelebek",
       "https://www.billboard.com/feed/"
@@ -101,7 +101,7 @@
     "id": "oyun",
     "ad": "Oyun",
     "aciklama": "Çıkışlar, güncellemeler, indirimler, incelemeler.",
-    "yonerge": "Oyun adını ve platformu yaz. Çıkış tarihi, fiyat ya da ücretsiz kampanya varsa MUTLAKA belirt — okuyucunun aksiyon alacağı bilgi odur. Spoiler verme.",
+    "yonerge": "Oyun adını ve platformu yaz. Çıkış tarihi, fiyat ya da ücretsiz kampanya varsa kaynakta VARSA belirt; yoksa UYDURMA, o bilgiyi hic yazma — okuyucunun aksiyon alacağı bilgi odur. Spoiler verme.",
     "kaynaklar": [
       "https://www.merlininkazani.com/rss",
       "https://tr.ign.com/feed.xml",
@@ -109,13 +109,14 @@
     ],
     "medya": "gorsel",
     "agirlik": 3,
-    "aktif": true
+    "aktif": true,
+    "sonKullanim": "2026-09-06T10:19:52.714Z"
   },
   {
     "id": "dijital",
     "ad": "Dijital & Teknoloji",
     "aciklama": "Telefonlar, uygulamalar, donanım, dijital yaşam.",
-    "yonerge": "Ürün ya da güncellemeyi somut anlat: ne değişti, kime yarar. Fiyat ve çıkış tarihi varsa yaz. Teknik jargonu açıkla, reklam dili kullanma.",
+    "yonerge": "Ürün ya da güncellemeyi somut anlat: ne değişti, kime yarar. Fiyat ve çıkış tarihi kaynakta varsa yaz; yoksa uydurma. Teknik jargonu açıkla, reklam dili kullanma.",
     "kaynaklar": [
       "https://shiftdelete.net/feed",
       "https://www.webtekno.com/rss.xml",

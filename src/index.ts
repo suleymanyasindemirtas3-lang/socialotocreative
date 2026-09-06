@@ -9,7 +9,7 @@ import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
 import { agents, kadro, planla, calistir, gorevYolla } from './allagents/index.ts';
 import { review } from './tools/review.ts';
-import { kontrol, temizle, ozet } from './saglik/index.ts';
+import { kontrol, temizle, ozet } from './tani/index.ts';
 
 const cmd = process.argv[2] ?? 'run';
 
@@ -29,7 +29,7 @@ async function status(): Promise<void> {
 async function doctor(): Promise<void> {
   log.step('AYARLAR');
   console.log(`LLM zinciri  : ${cfg.llm.chain.join(' > ')}`);
-  console.log(`Gorsel       : ${cfg.image.provider}`);
+  console.log(`Gorsel       : ${cfg.image.chain.join(' > ')}`);
   console.log(`DRY_RUN      : ${cfg.safety.dryRun}`);
   console.log(`AUTO_APPROVE : ${cfg.approval.auto}`);
 

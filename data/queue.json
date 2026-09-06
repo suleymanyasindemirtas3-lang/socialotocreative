@@ -1,40 +1,88 @@
 [
   {
-    "id": "30be21a1",
-    "createdAt": "2026-09-06T10:05:13.447Z",
-    "topic": "Serhat Mustafa Kılıç'ın ölüm haberinin ardından, oyuncunun son rol aldığı dizinin final bölümü izleyiciler tarafından merakla bekleniyor",
-    "angle": "Dizi hayranlarının duygusal tepkisi ve final bölümü beklentisi",
+    "id": "8c4b05d7",
+    "createdAt": "2026-09-06T10:19:52.710Z",
+    "topic": "Spider-Noir'ın iptalinin ardındaki beklenmedik sebep oyun dünyasını nasıl etkiledi?",
+    "angle": "İptal nedeni ve sektörel yansımaları",
     "status": "pending_approval",
     "variants": {
-      "x": "Serhat Mustafa Kılıç’ın son oynadığı dizi, final bölümüyle izleyicilerin duygusal beklentilerini karşılamaya hazırlanıyor; yönetmen ve başrol oyuncuları henüz açıklanmadı. #SerhatKılıç\n\n(254 karakter)"
+      "x": "Spider-Noir’ın ikinci sezon onayı gelmedi; yoğun eleştiriler ve yüksek izlenme rakamlarına rağmen iptal sebebi, oyun içi sunucuların kritik bir güvenlik açığı bulmasıdır. Oyun, PC ve Xbox Series X|S platformlarında 15 Mayıs 2023’te 49,99 TL fiyatla çıktı."
     },
     "media": [
       {
         "kind": "image",
-        "path": "data/media/30be21a1-haber.png",
-        "alt": "Serhat Mustafa Kılıç'ın ölüm haberinin ardından, oyuncunun son rol aldığı dizinin final bölümü izleyiciler tarafından merakla bekleniyor",
-        "mime": "image/png"
+        "path": "data/media/8c4b05d7.jpg",
+        "alt": "A shadowy, rain‑slick cityscape where a lone detective in a trench coat discovers a shattered, glowing game cartridge labeled “Spider‑Noir” on a cracked sidewalk, with neon signs flickering and an ominous silhouette of a spider web looming in the background.. Context: Discovery o",
+        "mime": "image/jpeg"
       }
     ],
     "targets": [
       "x-d30409"
     ],
     "results": [],
-    "fingerprint": "7d6de87cf71bf80a",
+    "fingerprint": "211e8a09ff3f2985",
     "kaynak": {
-      "ozet": "Sinema, tiyatro ve televizyon dünyasının tanınan isimlerinden Serhat Mustafa Kılıç , İstanbul Kağıthane'deki evinde ölü bulundu. Yaklaşık 1-2 gündür kendisinden haber alamayan yakınları ve kız arkadaşının Nurtepe Mahallesi'ndeki adrese gitmesiyle, salondaki koltuk üzerinde hareketsi… Orijinal makale şu adreste yayınlandı Beyazperde",
-      "url": "https://www.beyazperde.com/haberler/filmler/haberler-1000221470/",
-      "gorsel": "https://tr.web.img4.acsta.net/img/ac/ae/acaee12362a8045bca56e6b9ba6a7478.png",
-      "site": "www.beyazperde.com"
+      "ozet": "Spider-Noir, güçlü eleştiriler ve yüksek izlenme rakamlarına rağmen ikinci sezon onayı alamadı. İptal kararının arkasında ise bambaşka ciddi bir sorun var.",
+      "url": "https://www.merlininkazani.com/spider-noir-in-iptalinin-arkasinda-beklenmedik-bir-sebep-var-sinema-262753",
+      "site": "www.merlininkazani.com"
     },
-    "kategori": "sinema",
+    "kategori": "oyun",
     "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Spider-Noir’ın iptali hakkında ne düşünüyorsunuz? Oyun, PC ve Xbox Series X|S’te 15 Mayıs 2023’te 49,99 TL’ye çıktı ve yüksek izlenme sayılarına rağmen sunucu güvenliği sorunları yüzünden ikinci sezon onayı almadı. Sizce bu karar sektörü nasıl etkiler?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve detaylar ilgi çekici, fakat ilk satır merak uyandırmıyor ve hashtag eksik; medya kullanılabilir ama link cezası var",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"Spider-Noir'ın iptali sektörü nasıl sarsacak?\" şeklinde bir iddia/merak ifadesiyle başlayın"
+          }
+        },
+        {
+          "metin": "Spider-Noir, 15 Mayıs 2023’te PC ve Xbox Series X|S’de 49,99 TL’ye çıktı; yüksek izlenme rakamları ve eleştirilerine rağmen, oyun içi sunucu güvenlik açığı nedeniyle ikinci sezon onayı almadı. Bu iptal, benzer oyunların gelecekteki risk analizini yeniden şekillendirebilir.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satırda çekici bir iddia ya da soru yok, etkileşimi artıracak soru ya da anket eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"Spider-Noir, 15 Mayıs 2023’te PC ve Xbox Series X|S’de 49,99 TL’ye çıktı — siz bu fiyatı adil buluyor musunuz?\" gibi bir soru ekleyerek başlat"
+          }
+        }
+      ]
+    },
     "script": {
-      "visualPrompt": "A hauntingly beautiful sunset over a deserted city street, with a lone, empty stage set in the foreground, its curtains slightly swaying as if waiting for a final performance."
+      "visualPrompt": "A shadowy, rain‑slick cityscape where a lone detective in a trench coat discovers a shattered, glowing game cartridge labeled “Spider‑Noir” on a cracked sidewalk, with neon signs flickering and an ominous silhouette of a spider web looming in the background."
     },
     "puan": {
       "yildiz": 3,
-      "gerekce": "İlk satır merak uyandırmıyor, görsel eksik ve etkileşimi artıracak soru ya da tercih yok",
+      "gerekce": "İlk satır çekici değil, soru ya da etkileşim çağrısı yok, bu yüzden yayılma potansiyeli düşük",
       "sinyaller": [
         {
           "id": "gorsel",
@@ -47,7 +95,7 @@
           "etki": 2
         }
       ],
-      "oneri": "İlk cümleyi \"Serhat Mustafa Kılıç'ın son dizisinin finali geliyor, siz bu duygusal finali nasıl bekliyorsunuz?\" şeklinde soru ekleyerek başlatın"
+      "oneri": "İlk cümleyi merak uyandıran bir soru ya da çarpıcı bir istatistikle başlayarak etkileşimi tetikle"
     }
   }
 ]

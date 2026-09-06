@@ -1,5 +1,5 @@
 import { basename } from 'node:path';
-import { cfg } from '../core/config.ts';
+import { cfg } from '../../core/config.ts';
 
 /**
  * Yalnizca Instagram medyayi public URL olarak ister; Graph API dosya yuklemesi

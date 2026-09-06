@@ -6,9 +6,13 @@ import { platform } from '../platforms/index.ts';
 import type { Post } from '../core/types.ts';
 
 /**
- * Adim 4: onaylanmislari yayina al.
- * Hedef artik platform degil hesap; ayni platformda birden fazla hesap olabilir
- * ve bir post hepsine ayni anda gider.
+ * 7. YAYINCI - yayin ekibinin ajani
+ *
+ * Onaylanmislari hesaplara dagitir. Hedef platform degil HESAP: ayni
+ * platformda birden fazla hesap olabilir ve bir post hepsine ayni anda gider.
+ *
+ * Uzun sure pipeline/publish.ts olarak ajan disinda duruyordu; diger her sey
+ * ajanlasmisken burasi istisna kalmisti.
  */
 export async function publish(limit = cfg.safety.maxPerRun): Promise<Post[]> {
   const ready = (await store.byStatus('approved')).slice(0, limit);
@@ -76,3 +80,11 @@ export async function publish(limit = cfg.safety.maxPerRun): Promise<Post[]> {
 
   return out;
 }
+
+/** Ajan kimligi; doctor ve panel listesinde gorunur. */
+export const yayinci = {
+  id: 'yayinci',
+  role: 'Onaylanmis postlari hesaplara dagitir',
+  uses: ['platformlar'],
+  run: (girdi: { adet: number }) => publish(girdi.adet),
+};

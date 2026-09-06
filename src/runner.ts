@@ -1,7 +1,7 @@
 import { cfg } from './core/config.ts';
 import { log } from './core/logger.ts';
 import { calistir } from './allagents/index.ts';
-import { publish } from './pipeline/publish.ts';
+import { publish } from './allagents/yayinci.ts';
 
 /**
  * GitHub Actions'a gecene kadar yerel surekli calisan mod.

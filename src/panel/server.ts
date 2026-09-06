@@ -8,7 +8,7 @@ import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
 import { platforms, platform } from '../platforms/index.ts';
 import { calistir, gorevYolla, planla, kadro, kategoridenUret } from '../allagents/index.ts';
-import { publish } from '../pipeline/publish.ts';
+import { publish } from '../allagents/yayinci.ts';
 import { gorselAra, adayiIndir, type GorselAday } from '../providers/image/arama.ts';
 import { getImage } from '../providers/image/index.ts';
 import { senaryo } from '../allagents/senaryo.ts';
@@ -17,7 +17,7 @@ import { accounts as hesapDeposu } from '../core/accounts.ts';
 import { platform as platformBul } from '../platforms/index.ts';
 import { tumKategoriler, kategoriBul, kategoriYaz, kategoriSil, type Kategori } from '../kategoriler/index.ts';
 import { puanla } from '../allagents/ekipler/strateji.ts';
-import { algoritmaTabani } from '../strateji/algoritma.ts';
+import { algoritmaTabani } from '../allagents/algoritma.ts';
 import type { Account, MedyaTercihi, PostStatus } from '../core/types.ts';
 import type { GorevTuru } from '../allagents/types.ts';
 
@@ -112,7 +112,7 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
         dryRun: cfg.safety.dryRun,
         autoApprove: cfg.approval.auto,
         llm: cfg.llm.chain.join(' > '),
-        image: cfg.image.provider,
+        image: cfg.image.chain.join(' > '),
         busy,
       },
     });

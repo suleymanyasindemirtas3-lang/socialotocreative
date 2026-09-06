@@ -1,7 +1,7 @@
 import { log } from '../core/logger.ts';
 import { extractObjects, str } from '../core/json.ts';
 import { getLlm } from '../providers/llm/index.ts';
-import { platformAlgo, kurallariAnlat } from '../strateji/algoritma.ts';
+import { platformAlgo, kurallariAnlat } from './algoritma.ts';
 import type { Agent } from './types.ts';
 
 /**

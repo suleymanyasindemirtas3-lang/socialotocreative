@@ -1,4 +1,4 @@
-import { getMediaHost } from '../media/host.ts';
+import { getMediaHost } from '../providers/image/host.ts';
 import { log } from '../core/logger.ts';
 import type { PlatformDef, Post, PublishResult } from '../core/types.ts';
 

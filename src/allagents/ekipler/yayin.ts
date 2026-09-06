@@ -1,17 +1,17 @@
-import { publish } from '../../pipeline/publish.ts';
+import { publish } from '../yayinci.ts';
 import type { Ekip, Gorev, GorevSonucu } from '../types.ts';
 
 /**
  * YAYIN EKIBI
  *
- * Henuz ajanlastirilmadi: mevcut publish() mantigini sariyor.
- * Ekip olarak kayda girmesinin sebebi liderin yayini da dagitabilmesi;
- * icerideki yapisi degistiginde liderde hicbir sey degismeyecek.
+ * Uyesi `yayinci` ajani. Onaylanmis postlari hesaplara dagitir.
+ * Uzun sure pipeline/publish.ts olarak ajan disinda duruyordu; diger
+ * her sey ajanlasmisken burasi istisna kalmisti, duzeltildi.
  */
 export const yayinEkibi: Ekip = {
   id: 'yayin',
   role: 'Onaylanmis postlari hesaplara dagitir',
-  members: ['publish'],
+  members: ['yayinci'],
   handles: ['yayinla'],
 
   async run(gorev: Gorev): Promise<GorevSonucu> {

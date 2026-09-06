@@ -48,18 +48,26 @@ export async function puanla(postId: string): Promise<number> {
 
   post.puan = puan;
 
-  // Metin adaylari varsa hepsi puanlanir; kullanici karsilastirarak secsin.
-  const adaylar = post.metinAdaylari?.[platformId];
-  if (adaylar?.length) {
-    for (const aday of adaylar) {
-      if (aday.puan) continue;
-      aday.puan = await sosyalMedyaUzmani.run({
-        metin: aday.metin,
-        platform: platformId,
-        medyaVar: post.media.some((m) => m.kind === 'image'),
-        videoVar: post.media.some((m) => m.kind === 'video'),
-        ...(post.kategori ? { kategori: post.kategori } : {}),
-      });
+  /**
+   * Adaylar da puanlanir ama SIRAYLA DEGIL, kotayi korumak icin paralel.
+   * Zaten puanlanmis olani atlar: yeniden puanla dugmesi bosuna istek atmasin.
+   */
+  const adaylar = post.metinAdaylari?.[platformId]?.filter((a) => !a.puan) ?? [];
+  if (adaylar.length) {
+    const sonuclar = await Promise.allSettled(
+      adaylar.map((a) =>
+        sosyalMedyaUzmani.run({
+          metin: a.metin,
+          platform: platformId,
+          medyaVar: post.media.some((m) => m.kind === 'image'),
+          videoVar: post.media.some((m) => m.kind === 'video'),
+          ...(post.kategori ? { kategori: post.kategori } : {}),
+        }),
+      ),
+    );
+    for (const [i, r] of sonuclar.entries()) {
+      if (r.status === 'fulfilled') adaylar[i]!.puan = r.value;
+      else log.warn(`aday puanlanamadi: ${String(r.reason).slice(0, 80)}`);
     }
   }
 

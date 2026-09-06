@@ -52,7 +52,35 @@ function ortusme(a: string, b: string): number {
   return kesisim / Math.min(A.size, B.size);
 }
 
-export function inspect(text: string, limit: number, kaynakBaslik?: string): QualityIssue[] {
+/**
+ * UYDURMA TESPITI.
+ *
+ * Gercek bir vakadan dogdu: "oyun" kategorisinin yonergesi "fiyat ve cikis
+ * tarihi varsa MUTLAKA belirt" diyordu. Kaynakta bu bilgiler olmayinca model
+ * uydurdu - bir DIZI haberine "15 Mayis 2023'te 49,99 TL'ye cikti" ekledi.
+ *
+ * Haber hesabi icin en tehlikeli hata bu. Metindeki sayilar kaynakta da
+ * geciyor mu diye bakiyoruz: gecmiyorsa uydurma suphesi var.
+ *
+ * Yil, yuzde ve kucuk sayilar (1-2 haneli) haric tutuluyor - onlar cumle
+ * icinde dogal olarak geciyor ve yanlis alarm uretiyor.
+ */
+function uydurmaSayilar(metin: string, kaynak: string): string[] {
+  const sayiCikar = (t: string) =>
+    (t.match(/\d[\d.,]*/g) ?? [])
+      .map((x) => x.replace(/[.,]$/, ''))
+      .filter((x) => x.replace(/\D/g, '').length >= 3);
+
+  const kaynakSayilar = new Set(sayiCikar(kaynak).map((x) => x.replace(/\D/g, '')));
+  return sayiCikar(metin).filter((x) => !kaynakSayilar.has(x.replace(/\D/g, '')));
+}
+
+export function inspect(
+  text: string,
+  limit: number,
+  kaynakBaslik?: string,
+  kaynakOzet?: string,
+): QualityIssue[] {
   const issues: QualityIssue[] = [];
   const t = text.trim();
 
@@ -81,9 +109,31 @@ export function inspect(text: string, limit: number, kaynakBaslik?: string): Qua
    * paylasan yuzlerce hesap arasinda kaybolur.
    */
   if (kaynakBaslik) {
+    /**
+     * Kopya olmak icin hem kelimeler ortusmeli HEM uzunluk yakin olmali.
+     * Yalniz ortusmeye bakmak yanlis alarm uretiyordu: kisa bir basligin
+     * kelimeleri uzun ve ozgun bir metinde dogal olarak geciyor ve
+     * "%100 ayni" cikiyordu. Metin baslikta 1.4 katindan uzunsa artik
+     * kopya degil, uzerine yazilmis demektir.
+     */
     const oran = ortusme(t, kaynakBaslik);
-    if (oran > 0.8) {
-      issues.push({ code: 'baslik_kopyasi', detail: `kaynak basligiyla %${Math.round(oran * 100)} ayni` });
+    const uzunlukOrani = t.length / Math.max(1, kaynakBaslik.length);
+    if (oran > 0.8 && uzunlukOrani < 1.4) {
+      issues.push({
+        code: 'baslik_kopyasi',
+        detail: `kaynak basligiyla %${Math.round(oran * 100)} ayni`,
+      });
+    }
+  }
+
+  // Kaynakta olmayan sayilar: fiyat, tarih, surum uydurmasi.
+  if (kaynakOzet) {
+    const uydurma = uydurmaSayilar(t, `${kaynakBaslik ?? ''} ${kaynakOzet}`);
+    if (uydurma.length) {
+      issues.push({
+        code: 'kaynakta_olmayan_sayi',
+        detail: `kaynakta gecmeyen sayi: ${uydurma.slice(0, 3).join(', ')}`,
+      });
     }
   }
 

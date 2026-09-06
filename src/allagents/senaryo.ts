@@ -2,6 +2,7 @@ import { log } from '../core/logger.ts';
 import { brandVoice } from '../core/brand.ts';
 import { getLlm } from '../providers/llm/index.ts';
 import { inspect, tidy } from './quality.ts';
+import { extractObjects } from '../core/json.ts';
 import type { Agent, Senaryo, SenaryoIstegi } from './types.ts';
 
 /**
@@ -46,71 +47,67 @@ ${fikir.kaynak.ozet}`
        */
       const hedef = Math.max(80, Math.floor(p.limit * 0.9));
 
-      let clean = tidy(
-        await llm.complete(
-          [
-            ...konu,
-            `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin (kesin ust sinir ${p.limit}).`,
-            'Tek bir post metni yaz. Aciklama, baslik, tirnak ya da secenek sunma.',
-            'Haber basligini OLDUGU GIBI kopyalama; ozetteki bilgiyi kullanarak kendi cumleni kur.',
-            'Ozette olmayan sayi, isim ya da iddia UYDURMA.',
-            'Metin TURKCE olsun. Kaynak ingilizce olsa bile birebir cevirme, ' +
-            'Turk okuyucuya gore yerellestir. Ozel isimleri (film, oyun, sanatci, ' +
-            'marka) orijinal haliyle birak.',
-          ].join('\n'),
-          { system: voice, maxTokens: 700 },
-        ),
+      /**
+       * UC VERSIYON TEK CAGRIDA.
+       *
+       * Onceden her versiyon ayri istek atiyordu: platform basina 3 cagri,
+       * artı gorsel istemi ve seslendirme ile post basina 7-8 cagri.
+       * Ucretsiz kotalarda (Groq gunde 1000 istek) bu ~125 post demekti.
+       *
+       * Uc versiyonu tek istemde toplamak hem kotayi ucte bire indiriyor
+       * hem de modele "birbirinden farkli olsunlar" demeyi mumkun kiliyor -
+       * ayri cagrilarda model onceki versiyonu gormedigi icin benzer
+       * metinler uretebiliyordu.
+       */
+      const ham = await llm.complete(
+        [
+          ...konu,
+          `Platform: ${p.id}. Her metin ${hedef} karakteri gecmesin (kesin ust sinir ${p.limit}).`,
+          '',
+          'BIRBIRINDEN FARKLI UC VERSIYON yaz:',
+          '  1. duz anlatim, bilgiyi net veren',
+          '  2. soru sorarak tartisma baslatan',
+          '  3. carpici bir sayi ya da iddiayla acan',
+          '',
+          'Kurallar:',
+          '- Haber basligini OLDUGU GIBI kopyalama; ozetteki bilgiyle kendi cumleni kur.',
+          '- Ozette olmayan sayi, isim ya da iddia UYDURMA.',
+          '- TURKCE yaz. Kaynak ingilizce olsa bile birebir cevirme, Turk okuyucuya',
+          '  gore yerellestir. Ozel isimleri (film, oyun, sanatci, marka) orijinal birak.',
+          '- Uc versiyon birbirine benzemesin.',
+          '',
+          'Yalnizca su semada JSON dondur:',
+          '{"versiyonlar":["birinci metin","ikinci metin","ucuncu metin"]}',
+        ].join('\n'),
+        { system: voice, maxTokens: 1200, json: true },
       );
 
-      // Yine tasarsa bir kez kisaltmasini iste; bastan uretmekten hem ucuz
-      // hem de zaten begenilen fikri koruyor.
-      if (clean.length > p.limit) {
-        log.warn(`${p.id}: ${clean.length} karakter, kisaltiliyor`);
-        const kisa = tidy(
-          await llm.complete(
-            [
-              'Asagidaki metni anlamini ve iddiasini koruyarak kisalt.',
-              `En fazla ${hedef} karakter olmali. Sadece kisaltilmis metni yaz.`,
-              '',
-              clean,
-            ].join('\n'),
-            { system: voice, maxTokens: 500 },
-          ),
+      const nesne = extractObjects(ham)[0] ?? {};
+      const dizi = Array.isArray(nesne['versiyonlar'])
+        ? (nesne['versiyonlar'] as unknown[])
+        : Object.values(nesne).filter((v) => typeof v === 'string');
+
+      const temizler = dizi
+        .filter((v): v is string => typeof v === 'string')
+        .map((v) => tidy(v))
+        .filter((v) => v.length > 0);
+
+      if (!temizler.length) throw new Error(`${p.id}: model versiyon uretmedi`);
+
+      // Kalite kapisindan gecenler; en az biri gecmeliyse post yasar.
+      const gecenler = temizler.filter((v) => !inspect(v, p.limit, fikir.topic, fikir.kaynak?.ozet).length);
+
+      if (!gecenler.length) {
+        const ilkSorun = inspect(temizler[0]!, p.limit, fikir.topic, fikir.kaynak?.ozet);
+        throw new Error(
+          `kalite kapisi (${p.id}): ${ilkSorun.map((i) => `${i.code}=${i.detail}`).join(', ')}`,
         );
-        if (kisa && kisa.length <= p.limit) clean = kisa;
       }
 
-      const issues = inspect(clean, p.limit, fikir.topic);
-      if (issues.length) {
-        throw new Error(`kalite kapisi (${p.id}): ${issues.map((i) => `${i.code}=${i.detail}`).join(', ')}`);
-      }
-      variants[p.id] = clean;
-
-      /**
-       * Ikinci ve ucuncu aday: ayni haber farkli acilarla yazilabilir ve
-       * hangisinin tutacagi onceden belli degil. Kullaniciya secenek sunmak
-       * tek metin dayatmaktan iyi; sosyal medya uzmani hepsini puanliyor.
-       */
-      const adaylar: { metin: string }[] = [];
-      for (const aci of ['soru sorarak tartisma baslatan', 'carpici bir sayi ya da iddiayla acan']) {
-        try {
-          const alt = tidy(
-            await llm.complete(
-              [
-                ...konu,
-                `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin.`,
-                `Bu sefer ${aci} bir versiyon yaz.`,
-                'Onceki versiyonu tekrarlama. Sadece post metnini yaz.',
-              ].join('\n'),
-              { system: voice, maxTokens: 600 },
-            ),
-          );
-          if (alt && alt.length <= p.limit && !inspect(alt, p.limit, fikir.topic).length) adaylar.push({ metin: alt });
-        } catch (e) {
-          log.warn(`aday uretilemedi (${p.id}): ${String(e).slice(0, 70)}`);
-        }
-      }
+      variants[p.id] = gecenler[0]!;
+      const adaylar = gecenler.slice(1).map((metin) => ({ metin }));
       if (adaylar.length) metinAdaylari[p.id] = adaylar;
+      log.info(`${p.id}: ${temizler.length} versiyon uretildi, ${gecenler.length} gecti`);
     }
 
     const visualPrompt = (

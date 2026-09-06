@@ -15,7 +15,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const still: ClipSource = {
   id: 'still',
   tier: 'free',
-  isConfigured: () => cfg.image.provider !== 'none',
+  isConfigured: () => cfg.image.chain.some((id) => id !== 'none'),
   async produce({ prompt, outStem, existingStill }: ClipRequest): Promise<ClipResult> {
     // Ayni gorseli iki kez uretmek bedava ama yavas; varsa mevcut olani kullan.
     if (existingStill) return { path: existingStill, motion: false };

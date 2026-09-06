@@ -32,7 +32,6 @@ export const cfg = {
   image: {
     // Zincir: kota biterse ucretsiz saglayiciya duser.
     chain: list('IMAGE_PROVIDER', ['pollinations']),
-    provider: env('IMAGE_PROVIDER', 'pollinations'),
     geminiModel: env('GEMINI_IMAGE_MODEL', 'gemini-3.1-flash-image'),
     width: Number(env('IMAGE_WIDTH', '1024')),
     height: Number(env('IMAGE_HEIGHT', '1024')),

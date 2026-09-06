@@ -4,9 +4,11 @@ import { ses } from './ses.ts';
 import { video } from './video.ts';
 import { senaryo } from './senaryo.ts';
 import { gundemToplayici } from './gundem.ts';
+import { sosyalMedyaUzmani } from './sosyal-medya-uzmani.ts';
+import { yayinci } from './yayinci.ts';
 import type { Agent } from './types.ts';
 
-export { icerikBulma, videoUretim, ses, video, senaryo, gundemToplayici };
+export { icerikBulma, videoUretim, ses, video, senaryo, gundemToplayici, sosyalMedyaUzmani, yayinci };
 export { ekipler, ekipBul, gundemIste, isteKonulu } from './ekipler/index.ts';
 export { planla, calistir, gorevYolla, kadro, kategoridenUret } from './lider.ts';
 export * from './types.ts';
@@ -22,4 +24,6 @@ export const agents: Agent<never, unknown>[] = [
   ses,
   videoUretim,
   video,
+  sosyalMedyaUzmani,
+  yayinci,
 ] as unknown as Agent<never, unknown>[];
