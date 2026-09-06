@@ -41,6 +41,20 @@
   .manuel input{margin:0}
   .rozet{font-size:11px;padding:2px 7px;border-radius:99px;background:var(--chip);color:var(--warn);
          border:1px solid var(--line);white-space:nowrap}
+  .rozet.ok{color:var(--ok)} .rozet.uyari{color:var(--bad)}
+  /* Haber listesi: tek satirda karar verdirecek kadar bilgi, fazlasi degil. */
+  .liste{display:flex;flex-direction:column;gap:8px}
+  .satir{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);
+         border-radius:12px;padding:12px 14px;cursor:pointer}
+  .satir:hover{border-color:var(--accent)}
+  .satir .yildizlar{min-width:74px}
+  .satir .govde{flex:1;min-width:0}
+  .satir .baslik{font-weight:600;line-height:1.35}
+  .satir .altbilgi{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .satir .onizleme{color:var(--muted);font-size:12px;margin-top:6px;overflow:hidden;
+                   text-overflow:ellipsis;white-space:nowrap}
+  /* Sinif adi "ok" degil: .rozet.ok ile carpisiyordu ve rozetler 22px oluyordu. */
+  .satir .cevron{color:var(--muted);font-size:22px;line-height:1}
   main{max-width:1100px;margin:0 auto;padding:18px}
   nav{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
   nav button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -131,6 +145,8 @@ let STATE = { posts: [], accounts: [], platforms: [], teams: [], plan: [], kateg
 /* Gezinme: SECILI_HESAP null ise hesap listesi, doluysa o hesabin sayfasi. */
 let SECILI_HESAP = null;
 let SECILI_KATEGORI = null;
+/* Acik olan postun id'si. null ise haber listesi gorunur. */
+let SECILI_POST = null;
 
 function toast(msg, ms = 2600) {
   const t = $('#toast');
@@ -223,6 +239,20 @@ function renderHesapSayfasi(el) {
   /* En yuksek yildiz en ustte: once en iyi oneri gorunsun. */
   const sirali = secili.slice().sort((x, y) => ((y.puan && y.puan.yildiz) || 0) - ((x.puan && x.puan.yildiz) || 0));
 
+  /**
+   * ACIK POST VARSA YALNIZ ONU GOSTER.
+   *
+   * Onceden butun postlar tam haliyle alt alta aciliyordu: metin kutusu,
+   * alternatifler, gorseller, sekiz dugme... Ekranda hangi dugmenin hangi
+   * posta ait oldugu okunmuyordu. Simdi liste yalnizca basliklari verir,
+   * butun islemler tek postun detayinda toplanir.
+   */
+  if (SECILI_POST) {
+    const p = STATE.posts.find((x) => x.id === SECILI_POST);
+    if (p) { el.innerHTML = postDetay(p, a); return; }
+    SECILI_POST = null;
+  }
+
   el.innerHTML = `
     <button class="geri" id="geri">← bağlı hesaplar</button>
     <div class="card">
@@ -244,14 +274,58 @@ function renderHesapSayfasi(el) {
         }).join('')}
       </div>
     </div>
-    ${sirali.length ? sirali.map(postKarti).join('')
-      : `<div class="empty">Bu kategoride henüz öneri yok.<br><br>Yukarıdan <b>Bu hesap için içerik üret</b>'e bas.</div>`}`;
+    ${sirali.length
+      ? `<div class="liste">${sirali.map(postSatiri).join('')}</div>`
+      : `<div class="empty">Bu kategoride henüz öneri yok.<br><br>Yukarıdan <b>içerik getir</b>'e bas.</div>`}`;
 }
 
-/* ============================================================ POST KARTI */
+/* ======================================================== HABER LISTESI */
 
-function postKarti(p) {
-  const acc = accountOf(p.targets[0]) || {};
+/**
+ * Tek satirlik ozet. Amaci karar verdirmek degil, SECTIRMEK:
+ * hangi haber, ne kadar iyi, hangi asamada, medyasi var mi.
+ * Detay icin tiklanir.
+ */
+function postSatiri(p) {
+  const metin = Object.values(p.variants)[0] || '';
+  const gorselAdet = p.media.filter((m) => m.kind === 'image').length;
+  const videoVar = p.media.some((m) => m.kind === 'video');
+
+  /* Medya durumu tek bakista okunsun: neyin uretildigi, neyin eksik oldugu. */
+  const medya = videoVar
+    ? `<span class="rozet ok">video + ${gorselAdet} görsel</span>`
+    : gorselAdet
+      ? `<span class="rozet ok">${gorselAdet} görsel</span>`
+      : '<span class="rozet">medya yok</span>';
+
+  const durum = !Object.keys(p.variants).length
+    ? '<span class="rozet uyari">metin yok</span>'
+    : '';
+
+  return `<div class="satir" data-postac="${p.id}">
+    <div class="yildizlar">${p.puan ? yildiz(p.puan.yildiz) : '<span class="muted small">—</span>'}</div>
+    <div class="govde">
+      <div class="baslik">${esc(p.topic)}</div>
+      <div class="altbilgi">
+        <span class="status s-${p.status}">${p.status}</span>
+        ${p.kategori ? `<span class="chip">${esc((katOf(p.kategori) || {}).ad || p.kategori)}</span>` : ''}
+        ${medya}
+        ${durum}
+        ${p.kaynak && p.kaynak.site ? `<span class="muted small">${esc(p.kaynak.site)}</span>` : ''}
+      </div>
+      ${metin ? `<div class="onizleme">${esc(metin.slice(0, 110))}${metin.length > 110 ? '…' : ''}</div>` : ''}
+    </div>
+    <div class="cevron">›</div>
+  </div>`;
+}
+/* ============================================================ POST DETAYI */
+
+/**
+ * Bir postun her seyi: kaynak haber, puan, metin, alternatifler, medya ve
+ * butun islemler. Ayni anda YALNIZ BIR post detayi acik olur; boylece
+ * ekrandaki her dugmenin hangi habere ait oldugu tartismasizdir.
+ */
+function postDetay(p, acc) {
   const platformId = acc.platform || 'x';
   const lim = (platformOf(platformId) || {}).limits ? platformOf(platformId).limits.text : 500;
   const metin = p.variants[platformId] || Object.values(p.variants)[0] || '';
@@ -286,67 +360,92 @@ function postKarti(p) {
       </div>`).join('')}
     </div>` : '';
 
-  const media = p.media.map((m) => {
-    const src = `/media/${encodeURIComponent(m.path.split('/').pop())}`;
-    return m.kind === 'video'
-      ? `<video class="preview" src="${src}" controls preload="metadata"></video>`
-      : `<img class="preview" src="${src}" alt="">`;
-  }).join('');
+  const gorseller = p.media.filter((m) => m.kind === 'image');
+  const videolar = p.media.filter((m) => m.kind === 'video');
+
+  const medyaKutu = p.media.length ? `
+    <div class="variant">
+      <h4>Medya — ${gorseller.length} görsel${videolar.length ? ' + video' : ''}</h4>
+      <div class="row" style="flex-wrap:wrap;align-items:flex-start">
+        ${p.media.map((m) => {
+          const src = `/media/${encodeURIComponent(m.path.split('/').pop())}`;
+          return m.kind === 'video'
+            ? `<video class="preview" src="${src}" controls preload="metadata"></video>`
+            : `<img class="preview" src="${src}" alt="">`;
+        }).join('')}
+      </div>
+    </div>`
+    : '<div class="small" style="color:var(--warn);margin-top:10px">Henüz medya yok — aşağıdan <b>Görsel üret</b> ya da <b>Video üret</b>.</div>';
 
   const sonuc = p.results.length
-    ? `<div class="small muted" style="margin-top:8px">` + p.results.map((r) =>
-        `${r.ok ? '✓' : '✗'} ${esc((accountOf(r.accountId) || {}).label || r.platform)}${r.manuel ? ' · elle paylaşıldı' : ''}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 120)) : ''}`
-      ).join('<br>') + `</div>`
+    ? `<div class="variant"><h4>Geçmiş</h4><div class="small muted">` + p.results.map((r) =>
+        `${r.ok ? '✓' : '✗'} ${esc((accountOf(r.accountId) || {}).label || r.platform)}${r.manuel ? ' · elle paylaşıldı' : ''}${r.url ? ' · ' + esc(r.url) : ''}${r.error ? ' · ' + esc(r.error.slice(0, 160)) : ''}`
+      ).join('<br>') + `</div></div>`
     : '';
 
-  return `<div class="card">
-    <div class="row">
-      <span class="status s-${p.status}">${p.status}</span>
-      ${p.kategori ? `<span class="chip">${esc((katOf(p.kategori) || {}).ad || p.kategori)}</span>` : ''}
-      <b class="grow">${esc(p.topic)}</b>
-      <span class="muted small">${p.id}</span>
-    </div>
-    ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
-    ${p.kaynak && p.kaynak.ozet ? `<details style="margin-top:8px">
-      <summary class="muted small" style="cursor:pointer">kaynak haber${p.kaynak.site ? ' · ' + esc(p.kaynak.site) : ''}</summary>
-      <div class="small muted" style="margin-top:6px;padding:8px;background:var(--bg);border-radius:8px">
-        ${esc(p.kaynak.ozet)}
-        ${p.kaynak.url ? `<br><a href="${esc(p.kaynak.url)}" target="_blank" rel="noreferrer">habere git →</a>` : ''}
-      </div></details>` : ''}
-    ${puanKutu}
-    ${metin ? `<div class="variant">
-        <h4>${esc((platformOf(platformId) || {}).label || platformId)} · ${metin.length}/${lim}</h4>
-        <textarea data-text="${p.id}" data-platform="${platformId}">${esc(metin)}</textarea>
-      </div>`
-      : `<div class="small" style="color:var(--warn)">Metin yazılmadı — aşağıdan <b>Metin</b>'e bas.</div>`}
-    ${metinAdaylari}
-    ${media}
+  return `
+    <button class="geri" data-postgeri="1">← haber listesi</button>
 
-    <div class="row" style="margin-top:12px;padding-top:10px;border-top:1px solid var(--line)">
-      <span class="muted small" style="min-width:40px">Üret</span>
-      <button class="mini" data-yaz="${p.id}">Metin</button>
-      <button class="mini" data-medyauret="${p.id}" ${p.script ? '' : 'disabled'}>Medya</button>
-      <button class="mini" data-gorseluret="${p.id}" ${p.script ? '' : 'disabled'}>AI görsel</button>
-      <button class="mini" data-gorselara="${p.id}">Web görsel</button>
-      <span class="muted small" style="margin-left:6px">Medya</span>
-      <select data-medya="${p.id}" style="width:auto">
-        ${[['otomatik','otomatik'],['gorsel','görsel'],['video','video'],['yok','yok']]
-          .map((o) => `<option value="${o[0]}" ${(p.medya || 'otomatik') === o[0] ? 'selected' : ''}>${o[1]}</option>`).join('')}
-      </select>
+    <div class="card">
+      <div class="row">
+        <span class="status s-${p.status}">${p.status}</span>
+        ${p.kategori ? `<span class="chip">${esc((katOf(p.kategori) || {}).ad || p.kategori)}</span>` : ''}
+        <span class="grow"></span>
+        <span class="muted small">${p.id}</span>
+      </div>
+      <h2 style="margin:8px 0 4px">${esc(p.topic)}</h2>
+      ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
+      ${p.kaynak && p.kaynak.ozet ? `<details style="margin-top:10px">
+        <summary class="muted small" style="cursor:pointer">kaynak haber${p.kaynak.site ? ' · ' + esc(p.kaynak.site) : ''}</summary>
+        <div class="small muted" style="margin-top:6px;padding:8px;background:var(--bg);border-radius:8px">
+          ${esc(p.kaynak.ozet)}
+          ${p.kaynak.url ? `<br><a href="${esc(p.kaynak.url)}" target="_blank" rel="noreferrer">habere git →</a>` : ''}
+        </div></details>` : ''}
+      ${puanKutu}
     </div>
-    <div class="adaylar" id="adaylar-${p.id}" hidden></div>
 
-    <div class="row" style="margin-top:10px">
-      <button class="ok" data-decide="approved" data-id="${p.id}" ${metin ? '' : 'disabled'}>Onayla</button>
-      <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
-      <button data-yayinla="${p.id}" ${p.status === 'approved' && !manuelHesap ? '' : 'disabled'}>Yayınla</button>
-      <button class="primary" data-manuel="${p.id}" ${metin ? '' : 'disabled'}>Manuel yayınla</button>
-      <span class="grow"></span>
-      <button data-del="${p.id}" class="bad" style="opacity:.7">Sil</button>
+    <div class="card">
+      <div class="row"><b class="grow">Metin</b>
+        <button class="mini" data-yaz="${p.id}">${metin ? 'yeniden yaz' : 'metin yaz'}</button>
+      </div>
+      ${metin
+        ? `<div class="variant">
+            <h4>${esc((platformOf(platformId) || {}).label || platformId)} · ${metin.length}/${lim}</h4>
+            <textarea data-text="${p.id}" data-platform="${platformId}">${esc(metin)}</textarea>
+          </div>`
+        : `<div class="small" style="color:var(--warn);margin-top:8px">Metin yazılmadı — yukarıdan <b>metin yaz</b>'a bas.</div>`}
+      ${metinAdaylari}
     </div>
-    <div class="manuel" id="manuel-${p.id}" hidden></div>
-    ${sonuc}
-  </div>`;
+
+    <div class="card">
+      <div class="row">
+        <b class="grow">Medya</b>
+        <button class="mini primary" data-uret="${p.id}" data-tur="gorsel" ${p.script ? '' : 'disabled'}>Görsel üret</button>
+        <button class="mini primary" data-uret="${p.id}" data-tur="video" ${p.script ? '' : 'disabled'}>Video üret</button>
+        <button class="mini" data-gorselara="${p.id}">Web'de görsel ara</button>
+      </div>
+      <div class="muted small" style="margin-top:6px">
+        Görsel üret: en az 2 görsel · Video üret: en az 3 kare + seslendirme + altyazı
+        ${p.script ? '' : ' — <b>önce metin yazılmalı</b>'}
+      </div>
+      ${medyaKutu}
+      <div class="adaylar" id="adaylar-${p.id}" hidden></div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button class="ok" data-decide="approved" data-id="${p.id}" ${metin ? '' : 'disabled'}>Onayla</button>
+        <button class="bad" data-decide="rejected" data-id="${p.id}">Reddet</button>
+        <button data-yayinla="${p.id}" ${p.status === 'approved' && !manuelHesap ? '' : 'disabled'}>Yayınla (API)</button>
+        <button class="primary" data-manuel="${p.id}" ${metin ? '' : 'disabled'}>Manuel yayınla</button>
+        <span class="grow"></span>
+        <button data-del="${p.id}" class="bad" style="opacity:.7">Sil</button>
+      </div>
+      ${manuelHesap ? '<div class="muted small" style="margin-top:8px">Bu hesap manuel modda — API ile yayın kapalı, <b>Manuel yayınla</b> ile paylaş.</div>' : ''}
+      <div class="manuel" id="manuel-${p.id}" hidden></div>
+    </div>
+
+    ${sonuc}`;
 }
 
 /* ======================================================= MANUEL YAYIN */
@@ -527,32 +626,54 @@ function sekmeGec(which) {
 }
 
 document.addEventListener('click', async (e) => {
+  /* Haber satirina tiklandi: detayi ac. Satirin icindeki dugmeler haric. */
+  const satir = e.target.closest('[data-postac]');
+  if (satir && !e.target.closest('button')) {
+    SECILI_POST = satir.dataset.postac;
+    MANUEL_ACIK = false;
+    window.scrollTo(0, 0);
+    return renderAna();
+  }
+
   const hesapKart = e.target.closest('[data-hesap]');
   if (hesapKart) {
     SECILI_HESAP = hesapKart.dataset.hesap;
     SECILI_KATEGORI = null;
+    SECILI_POST = null;
     return renderAna();
   }
 
   const t = e.target.closest('button');
   if (!t) return;
 
-  const isle = async (yol, govde, dugme) => {
+  /**
+   * Uzun suren islerin ortak sarmalayicisi.
+   * Video uretimi 1-2 dakika suruyor; bu sirada otomatik yenileme sayfayi
+   * yeniden cizip dugmeyi sifirlamamali - URETIM_ACIK onu durduruyor.
+   */
+  const isle = async (yol, govde, dugme, bilgi) => {
     dugme.disabled = true;
     const eski = dugme.textContent;
     dugme.textContent = '…';
+    URETIM_ACIK = true;
+    if (bilgi) toast(bilgi, 180000);
     try {
       toast((await call(yol, govde)).message || 'tamam');
+      URETIM_ACIK = false;
       await refresh();
+    } catch (e) {
+      URETIM_ACIK = false;
+      throw e;
     } finally {
+      URETIM_ACIK = false;
       dugme.disabled = false;
       dugme.textContent = eski;
     }
   };
 
   try {
-    if (t.id === 'logo') { SECILI_HESAP = null; SECILI_KATEGORI = null; sekmeGec('ana'); return renderAna(); }
-    if (t.id === 'geri') { SECILI_HESAP = null; return renderAna(); }
+    if (t.id === 'logo') { SECILI_HESAP = null; SECILI_KATEGORI = null; SECILI_POST = null; sekmeGec('ana'); return renderAna(); }
+    if (t.id === 'geri') { SECILI_HESAP = null; SECILI_POST = null; return renderAna(); }
     if (t.id && t.id.indexOf('tab-') === 0) return sekmeGec(t.id.slice(4));
 
     if (t.dataset.katfiltre !== undefined) {
@@ -584,9 +705,22 @@ document.addEventListener('click', async (e) => {
       return refresh();
     }
 
+    if (t.dataset.postgeri) { SECILI_POST = null; MANUEL_ACIK = false; window.scrollTo(0, 0); return renderAna(); }
+
+    /* Tek dugme: tercihi de uretimi de yapar. Ne uretecegi dugmenin uzerinde yazili. */
+    if (t.dataset.uret) {
+      const video = t.dataset.tur === 'video';
+      return isle(
+        '/api/post/uret',
+        { id: t.dataset.uret, tur: t.dataset.tur },
+        t,
+        video
+          ? 'Video üretiliyor: görseller toplanıyor, seslendirme yapılıyor, montaj alınıyor… 1-2 dakika sürer.'
+          : 'Görseller toplanıyor…',
+      );
+    }
+
     if (t.dataset.yaz) return isle('/api/post/yaz', { id: t.dataset.yaz }, t);
-    if (t.dataset.medyauret) return isle('/api/post/medya-uret', { id: t.dataset.medyauret }, t);
-    if (t.dataset.gorseluret) return isle('/api/post/gorsel-uret', { id: t.dataset.gorseluret }, t);
     if (t.dataset.puanla) return isle('/api/post/puanla', { id: t.dataset.puanla }, t);
     if (t.dataset.yayinla) return isle('/api/run', { stage: 'publish' }, t);
 
@@ -655,7 +789,7 @@ document.addEventListener('click', async (e) => {
     }
 
     if (t.dataset.decide) { await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide }); return refresh(); }
-    if (t.dataset.del) { await call('/api/post/delete', { id: t.dataset.del }); toast('silindi'); return refresh(); }
+    if (t.dataset.del) { await call('/api/post/delete', { id: t.dataset.del }); SECILI_POST = null; toast('silindi'); return refresh(); }
     if (t.dataset.verify) { toast('bağlantı iyi: ' + (await call('/api/account/verify', { id: t.dataset.verify })).verifiedAs); return refresh(); }
     if (t.dataset.toggle) { await call('/api/account/toggle', { id: t.dataset.toggle }); return refresh(); }
     if (t.dataset.mmod) { toast((await call('/api/account/manuel', { id: t.dataset.mmod })).message, 6000); return refresh(); }
@@ -702,10 +836,6 @@ document.addEventListener('change', async (e) => {
       await call('/api/post/text', { id: el.dataset.text, platform: el.dataset.platform, text: el.value });
       toast('metin kaydedildi');
     }
-    if (el.dataset.medya) {
-      toast((await call('/api/post/media', { id: el.dataset.medya, tercih: el.value })).not);
-      return refresh();
-    }
   } catch (err) {
     toast('hata: ' + err.message, 6000);
   }
@@ -721,8 +851,10 @@ function formMesgul() {
  * Kullanici metni kopyalayip X'e gecerken paketin yerinde durmasi sart.
  */
 let MANUEL_ACIK = false;
+/* Uretim surerken sayfa yenilenmez: dugme sifirlanir, ilerleme kaybolur. */
+let URETIM_ACIK = false;
 setInterval(() => {
-  if (!document.hidden && !formMesgul() && !MANUEL_ACIK) refresh().catch(() => {});
+  if (!document.hidden && !formMesgul() && !MANUEL_ACIK && !URETIM_ACIK) refresh().catch(() => {});
 }, 20000);
 
 refresh().catch((e) => toast('yüklenemedi: ' + e.message, 8000));

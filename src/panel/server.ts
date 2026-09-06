@@ -204,6 +204,44 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     }
   }
 
+  /**
+   * TEK DUGMEYLE URETIM.
+   *
+   * Onceden kullanici once "Medya" acilir listesinden video secip sonra
+   * "Medya" dugmesine basmak zorundaydi; hangi postun ne uretecegi
+   * ekrandan okunmuyordu. Artik dugme ne yapacagini kendi soyluyor:
+   * "Gorsel uret" / "Video uret". Tercih ve uretim tek istekte.
+   */
+  if (path === '/api/post/uret' && method === 'POST') {
+    const { id, tur } = await readJson<{ id: string; tur: MedyaTercihi }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+    if (!post.script) return send(res, 400, { error: 'once metin yazilmali' });
+    if (!['gorsel', 'video'].includes(tur)) return send(res, 400, { error: 'gecersiz tur' });
+
+    post.medya = tur;
+    // Eski medya kalirsa yeni tercihle uretilmis sanilir; temizleniyor.
+    post.media = [];
+    post.results = [];
+    post.status = 'scripted';
+    await store.upsert(post);
+
+    try {
+      const n = await yonetmenUret(1);
+      const guncel = await store.get(id);
+      const gorselAdet = guncel?.media.filter((m) => m.kind === 'image').length ?? 0;
+      const videoAdet = guncel?.media.filter((m) => m.kind === 'video').length ?? 0;
+      return send(res, 200, {
+        ok: true,
+        message: n
+          ? `${tur === 'video' ? 'video' : 'görsel'} üretildi: ${gorselAdet} görsel${videoAdet ? ' + video' : ''}`
+          : 'üretilemedi',
+      });
+    } catch (e) {
+      return send(res, 400, { error: String(e).slice(0, 300) });
+    }
+  }
+
   if (path === '/api/post/medya-uret' && method === 'POST') {
     const { id } = await readJson<{ id: string }>(req);
     const post = await store.get(id);

@@ -1063,6 +1063,18 @@
         "path": "data/media/1375358b-ai1.jpg",
         "alt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, im",
         "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/1375358b-ai2.jpg",
+        "alt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, im",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/1375358b.mp4",
+        "alt": "GORA 4'ün vizyon tarihi ve Cem Yılmaz'ın planı",
+        "mime": "video/mp4"
       }
     ],
     "targets": [
@@ -1077,9 +1089,10 @@
       "site": "www.beyazperde.com"
     },
     "kategori": "sinema",
-    "medya": "gorsel",
+    "medya": "video",
     "script": {
-      "visualPrompt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, impossible architecture plan, all bathed in neon blues and purples with no readable text."
+      "visualPrompt": "Create a surreal, futuristic cityscape where towering holographic billboards display abstract, swirling patterns that echo GORA 4’s historic timeline, while a charismatic, cartoonish figure resembling a stand‑up comedian—styled like Cem Yılmaz—holds a blueprint of a whimsical, impossible architecture plan, all bathed in neon blues and purples with no readable text.",
+      "narration": "GORA serisinin dördüncü filmi henüz resmi bir vizyon tarihi almadı; yönetmen Cem Yılmaz, gelecek yılın ilk çeyreğinde senaryoyu tamamlamayı hedeflediğini ve o dönemde yapımcılarla takvim üzerine net bir tarih belirleyeceklerini söyledi. Bu yüzden şu an için kesin bir çıkış tarihi yok, ancak proje aktif olarak planlama aşamasında."
     },
     "puan": {
       "yildiz": 5,
@@ -1422,6 +1435,148 @@
         }
       ],
       "oneri": "Başlangıcı \"Hakem kararları bu sezon Türk futbolunu 5 kez zorlayabilir mi?\" gibi bir soru veya çarpıcı rakamla aç."
+    }
+  },
+  {
+    "id": "fad15822",
+    "createdAt": "2026-09-06T19:28:13.313Z",
+    "topic": "Lamborghini Temerario, İtalyan polisinin yeni sürüş gücü olarak filosuna katılıyor",
+    "angle": "Polisin yüksek performanslı araç tercihi ve şehir içi güvenlik üzerindeki etkisi",
+    "status": "failed",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 650, 450",
+        "at": "2026-09-06T19:28:14.864Z"
+      }
+    ],
+    "fingerprint": "2f0e1cdbd5ae38b4",
+    "kaynak": {
+      "ozet": "Süper otomobil, organ nakliyatı gibi hizmetlerde kullanılacak.",
+      "url": "https://tr.motor1.com/news/807285/italyan-polisi-temerario/",
+      "gorsel": "https://cdn.motor1.com/images/mgl/ojE1Kp/s3/la-lamborghini-temerario-della-polizia.jpg",
+      "site": "tr.motor1.com"
+    },
+    "kategori": "arabalar",
+    "medya": "gorsel"
+  },
+  {
+    "id": "e9805bab",
+    "createdAt": "2026-09-06T19:28:13.321Z",
+    "topic": "Toyota, Highlander EV modelinin lansman tarihini bir kez daha erteledi",
+    "angle": "Ertelemelerin elektrikli SUV piyasasındaki rekabete yansımaları",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Toyota Highlander EV’nin lansman tarihi bir kez daha ertelendi. Şirket, gecikmenin pazar koşullarıyla ilgili olmadığını belirtti; teknik ve tedarik süreçlerindeki sorunlar nedeni."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/e9805bab-haber.jpg",
+        "alt": "Toyota, Highlander EV modelinin lansman tarihini bir kez daha erteledi",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/e9805bab-ai1.jpg",
+        "alt": "A modern corporate press conference hall with polished floors, subtle ambient lighting, and rows of empty chairs, emphasizing a solemn, anticipatory atmosphere.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/e9805bab.mp4",
+        "alt": "Toyota, Highlander EV modelinin lansman tarihini bir kez daha erteledi",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "330908d7ab3880c8",
+    "kaynak": {
+      "ozet": "Otomobil üreticisi, gecikmelerin pazar koşullarıyla ilgili olmadığını söylüyor.",
+      "url": "https://tr.motor1.com/news/807284/toyota-highlander-ev-erteleme/",
+      "gorsel": "https://cdn.motor1.com/images/mgl/2N9Oek/s3/2027-toyota-highlander-ev.jpg",
+      "site": "tr.motor1.com"
+    },
+    "kategori": "arabalar",
+    "medya": "video",
+    "script": {
+      "visualPrompt": "A sleek, futuristic newsroom backdrop displaying a bold headline about the Toyota Highlander EV launch delay, with dynamic lighting highlighting the empty space.",
+      "mekanPrompt": "A modern corporate press conference hall with polished floors, subtle ambient lighting, and rows of empty chairs, emphasizing a solemn, anticipatory atmosphere.",
+      "narration": "Toyota, Highlander EV’nin lansman tarihini bir kez daha erteliyor ve bu, elektrikli SUV pazarındaki rekabeti doğrudan etkiliyor. İlk olarak 2024 baharında duyurulan model, şimdi 2025 ikinci çeyreğine kadar gecikiyor. Bu gecikme, Tesla’nın Model Y ve Ford’un Mustang Mach‑E gibi mevcut oyuncularının pazar payını artırmasına fırsat tanıyor. Toyota’nın gecikmesi, tüketicilerin daha fazla seçenek ve fiyat rekabeti beklemesini sağlarken, şirketin sürdürülebilirlik hedeflerine ulaşmasını da bir yıl geri itiyor. Sonuç: Highlander EV’nin gecikmesi, rakiplerin öne çıkmasını ve Toyota’nın elektrikli SUV segmentindeki konumunu erteledi."
+    }
+  },
+  {
+    "id": "d4984621",
+    "createdAt": "2026-09-06T19:28:13.325Z",
+    "topic": "Renault Master, yenilenmiş tasarımı ve 1.300 kg taşıma kapasitesiyle geri döndü",
+    "angle": "Ticari araçların modernizasyonunun lojistik sektörüne katkısı",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Renault Master yenilenmiş tasarımıyla geri döndü. Açık kasa kamyonet ve minibüs versiyonları sunuluyor; taşıma kapasitesi 1.300 kg. Modernleşen bu ticari araç, lojistik firmalarına daha fazla yük taşıma imkânı sağlıyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/d4984621-haber.jpg",
+        "alt": "Renault Master, yenilenmiş tasarımı ve 1.300 kg taşıma kapasitesiyle geri döndü",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/d4984621-ai1.jpg",
+        "alt": "A modern automotive exhibition hall with polished concrete floors, high ceilings, and ambient lighting that accentuates the vehicle’s contours, devoid of any people or signage.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/d4984621-ai2.jpg",
+        "alt": "A modern automotive exhibition hall with polished concrete floors, high ceilings, and ambient lighting that accentuates the vehicle’s contours, devoid of any people or signage.. close detail of the setting. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/d4984621.mp4",
+        "alt": "Renault Master, yenilenmiş tasarımı ve 1.300 kg taşıma kapasitesiyle geri döndü",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "d736b7252dd6cbfe",
+    "kaynak": {
+      "ozet": "Açık kasa kamyonet ve minibüs versiyonları geldi.",
+      "url": "https://tr.motor1.com/news/807276/renault-master-2026-turkiye/",
+      "gorsel": "https://cdn.motor1.com/images/mgl/ko8Y24/s3/renault-master.jpg",
+      "site": "tr.motor1.com"
+    },
+    "kategori": "arabalar",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Renault Master’ın yeni tasarımıyla piyasaya sürülen açık kasa kamyonet ve minibüs modelleri, 1.300 kg taşıma kapasitesi sunuyor. Bu yenilik, lojistik sektöründeki taşıma verimliliğini nasıl artırabilir?"
+        },
+        {
+          "metin": "Renault Master’ın yeni nesli, 1.300 kg taşıma kapasitesiyle lojistikte devrim yaratıyor. Açık kasa kamyonet ve minibüs seçenekleri, sektördeki rekabeti yeniden şekillendirecek."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek Renault Master van glides forward on a glossy showroom floor, illuminated by soft overhead lights that highlight its refreshed design and robust 1,300 kg payload capability.",
+      "mekanPrompt": "A modern automotive exhibition hall with polished concrete floors, high ceilings, and ambient lighting that accentuates the vehicle’s contours, devoid of any people or signage.",
+      "narration": "Renault Master’ın yeni nesil tasarımıyla karşınızda! Yenilenen dış hatları daha aerodinamik, sürüş konforu ise modern süspansiyon sistemiyle üst seviyede. En dikkat çeken özellik ise 1.300 kilogram taşıma kapasitesi; bu, tipik bir teslimat kamyonuna göre % 15 daha fazla yük alabiliyor. Lojistik firmaları, aynı araçla daha fazla sipariş taşıyarak rotalarını kısaltıyor, yakıt tüketimini azaltıyor ve teslimat süresini hızlandırıyor. Kısacası, yeni Master, modernizasyon sayesinde lojistik sektörüne daha yüksek verim ve düşük maliyet getiriyor."
     }
   }
 ]
