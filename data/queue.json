@@ -1513,6 +1513,23 @@
       "visualPrompt": "A sleek, futuristic newsroom backdrop displaying a bold headline about the Toyota Highlander EV launch delay, with dynamic lighting highlighting the empty space.",
       "mekanPrompt": "A modern corporate press conference hall with polished floors, subtle ambient lighting, and rows of empty chairs, emphasizing a solemn, anticipatory atmosphere.",
       "narration": "Toyota, Highlander EV’nin lansman tarihini bir kez daha erteliyor ve bu, elektrikli SUV pazarındaki rekabeti doğrudan etkiliyor. İlk olarak 2024 baharında duyurulan model, şimdi 2025 ikinci çeyreğine kadar gecikiyor. Bu gecikme, Tesla’nın Model Y ve Ford’un Mustang Mach‑E gibi mevcut oyuncularının pazar payını artırmasına fırsat tanıyor. Toyota’nın gecikmesi, tüketicilerin daha fazla seçenek ve fiyat rekabeti beklemesini sağlarken, şirketin sürdürülebilirlik hedeflerine ulaşmasını da bir yıl geri itiyor. Sonuç: Highlander EV’nin gecikmesi, rakiplerin öne çıkmasını ve Toyota’nın elektrikli SUV segmentindeki konumunu erteledi."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekici bir iddia veya soru içermiyor, etkileşimi artıracak görsel/video ya da hashtag yok",
+      "sinyaller": [
+        {
+          "id": "video",
+          "aciklama": "Yerli video — dağıtımda en güçlü medya",
+          "etki": 2
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "İlk cümleyi \"Toyota Highlander EV'nin lansman tarihi 15 Mayıs'ta duyurulacak, sizce bu gecikmenin nedeni nedir?\" şeklinde soruya dönüştürerek merak ve tartışma yaratın"
     }
   },
   {
@@ -1566,10 +1583,49 @@
     "metinAdaylari": {
       "x": [
         {
-          "metin": "Renault Master’ın yeni tasarımıyla piyasaya sürülen açık kasa kamyonet ve minibüs modelleri, 1.300 kg taşıma kapasitesi sunuyor. Bu yenilik, lojistik sektöründeki taşıma verimliliğini nasıl artırabilir?"
+          "metin": "Renault Master’ın yeni tasarımıyla piyasaya sürülen açık kasa kamyonet ve minibüs modelleri, 1.300 kg taşıma kapasitesi sunuyor. Bu yenilik, lojistik sektöründeki taşıma verimliliğini nasıl artırabilir?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve sayısal veri içeren çekici bir başlangıç yapıyor, ancak video yerleşimi ve yazar yanıt çağrısı eksik.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "video",
+                "aciklama": "Yerli video — dağıtımda en güçlü medya",
+                "etki": 2
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Videoyu yanıt kısmına ekleyip, yazarın yanıt vermesini teşvik eden bir çağrı ekle."
+          }
         },
         {
-          "metin": "Renault Master’ın yeni nesli, 1.300 kg taşıma kapasitesiyle lojistikte devrim yaratıyor. Açık kasa kamyonet ve minibüs seçenekleri, sektördeki rekabeti yeniden şekillendirecek."
+          "metin": "Renault Master’ın yeni nesli, 1.300 kg taşıma kapasitesiyle lojistikte devrim yaratıyor. Açık kasa kamyonet ve minibüs seçenekleri, sektördeki rekabeti yeniden şekillendirecek.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır merak uyandırmıyor, soru ya da çarpıcı iddia yok; etkileşimi artıracak bir çağrı eksik.",
+            "sinyaller": [
+              {
+                "id": "video",
+                "aciklama": "Yerli video — dağıtımda en güçlü medya",
+                "etki": 2
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"Renault Master’ın yeni nesliyle 1.300 kg taşıma kapasitesini aşıp lojistikte nasıl devrim yaratabilir?\" şeklinde soruya dönüştür."
+          }
         }
       ]
     },
@@ -1577,6 +1633,1042 @@
       "visualPrompt": "A sleek Renault Master van glides forward on a glossy showroom floor, illuminated by soft overhead lights that highlight its refreshed design and robust 1,300 kg payload capability.",
       "mekanPrompt": "A modern automotive exhibition hall with polished concrete floors, high ceilings, and ambient lighting that accentuates the vehicle’s contours, devoid of any people or signage.",
       "narration": "Renault Master’ın yeni nesil tasarımıyla karşınızda! Yenilenen dış hatları daha aerodinamik, sürüş konforu ise modern süspansiyon sistemiyle üst seviyede. En dikkat çeken özellik ise 1.300 kilogram taşıma kapasitesi; bu, tipik bir teslimat kamyonuna göre % 15 daha fazla yük alabiliyor. Lojistik firmaları, aynı araçla daha fazla sipariş taşıyarak rotalarını kısaltıyor, yakıt tüketimini azaltıyor ve teslimat süresini hızlandırıyor. Kısacası, yeni Master, modernizasyon sayesinde lojistik sektörüne daha yüksek verim ve düşük maliyet getiriyor."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satır ilgi çekici ama soru ya da çarpıcı sayı eksik, etkileşim tetikleyici zayıf",
+      "sinyaller": [
+        {
+          "id": "video",
+          "aciklama": "Yerli video — dağıtımda en güçlü medya",
+          "etki": 2
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Renault Master'ın 1.300 kg taşıma kapasitesiyle yeni tasarımı geri döndü: hangisi sizin tercihiniz, kamyonet mi minibüs?\" şeklinde soruya dönüştür."
+    }
+  },
+  {
+    "id": "d4d5bfed",
+    "createdAt": "2026-09-06T19:47:31.999Z",
+    "topic": "ODYSS N1 yapay zekalı kolye, sesli asistanı sayesinde gerçek zamanlı konum takibi yapıyor",
+    "angle": "Günlük yaşamda güvenlik ve konfor artırıcı bir akıllı aksesuar",
+    "status": "pending_approval",
+    "variants": {
+      "x": "ODYSS N1 yapay zekalı kolye, sesli asistanı sayesinde gerçek zamanlı konum takibi yapıyor. IFA 2026'da tanıtıldı; beslenme alışkanlıklarını otomatik izleyerek güvenlik ve konfor sunuyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/d4d5bfed-haber.webp",
+        "alt": "ODYSS N1 yapay zekalı kolye, sesli asistanı sayesinde gerçek zamanlı konum takibi yapıyor",
+        "mime": "image/webp"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/d4d5bfed-ai1.jpg",
+        "alt": "A minimalist, ultra-modern conference hall with polished glass walls, subtle neon accents, and ambient lighting that casts gentle reflections on the sleek surfaces, emphasizing the cutting-edge technology on display.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "feecc129dba21e0f",
+    "kaynak": {
+      "ozet": "IFA 2026'da tanıtılan ODYSS N1, yapay zeka desteğiyle beslenme alışkanlıklarını otomatik olarak takip eden yeni bir akıllı kolye çözümü sunuyor.",
+      "url": "https://shiftdelete.net/odyss-n1-yapay-zekali-beslenme-kolyesi",
+      "site": "shiftdelete.net",
+      "gorsel": "https://ares.shiftdelete.net/2026/09/bu-kolye-sizi-surekli-izliyor-yapay-zekali-odyss-n1-tanitildi.webp"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "ODYSS N1 kolye gerçek zamanlı konum takibi ve sesli asistan özellikleriyle gündemde. Sizce bir akıllı takı, günlük yaşamda güvenliği ve rahatlığı artırır mı?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır ilgi çekici bir iddia ve soru içeriyor, ama hashtag eksikliği ve medya yerleşimi kurallara tam uymuyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Görseli ana posta ekleyip, ilk satırı '💎 ODYSS N1: Gerçek zamanlı konum ve sesli asistanlı akıllı takı' şeklinde sayısal ve ikonlu bir iddia ile başlat."
+          }
+        },
+        {
+          "metin": "ODYSS N1, IFA 2026'da tanıtılan ve 1,5 kg'dan 10 % daha hafif olan ilk yapay zekalı konum takipli kolye.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satırda merak uyandırıcı bir iddia ya da soru yok, medya destekli değil ve etkileşimi tetikleyecek bir çağrı içermiyor.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Metnin başına \"%10 daha hafif ve konum takipli: Sizce bu teknoloji hayatımızı nasıl değiştirecek?\" gibi bir soru ekleyerek etkileşimi artırın."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek, futuristic necklace hovering mid-air, its holographic interface glowing softly as it transmits real-time location data to an unseen digital network, set against a dark, high-tech lab background with ambient blue lighting.",
+      "mekanPrompt": "A minimalist, ultra-modern conference hall with polished glass walls, subtle neon accents, and ambient lighting that casts gentle reflections on the sleek surfaces, emphasizing the cutting-edge technology on display."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekici değil, soru ya da tartışma başlatmıyor ve medya desteği yok",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi merak uyandıran bir soru ya da çarpıcı bir istatistikle başlat"
+    }
+  },
+  {
+    "id": "a2d978dc",
+    "createdAt": "2026-09-06T19:47:32.006Z",
+    "topic": "MOVA’nın AI MOVAment vizyonu, IFA 2026’da tanıtılan yeni nesil yapay zeka platformu",
+    "angle": "İçerik üreticileri ve geliştiriciler için açık kaynaklı AI ekosistemi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "IFA 2026’da tanıtılan MOVA’nın “The AI MOVAment” AI platformu sizce geliştiricilerin cihaz içi yapay zekâ kullanımını nasıl değiştirecek? 22 ürün ve 15 yenilik, açık kaynak ekosistemiyle 1.700 m² alanda gösterildi – sizce hangi sektör en çok faydalanır?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/a2d978dc-haber.jpg",
+        "alt": "MOVA’nın AI MOVAment vizyonu, IFA 2026’da tanıtılan yeni nesil yapay zeka platformu",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/a2d978dc-ai1.jpg",
+        "alt": "The spacious, high-ceilinged IFA 2026 showcase arena with rows of reflective panels and ambient neon accents. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "f96c04b979395556",
+    "kaynak": {
+      "ozet": "Yapay zekâ denildiğinde muhtemelen sizin de aklınıza ilk olarak ChatGPT gibi sohbet botları veya görsel ve video üreten araçlar geliyor. Ancak teknoloji dünyasının en önemli etkinliklerinden IFA 2026, yapay zekânın ekranlarımızdan çıkıp doğrudan çevremizdeki cihazların içerisine girmeye başladığını gösteriyor. Bu dönüşümü IFA 2026’ya taşıyan şirketlerden biri de MOVA oldu. “The AI MOVAment” adını verdiği yaklaşım kapsamında 22 global ürün lansmanı ve 15 yenilikçi teknoloji sergileyen şirket, 1.700 metrekareyi aşan fuar alanında oldukça ilginç bir sorunun peşinden gidiyor: Bir cihaz çevresini a",
+      "url": "https://www.webtekno.com/ifa-2026-mova-ai-movament-duyurulari-basladi-h223687.html",
+      "gorsel": "https://imgrosetta.webtekno.com/file/681520/681520-640xauto.jpg",
+      "site": "www.webtekno.com"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "IFA 2026’da MOVA, 22 ürün ve 15 yenilikle 1.700 m² fuarda “The AI MOVAment” adlı açık kaynak AI platformunu tanıttı. Geliştiriciler, cihaz içinde AI çalıştırarak maliyeti %30’a kadar azaltabilir.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır çekici bir iddia ve sayı içeriyor, ancak etkileşimi artıracak bir soru ya da çağrı eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra \"Sizce AI MOVAment ile maliyetinizi %30 azaltabilir misiniz?\" gibi bir soru ekleyin"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A futuristic exhibition hall bathed in cool blue LED lighting, showcasing a holographic AI interface floating above a sleek, mirrored podium",
+      "mekanPrompt": "The spacious, high-ceilinged IFA 2026 showcase arena with rows of reflective panels and ambient neon accents"
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İçerik soru ve sektör odaklı, ancak ilk satır merak uyandırmıyor ve hashtag aşırı kullanılıyor.",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı \"AI MOVAment ile 22 ürün, 15 yenilik: Hangi sektör en çok fayda sağlayacak?\" şeklinde başlayıp, hashtag sayısını ikiye düşür."
+    }
+  },
+  {
+    "id": "a80d62df",
+    "createdAt": "2026-09-06T19:47:32.013Z",
+    "topic": "Avrupa’nın ilk ticari yörüngesel roketi, 2026 Haziran ayında başarıyla fırlatıldı",
+    "angle": "Kıta içi uzay taşımacılığının komersiyalleşmesi ve düşük maliyetli uydu lansmanları",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Avrupa’nın ilk ticari yörüngesel roketi 2026 Haziran’da başarılı bir şekilde fırlatıldı. Düşük maliyetli uydu lansmanları için yeni bir dönemin kapısını açtı."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/a80d62df-haber.jpg",
+        "alt": "Avrupa’nın ilk ticari yörüngesel roketi, 2026 Haziran ayında başarıyla fırlatıldı",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/a80d62df-ilgili2.webp",
+        "alt": "Avrupa’nın ilk ticari yörüngesel roketi, 2026 Haziran ayında başarıyla fırlatıldı",
+        "mime": "image/webp"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "7dd7ffbb798d941b",
+    "kaynak": {
+      "ozet": "Yapay zekâ denildiğinde muhtemelen sizin de aklınıza ilk olarak ChatGPT gibi sohbet botları veya görsel ve video üreten araçlar geliyor. Ancak teknoloji dünyasının en önemli etkinliklerinden IFA 2026, yapay zekânın ekranlarımızdan çıkıp doğrudan çevremizdeki cihazların içerisine girmeye başladığını gösteriyor. Bu dönüşümü IFA 2026’ya taşıyan şirketlerden biri de MOVA oldu. “The AI MOVAment” adını verdiği yaklaşım kapsamında 22 global ürün lansmanı ve 15 yenilikçi teknoloji sergileyen şirket, 1.700 metrekareyi aşan fuar alanında oldukça ilginç bir sorunun peşinden gidiyor: Bir cihaz çevresini a",
+      "url": "https://www.webtekno.com/ifa-2026-mova-ai-movament-duyurulari-basladi-h223687.html",
+      "gorsel": "https://imgrosetta.webtekno.com/file/681520/681520-640xauto.jpg",
+      "site": "www.webtekno.com"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Avrupa’nın ilk ticari yörüngesel roketi 2026 Haziran’da fırlatıldı; bu, kıta içi uzay taşımacılığının maliyetini düşürüp daha fazla şirketin uzaya erişmesini sağlayacak mı?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Tarih ve soru içeren çekici bir ilk satır var, ancak medya eksik ve etkileşimi artıracak bir çağrı yok",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırda bir merak unsuru ekleyip, görseli doğrudan posta yerleştirerek video yerine kısa bir gif ekle"
+          }
+        },
+        {
+          "metin": "Avrupa, 2026 Haziran’da ticari yörüngesel roketini fırlatarak 30 % daha ucuz uydu lansmanı vaadiyle uzay pazarına giriş yaptı.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır ilgi çekici değil, soru veya çelişki yok, medya ve etkileşim öğeleri eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru ya da çarpıcı bir istatistikle başlayıp, görsel/video ekleyerek dikkat çek"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek, futuristic launch control room illuminated by soft blue ambient lighting, with a towering digital display showing a stylized rocket silhouette against a dark starfield backdrop, emphasizing the moment of the historic commercial orbital rocket launch",
+      "mekanPrompt": "A high‑tech launch pad at dawn, the rocket poised on a gleaming white platform surrounded by towering metal gantries and soft sunrise haze, with clear sky gradients shifting from deep navy to pale orange, highlighting the launch site’s grandeur"
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satır merak uyandırıcı ama medya eksik, etkileşim artırıcı soru ya da anket yok",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru ya da çarpıcı istatistikle başlat ve görsel yerine 2:20 altı dikey video ekle"
+    }
+  },
+  {
+    "id": "061a6261",
+    "createdAt": "2026-09-06T19:51:20.889Z",
+    "topic": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
+    "angle": "Bankacılıkta yapay zekanın müşteri hizmetleri ve risk yönetimine etkisi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "M&T Bank, AI copilotlarını 15.000 çalışanına dağıttı; bu durum sizce bankacılık hizmetlerini nasıl değiştirecek? Yapay zekâ müşterilere daha hızlı yanıt ve riskleri daha erken tespit sağlayabilir mi? Görüşlerinizi paylaşın."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/061a6261-haber.png",
+        "alt": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
+        "mime": "image/png"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/061a6261-ai1.jpg",
+        "alt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/061a6261-ai2.jpg",
+        "alt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels. close detail of the setting. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/061a6261.mp4",
+        "alt": "M&T Bank, kurumsal AI çözümlerini genişletiyor",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "e7896d60d42027f5",
+    "kaynak": {
+      "ozet": "M&T Bank has deployed AI copilots to more than 15,000 employees as the US regional bank applies AI to internal operations, customer service, software development, and risk management. The bank uses AI to analyse call-centre conversations, draft reports, generate code, identify customer needs, and flag portfolio risks, according to Fast Company. M&T is also examining agentic AI applications in cybersecurity and fraud detection. American Banker reported in September 2025 that 16,000 of M&T&#8217;s roughly 22,000 employees were already using Microsoft Copilot for tasks including drafting emails a",
+      "url": "https://www.artificialintelligence-news.com/news/mt-bank-enterprise-ai-15000-employees/",
+      "gorsel": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/image.png",
+      "site": "www.artificialintelligence-news.com"
+    },
+    "kategori": "ai",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "M&T Bank, 15.000+ çalışanına AI copilotları sundu. Çağrı merkezi konuşmalarını analiz ediyor, rapor yazar, kod üretiyor, müşteri ihtiyaçlarını belirliyor ve portföy risklerini işaretliyor. Ayrıca siber güvenlik ve sahtecilik tespitinde yapay zekayı inceliyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk cümlede merak uyandıran bir iddia ve sayı bulunuyor, görsel eklenmesi de dağıtımı artırıyor, ancak hashtag eksik ve link ayrı yanıt olarak eklenmeli.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"15.000+ çalışanı olan M&T Bank, AI copilotlarıyla verimliliği %X artırdı\" şeklinde sayısal bir fayda ekleyerek güçlendirin."
+          }
+        },
+        {
+          "metin": "M&T Bank, çalışanlarının %72’si (16.000/22.000) Microsoft Copilot kullanıyor. Bu oran, Amerika’nın bölgesel bankalarında yapay zekâ kullanımının en yüksek seviyelerinden biri.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İddialı veri ve istatistik iyi, ancak soru veya tartışma tetikleyici yok, görsel eksik ve etkileşim artırıcı öğeler sınırlı",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra bir soru ekleyerek (ör. \"Bankalar AI’yı ne kadar benimsiyor?\") ve bir görsel ekleyerek paylaşımın etkileşimini artır."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek, high‑tech conference hall filled with glowing holographic data streams showcasing AI integration",
+      "mekanPrompt": "A modern corporate atrium with glass walls, ambient blue lighting, and futuristic architectural panels",
+      "narration": "M&T Bank, kurumsal yapay zekâ çözümlerini genişletiyor. Yeni AI destekli sohbet botları, müşterilerin 24 saat içinde hesap sorgulama, kredi başvurusu ve dolandırıcılık uyarılarını anlık olarak çözmelerini sağlıyor. Aynı zamanda risk yönetiminde kullanılan makine öğrenimi modelleri, şüpheli işlemleri yüzde 85 daha hızlı tespit ederek potansiyel kayıpları önceden engelliyor. Bu sayede M&T, hem müşteri memnuniyetini artırıyor hem de güvenlik seviyesini yükseltiyor."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "Soru ve tartışma çağrısı var ama ilk satır çekici bir hook eksik ve görsel doğrudan eklenmemiş",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı \"15.000 çalışanına AI copilotları dağıtan M&T Bank: Bankacılık nasıl değişecek?\" şeklinde bir merak uyandıran iddia ile başlat ve görseli ana posta ekle"
+    }
+  },
+  {
+    "id": "761c9f8d",
+    "createdAt": "2026-09-06T19:51:20.891Z",
+    "topic": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
+    "angle": "Özel araç paylaşımının otonom sürüşle entegrasyonu ve mevcut sınırlamalar",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Atoms, Uber’in kurucusu Travis Kalanick’in yeni girişimi, robotaksi pazarına giriş yapıyor. Otonom araçlarla özel paylaşım hizmeti sunmayı hedefliyor, ancak güvenlik ve düzenleyici izinler hâlâ çözülmesi gereken sorunlar."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/761c9f8d-haber.jpg",
+        "alt": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/761c9f8d-ai1.jpg",
+        "alt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/761c9f8d-ai2.jpg",
+        "alt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.. close detail of the setting. No text or letters.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/761c9f8d.mp4",
+        "alt": "Travis Kalanick'in Atoms girişimi robotaksi pazarına giriyor",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "797f0e785a36d364",
+    "kaynak": {
+      "ozet": "The Uber founder has said that Atoms will allow him to complete \"unfinished business.\"",
+      "url": "https://techcrunch.com/2026/09/06/travis-kalanicks-atoms-might-be-getting-into-the-robotaxi-business/",
+      "site": "techcrunch.com",
+      "gorsel": "https://techcrunch.com/wp-content/uploads/2026/08/travis-kalanick-fii.jpg?resize=1200,800"
+    },
+    "kategori": "ai",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Travis Kalanick’in Atoms projesi robotaksiye atılıyor; sizce otonom taksiler, özel araç paylaşımını nasıl değiştirecek? Hâlâ yol testleri ve yasal izin eksikliği, bu dönüşümün hızını sınırlıyor mu?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlgi çekici bir soru ve tarih/sayı eksikliği var, ancak hashtag ve link eksikliği ceza puanı alıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "video",
+                "aciklama": "Yerli video — dağıtımda en güçlü medya",
+                "etki": 2
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk satırı \"2024'te Travis Kalanick’in Atoms projesi robotaksiye atılıyor: Otonom taksiler özel araç paylaşımını nasıl değiştirecek?\" şeklinde revize edin."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek futuristic laboratory filled with holographic displays and autonomous robot‑taxi prototypes lining a polished white floor, illuminated by cool blue ambient lighting.",
+      "mekanPrompt": "A modern high‑rise office lobby with glass walls, reflective marble floors, and soft indirect lighting casting gentle shadows across minimalist furniture.",
+      "narration": "Travis Kalanick, Uber’in kurucusu, otonom sürüş teknolojisi şirketi Atoms’u, robotaksi hizmetiyle piyasaya sürmek için harekete geçti. Şirket, hâlâ sınırlı test bölgelerinde çalışan tam otonom araçları, hâlihazırda çalışan Uber Lite gibi özel araç paylaşım uygulamalarıyla entegre etmeyi planlıyor. Bu sayede sürücüsüz taksiler, yolcuyu bulduğunda anında bir araba ayarlayabiliyor ve hem yolculuk süresi hem de maliyet açısından mevcut taksi hizmetlerine göre %15‑20 daha hızlı ve ucuz olabiliyor. Ancak altyapı eksikliği, regülasyon onayları ve hâlâ insan kontrolüne ihtiyaç duyan güvenlik sistemleri, bu entegrasyonun geniş çapta yayılmasını şu an için sınırlandırıyor. Yine de Atoms, bu sınırlamaları aşarak otonom robotaksileri şehir içinde bir sonraki ulaşım standardı haline getirmeyi hedefliyor."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satır merak uyandırıcı değil ve hashtag eksik, etkileşim artırıcı bir soru veya veri yok",
+      "sinyaller": [
+        {
+          "id": "video",
+          "aciklama": "Yerli video — dağıtımda en güçlü medya",
+          "etki": 2
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "İlk cümleyi \"Robot taksi pazarına giriş yapan Atoms, Travis Kalanick'in yeni girişimi, güvenlik ve izin sorunlarıyla nasıl başa çıkacak?\" şeklinde soruya dönüştür."
+    }
+  },
+  {
+    "id": "26d0bf08",
+    "createdAt": "2026-09-06T19:56:11.479Z",
+    "topic": "Serhat Kılıç'ın cenaze töreni ne zaman?",
+    "angle": "Programın detayları ve katılım koşulları",
+    "status": "failed",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 2024",
+        "at": "2026-09-06T19:56:12.241Z"
+      }
+    ],
+    "fingerprint": "19b1be74ce149b00",
+    "kaynak": {
+      "ozet": "Kağıthane'deki evinde ölü bulunan oyuncu Serhat Kılıç'ın son görüntüsü ortaya çıktı. Yaşadığı binanın güvenlik kamerasına yansıyan görüntülerde, evine gelen Kılıç'ın, duvara yaslanarak asansör beklediği, asansörün gelmemesi üzerine ise merdivenlere yöneldiği görüldü.",
+      "url": "https://www.hurriyet.com.tr/kelebek/evinde-olu-bulunmustu-oyuncu-serhat-kilicin-son-goruntusu-ortaya-cikti-43298241",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9da5d80202f673994703a7.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "muzik",
+    "medya": "gorsel"
+  },
+  {
+    "id": "82a5de08",
+    "createdAt": "2026-09-06T19:56:11.483Z",
+    "topic": "Rod Wave'in yeni albümü ‘Don’t Look Down’ listelerde birinci",
+    "angle": "Albümenin çıkış tarihi, şarkı temaları ve satış rakamları",
+    "status": "failed",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [
+      {
+        "accountId": "",
+        "platform": "icerik",
+        "ok": false,
+        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 000",
+        "at": "2026-09-06T19:56:13.419Z"
+      }
+    ],
+    "fingerprint": "5aac806975c7bb69",
+    "kaynak": {
+      "ozet": "Rod Wave earns his fourth No. 1 album on the Billboard 200 chart as Don’t Look Down debuts atop the list dated Sept. 12. The set earned 99,000 equivalent album units in the United States in its first week, ending Sept. 3, according to Luminate, largely driven by streaming activity. He previously led the list with Nostalgia (in 2023), Beautiful Mind (2022) and SoulFly (2021). Also in the top 10, Alex Warren notches his second top 10 and highest-charted set yet as WILDCHILD opens at No. 2. The Billboard 200 chart ranks the most popular albums of the week in the U.S. based on multi-metric consump",
+      "url": "https://www.billboard.com/music/chart-beat/rod-wave-dont-look-down-number-one-billboard-200-chart-1236335185/",
+      "gorsel": "https://i.imgur.com/2HpFicp.png",
+      "site": "www.billboard.com"
+    },
+    "kategori": "muzik",
+    "medya": "gorsel"
+  },
+  {
+    "id": "252eb5b8",
+    "createdAt": "2026-09-06T19:56:11.486Z",
+    "topic": "The Chainsmokers konserinde hastaneye kaldırılan 14 kişi",
+    "angle": "Olayın nedeni, sağlık önlemleri ve gelecekteki konser güvenliği",
+    "status": "pending_approval",
+    "variants": {
+      "x": "The Chainsmokers konserinde 14 kişi hastaneye kaldırıldı. San Jose, Discovery Meadow’da 4 Eylül Cuma akşamı gerçekleşen açık hava etkinliğinde, polis ve San Jose İtfaiye Müdürlüğü bildirildi."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/252eb5b8-haber.png",
+        "alt": "The Chainsmokers konserinde hastaneye kaldırılan 14 kişi",
+        "mime": "image/png"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/252eb5b8-ilgili2.jpg",
+        "alt": "The Chainsmokers konserinde hastaneye kaldırılan 14 kişi",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "f84a1464a444d151",
+    "kaynak": {
+      "ozet": "More than a dozen concertgoers were hospitalized following The Chainsmokers ’ recent Bay Area show. Fourteen people were transported to local hospitals during and after the electronic duo’s outdoor concert at Discovery Meadow in San Jose, California, on Friday (Sept. 4), according to police and the San Jose Fire Department (SJFD). “At 8:22 p.m. on Friday, September 4, the San José Fire Department responded to an outdoor concert at Discovery Meadow for reports of multiple patients requiring medical attention,” the SJFD wrote on X . The fire department continued, “SJFD immediately requested an A",
+      "url": "https://www.billboard.com/music/music-news/the-chainsmokers-san-jose-concert-14-people-hospitalized-1236335176/",
+      "gorsel": "https://i.imgur.com/2HpFicp.png",
+      "site": "www.billboard.com"
+    },
+    "kategori": "muzik",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "The Chainsmokers konserinde 14 kişinin hastaneye kaldırılması sizce gelecekteki konserlerde sağlık önlemlerinin artırılması gerektiğini gösteriyor mu?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve sayı içeriyor, medya var ama ilk satır dikkat çekici değil ve hashtag/bağlantı eksikliği fırsat kaçırıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"14 kişi hastaneye kaldırıldı!\" gibi çarpıcı bir iddia ile başlayarak merak uyandır."
+          }
+        },
+        {
+          "metin": "The Chainsmokers konserinde 14 kişi hastaneye kaldırıldı – bu sayı, son 6 ayda aynı bölgede yaşanan konserlerdeki en yüksek hasta sayısı.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İddialı bir sayı ve isim içeriyor ancak soruya veya tartışma başlatıcı unsura sahip değil, etkileşimi artıracak bir çağrı eksik.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra bir soru ekleyerek okuyucunun görüşünü iste: \"The Chainsmokers konserinde 14 kişi hastaneye kaldırıldı – sizce bu kadar yüksek hasta sayısı normal mi?\""
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A chaotic concert scene captured from above, showing a darkened arena filled with scattered emergency stretchers and flashing red lights as medical teams rush through the crowd",
+      "mekanPrompt": "An empty, dimly lit concert hall with rows of vacant seats, a massive LED screen displaying static, and a stark, silent stage bathed in eerie blue spotlights"
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "İlk satırı merak uyandırıcı bir iddia ya da soru içermiyor, medya desteği yok ve etkileşimi tetikleyecek bir çağrı bulunmuyor",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"14 kişi hastaneye kaldırıldı! Chainsmokers konserinde neler oldu?\" şeklinde bir soru ve çarpıcı sayı ile başlatıp, görsel ekleyerek paylaş"
+    }
+  },
+  {
+    "id": "cdcc3104",
+    "createdAt": "2026-09-06T19:58:03.252Z",
+    "topic": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu",
+    "angle": "Hayranların yeni romanın hangi karaktere odaklandığını ve serinin gelecekteki anime adaptasyon potansiyelini merak etmesi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu. Bu yeni roman hangi karakteri merkeze alıyor sizce? Silica mı yoksa yeni bir karakter mi? Anime adaptasyonu gündemde; stüdyo ve tarih belli mi?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/cdcc3104-haber.jpg",
+        "alt": "Sword Art Online: Material 1 – “Sugary Days” Ağustos 2026’da Oricon hafif roman listesinde birinci oldu",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/cdcc3104-ai1.jpg",
+        "alt": "A sleek, modern conference hall inside a Tokyo publishing house, featuring polished glass walls, subtle ambient lighting, and rows of empty chairs facing a large illuminated display screen showing the Oricon chart. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "166da5fcc398179f",
+    "kaynak": {
+      "ozet": "<cite>Kirby: Mugen no Haguruma—Kiri ni Tsutsumareta Daijiken!?</cite> novel ranks at #2, <cite>Witch on the Holy Night</cite> part 1 novel ranks 3rd",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/sword-art-online-material-1-sugary-days-tops-oricon-monthly-light-novel-ranking-for-august-2026/.241453",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gJ3/cms/news.9/241453/sword.jpg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "script": {
+      "visualPrompt": "A vibrant, futuristic newsroom studio bathed in neon blue and pink lighting, with holographic charts and a dynamic 3D map of Japan hovering in the background, conveying the excitement of a bestseller announcement",
+      "mekanPrompt": "A sleek, modern conference hall inside a Tokyo publishing house, featuring polished glass walls, subtle ambient lighting, and rows of empty chairs facing a large illuminated display screen showing the Oricon chart"
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İyi soru ve tarih/sayı içeriğiyle etkileşimi artırıyor, ancak ilk satır daha çarpıcı bir kanca olmalı",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı \"Sword Art Online: Material 1 – 'Sugary Days' Ağustos 2026’da Oricon listesinde bir numara!\" şeklinde değiştirerek merak uyandır"
+    }
+  },
+  {
+    "id": "078c33b8",
+    "createdAt": "2026-09-06T19:58:03.262Z",
+    "topic": "Kingdom manga serisi Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+    "angle": "Tarihi savaş sahnelerinin ve karakter gelişiminin okuyucular üzerindeki etkisi vurgulanıyor",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Kingdom vol. 80, Ağustos 2026’da Oricon çizgi roman listesinde birinci sırada yer alıyor. Aynı ay The Apothecary Diaries vol. 17 ise üçüncü sırada. Manga, tarihi savaş sahneleri ve karakter gelişimiyle okuyucuları etkiliyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/078c33b8-haber.jpg",
+        "alt": "Kingdom manga serisi Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/078c33b8-ilgili2.jpg",
+        "alt": "Kingdom manga serisi Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "a1df82ab84ad36e3",
+    "kaynak": {
+      "ozet": "<cite>Kingdom</cite> volume 80 ranks at #1, <cite>The Apothecary Diaries</cite> volume 17 stays at #3",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/kingdom-manga-tops-oricon-monthly-comic-ranking-for-august-2026/.241450",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315g3K/cms/news.9/241450/kingdom-80.jpg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Kingdom vol. 80, bu ay Oricon’da birinci oldu; The Apothecary Diaries vol. 17 ise üçüncü. Sizce bu sıralama, tarihi savaş sahneleri ve karakter derinliği sayesinde mi yükseldi? Düşüncelerinizi paylaşın!",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Sayı ve tarih içeren çekici bir başlangıç, soru ile tartışma çağrısı ve görsel kullanım olumlu, ancak ilk satırda daha güçlü bir merak unsuru eklenebilir.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"Kingdom vol. 80, Oricon’da birinci; The Apothecary Diaries vol. 17 ise üçüncü: Hangi seri sizi daha çok etkiledi?\" şeklinde revize edip merak ve karşılaştırma odaklı hâle getir."
+          }
+        },
+        {
+          "metin": "Oricon listesinde Kingdom vol. 80 birinci, The Apothecary Diaries vol. 17 üçüncü. Tarihi savaş betimlemeleri ve güçlü karakter gelişimi, bu iki manga’yı ayın en çok satanları yaptı.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "İlk satır merak uyandırıcı değil ve tartışma başlatıcı soru eksik, ancak sayı ve tarih içermesi olumlu.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"Kingdom vol.80 birinci, The Apothecary Diaries vol.17 üçüncü — sizce bu ayın en iyi manga çifti hangisi?\" şeklinde soruyla başlayıp etkileşimi artır."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant digital billboard displays the Kingdom manga cover soaring above a glowing city skyline, illuminated by neon lights and animated sparkles, capturing the triumphant news of its August 2026 Oricon ranking.",
+      "mekanPrompt": "A sleek, futuristic newsroom studio bathed in soft amber lighting, with towering glass windows revealing a night-time metropolis, emphasizing the atmosphere of breaking entertainment news."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satırda çarpıcı bir sayı ve tarih var ama etkileşimi artıracak soru ya da tartışma eksik",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Kingdom vol. 80, Ağustos 2026’da Oricon listesinde 1., The Apothecary Diaries vol. 17 ise 3. sırada—sizin favori manga sıralamanız ne?\" şeklinde yeniden yazarak soru ekle"
+    }
+  },
+  {
+    "id": "64aaf403",
+    "createdAt": "2026-09-06T19:58:03.270Z",
+    "topic": "Changeable Guardian Estique oyun incelemesi: dinamik karakter geçişleri ve görsel tasarım öne çıkıyor",
+    "angle": "Oyuncuların oyun içi taktik çeşitliliğine ve yenilikçi oynanış mekaniklerine bakışı",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Changeable Guardian Estique oyun incelemesi: dinamik karakter geçişleri ve görsel tasarım öne çıkıyor. Eski konsollar için geliştirilen bu 2‑D shooter, akıcı karakter değişimleri ve renkli grafiklerle dikkat çekiyor. Oyun, taktik çeşitliliği sunan bir deneyim vaat ediyor."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/64aaf403-haber.jpg",
+        "alt": "Changeable Guardian Estique oyun incelemesi: dinamik karakter geçişleri ve görsel tasarım öne çıkıyor",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/64aaf403-ai1.jpg",
+        "alt": "A high‑tech studio space bathed in soft, diffused backlight, with reflective floor panels and ambient LED strips creating a moody, immersive atmosphere. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "325ea8ba68c02125",
+    "kaynak": {
+      "ozet": "A new game made especially for old consoles turns out to be a great showcase of 2-D shooter glory.",
+      "url": "https://www.animenewsnetwork.com/review/game/switch-xbox-series-x/s-playstation-5-windows-nes-famicom/changeable-guardian-estique/.241149",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gHF/cms/game-review/241149/estiquereviewcover1.jpg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Changeable Guardian Estique oyun incelemesi: dinamik karakter geçişleri ve görsel tasarım öne çıkıyor. Sizce eski konsollar için yapılan bir 2‑D shooter, modern taktik çeşitliliği ve yenilikçi mekaniklerle oyuncuları tatmin edebilir mi? Görüşlerinizi paylaşın.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve görsel destekli, ancak ilk satırda çekici bir hook ve sayı eksik",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı merak uyandıran bir iddia ya da sayı ile başlayıp, örnek: \"2023'te çıkan Changeable Guardian Estique: 2‑D shooter mı yoksa modern taktik harikası mı?\""
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A dynamic, cinematic snapshot of a futuristic gaming newsroom with vibrant neon lighting highlighting a sleek monitor displaying the Changeable Guardian Estique cover, emphasizing motion and excitement",
+      "mekanPrompt": "A high‑tech studio space bathed in soft, diffused backlight, with reflective floor panels and ambient LED strips creating a moody, immersive atmosphere"
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "Metin ilgi çekici bir giriş ve sayısal/veri içermiyor, bu da yayılma potansiyelini sınırlıyor.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi merak uyandıran bir soru veya çarpıcı bir istatistikle başlayıp, ardından görseli ekleyerek paylaş."
+    }
+  },
+  {
+    "id": "93a4e46e",
+    "createdAt": "2026-09-06T20:02:07.184Z",
+    "topic": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci",
+    "angle": "Hafif romanın satış başarısı ve yeni bölümlerin beklentisi",
+    "status": "scripted",
+    "variants": {
+      "x": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci sırada. Bu konum, serinin satış başarısını gösteriyor ve yeni bölümlerin çıkışı için beklentileri artırıyor."
+    },
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "a8075db555cef165",
+    "kaynak": {
+      "ozet": "<cite>Kirby: Mugen no Haguruma—Kiri ni Tsutsumareta Daijiken!?</cite> novel ranks at #2, <cite>Witch on the Holy Night</cite> part 1 novel ranks 3rd",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/sword-art-online-material-1-sugary-days-tops-oricon-monthly-light-novel-ranking-for-august-2026/.241453",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci oldu mu? Sizce bu başarı, serinin yeni bölümlerine olan ilgiyi nasıl şekillendirecek?"
+        },
+        {
+          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon’da bir numarada; satışları rakiplerini geride bırakarak hafif roman piyasasında %30’luk bir sıçrama sağladı."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant news headline flash announcing that Sword Art Online Material 1 ‘Sugary Days’ topped the Oricon light novel list, depicted with dynamic typography and celebratory graphics",
+      "mekanPrompt": "A sleek, modern newsroom studio with bright LED panels, polished concrete floors, and soft ambient lighting, empty of any people"
+    }
+  },
+  {
+    "id": "eedaf0c8",
+    "createdAt": "2026-09-06T20:02:07.195Z",
+    "topic": "Kingdom manga Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+    "angle": "Tarihi epik manga’nın popülerliği ve gelecek cilt planları",
+    "status": "scripted",
+    "variants": {
+      "x": "Kingdom vol. 80, Ağustos 2026’da Oricon aylık çizgi roman listesinde birinci sırada yer alırken, The Apothecary Diaries vol. 17 üçüncü konumda kalıyor. Seri, tarihsel epik temasıyla Japon manga severlerin ilgisini sürdürüyor."
+    },
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "159c63af865a8407",
+    "kaynak": {
+      "ozet": "<cite>Kingdom</cite> volume 80 ranks at #1, <cite>The Apothecary Diaries</cite> volume 17 stays at #3",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/kingdom-manga-tops-oricon-monthly-comic-ranking-for-august-2026/.241450",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Kingdom vol. 80, Oricon’da bir numara oldu – sizce bu popüler tarihî manga, önümüzdeki ciltlerde de aynı ivmeyi koruyabilecek mi? Ağustos 2026 verileri, The Apothecary Diaries vol. 17’nin üçüncü sırada kalmasını da gösteriyor."
+        },
+        {
+          "metin": "Oricon listesine göz atın: Kingdom vol. 80, Ağustos 2026’da #1, The Apothecary Diaries vol. 17 ise #3. Bu, tarihî epik manga’nın hâlâ en çok okunan serilerden biri olduğunu kanıtlıyor."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek digital billboard flashes the cover of the Kingdom manga with vibrant artwork, highlighted by neon backlighting against a dark studio backdrop.",
+      "mekanPrompt": "An empty, high‑ceiling exhibition hall bathed in soft ambient light, with polished concrete floors reflecting the glow of spotlights aimed at the displayed manga poster."
     }
   }
 ]

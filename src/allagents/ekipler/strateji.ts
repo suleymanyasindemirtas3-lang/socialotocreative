@@ -77,9 +77,15 @@ export async function puanla(postId: string): Promise<number> {
 }
 
 /** Puansiz postlari toplu puanlar. */
-async function toplu(adet: number): Promise<number> {
+/**
+ * `kategori` verilirse yalniz o kategorinin postlari puanlanir.
+ * Medya uretiminde oldugu gibi: kuyruk global oldugu icin kullanicinin
+ * az once istedigi postlar yerine eskiler islenebiliyordu.
+ */
+async function toplu(adet: number, kategori?: string): Promise<number> {
   const hedefler = (await store.all())
     .filter((p) => Object.keys(p.variants).length && !p.puan)
+    .filter((p) => !kategori || p.kategori === kategori)
     .slice(0, adet);
 
   let n = 0;
@@ -104,7 +110,7 @@ export const stratejiEkibi: Ekip = {
   async run(gorev: Gorev): Promise<GorevSonucu> {
     const head = { gorev, ekip: 'strateji' };
     try {
-      return { ...head, ok: true, ozet: `${await toplu(gorev.adet)} post puanlandi` };
+      return { ...head, ok: true, ozet: `${await toplu(gorev.adet, gorev.kategori)} post puanlandi` };
     } catch (e) {
       return { ...head, ok: false, ozet: 'basarisiz', error: String(e) };
     }

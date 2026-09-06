@@ -199,8 +199,19 @@ async function gorselleriTopla(
   }
 }
 
-export async function uret(adet: number): Promise<number> {
-  const hazir = (await store.byStatus('scripted')).slice(0, adet);
+/**
+ * `kategori` verilirse YALNIZ o kategorinin postlari islenir.
+ *
+ * Neden gerekti: kuyruk global. Kullanici panelden "Anime icerigi getir"
+ * dediginde metinler yazildiktan sonra medya asamasi kuyruktaki EN ESKI
+ * uc 'scripted' postu aliyordu - onlar da onceki turdan kalma Muzik
+ * postlariydi. Sonuc: kullanicinin az once istedigi anime postlari
+ * medyasiz kaliyor, eski postlarin medyasi uretiliyordu. Ekranda
+ * "3 medya uretildi" yaziyor ama istenen postlarda medya yok.
+ */
+export async function uret(adet: number, kategori?: string): Promise<number> {
+  const tumu = await store.byStatus('scripted');
+  const hazir = (kategori ? tumu.filter((p) => p.kategori === kategori) : tumu).slice(0, adet);
   let ok = 0;
 
   for (const post of hazir) {

@@ -1,4 +1,5 @@
 import { cfg } from '../core/config.ts';
+import * as ilerleme from '../core/ilerleme.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { enabledAccounts } from '../core/accounts.ts';
@@ -178,36 +179,64 @@ export async function kategoridenUret(
   const sonuclar: GorevSonucu[] = [];
   log.step(`KATEGORI URETIMI: ${kat.ad}`);
 
-  // 1) Yalnizca bu kategorinin kaynaklarindan gundem.
-  const arastirma = ekipBul('gundem-topla');
-  let gundem: unknown;
-  if (arastirma && kat.kaynaklar?.length) {
-    const r = await arastirma.run({
-      tur: 'gundem-topla',
-      adet: cfg.sources.limit,
-      sebep: `${kat.ad} kaynaklari`,
-      kategori: kat.id,
-    });
-    sonuclar.push(r);
-    gundem = r.veri;
-  }
+  /**
+   * Adimlar panele bildiriliyor. Bu is 40-120 saniye suruyor; kullanici
+   * hangi asamada oldugunu goremezse sistemin donup donmadigini bilemiyor.
+   */
+  ilerleme.basla(`${kat.ad} içeriği hazırlanıyor`, [
+    { id: 'gundem-topla', ad: 'Haber kaynakları taranıyor' },
+    { id: 'fikir-bul', ad: 'Konular seçiliyor' },
+    { id: 'icerik-yaz', ad: 'Metinler yazılıyor' },
+    { id: 'medya-uret', ad: 'Görsel ve video üretiliyor' },
+    { id: 'puanla', ad: 'Yayılma puanı hesaplanıyor' },
+  ]);
 
-  // 2) Fikir -> metin -> medya -> puan, hepsi bu kategori icin.
-  for (const tur of ['fikir-bul', 'icerik-yaz', 'medya-uret', 'puanla'] as const) {
-    const ekip = ekipBul(tur);
-    if (!ekip) continue;
-    const r = await ekip.run({
-      tur,
-      adet,
-      sebep: `${kat.ad} (elle)`,
-      kategori: kat.id,
-      ...(tur === 'fikir-bul' && gundem !== undefined ? { girdi: gundem } : {}),
-    });
-    sonuclar.push(r);
-    if (r.ok) log.ok(`${ekip.id}: ${r.ozet}`);
-    else log.err(`${ekip.id}: ${r.error}`);
+  try {
+    // 1) Yalnizca bu kategorinin kaynaklarindan gundem.
+    const arastirma = ekipBul('gundem-topla');
+    let gundem: unknown;
+    if (arastirma && kat.kaynaklar?.length) {
+      ilerleme.adimBasladi('gundem-topla');
+      const r = await arastirma.run({
+        tur: 'gundem-topla',
+        adet: cfg.sources.limit,
+        sebep: `${kat.ad} kaynaklari`,
+        kategori: kat.id,
+      });
+      sonuclar.push(r);
+      gundem = r.veri;
+      if (r.ok) ilerleme.adimBitti('gundem-topla', r.ozet);
+      else ilerleme.adimHata('gundem-topla', r.error ?? 'basarisiz');
+    } else {
+      ilerleme.adimBitti('gundem-topla', 'kategorinin kendi kaynagi yok');
+    }
+
+    // 2) Fikir -> metin -> medya -> puan, hepsi bu kategori icin.
+    for (const tur of ['fikir-bul', 'icerik-yaz', 'medya-uret', 'puanla'] as const) {
+      const ekip = ekipBul(tur);
+      if (!ekip) continue;
+      ilerleme.adimBasladi(tur);
+      const r = await ekip.run({
+        tur,
+        adet,
+        sebep: `${kat.ad} (elle)`,
+        kategori: kat.id,
+        ...(tur === 'fikir-bul' && gundem !== undefined ? { girdi: gundem } : {}),
+      });
+      sonuclar.push(r);
+      if (r.ok) {
+        log.ok(`${ekip.id}: ${r.ozet}`);
+        ilerleme.adimBitti(tur, r.ozet);
+      } else {
+        log.err(`${ekip.id}: ${r.error}`);
+        ilerleme.adimHata(tur, r.error ?? 'basarisiz');
+      }
+    }
+    return sonuclar;
+  } finally {
+    // Hata da olsa panelde sonsuza dek donen bir adim kalmamali.
+    ilerleme.bitir();
   }
-  return sonuclar;
 }
 
 /** Panel ve doctor icin: kim hangi gorevi ustleniyor. */

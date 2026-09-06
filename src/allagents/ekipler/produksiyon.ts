@@ -22,7 +22,10 @@ export const produksiyonEkibi: Ekip = {
       if (gorev.tur === 'tekrar-dene') {
         return { ...head, ok: true, ozet: `${await tekrarDene(gorev.adet)} post geri alindi` };
       }
-      return { ...head, ok: true, ozet: `${await uret(gorev.adet)} medya uretildi` };
+      // Kategori verildiyse yalniz o kategorinin postlari islenir; yoksa
+      // kullanicinin az once istedigi postlar yerine kuyruktaki eskiler
+      // isleniyordu.
+      return { ...head, ok: true, ozet: `${await uret(gorev.adet, gorev.kategori)} medya uretildi` };
     } catch (e) {
       return { ...head, ok: false, ozet: 'basarisiz', error: String(e) };
     }

@@ -55,6 +55,29 @@
                    text-overflow:ellipsis;white-space:nowrap}
   /* Sinif adi "ok" degil: .rozet.ok ile carpisiyordu ve rozetler 22px oluyordu. */
   .satir .cevron{color:var(--muted);font-size:22px;line-height:1}
+  /* Ilerleme kutusu */
+  .ilerleme{border-color:var(--accent)}
+  .ilerleme .sayac{font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent)}
+  .ilerleme .cubuk{height:6px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 12px;
+                   border:1px solid var(--line)}
+  .ilerleme .cubuk>div{height:100%;background:var(--accent);transition:width .4s ease}
+  /* Calisirken cubuk uzerinde kayan parilti: sunucudan yanit gelmese de
+     ekranin canli oldugu belli olsun. */
+  .ilerleme .cubuk.canli{position:relative}
+  .ilerleme .cubuk.canli::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+    animation:kay 1.4s linear infinite}
+  @keyframes kay{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  .ilerleme .adimlar{display:flex;flex-direction:column;gap:6px}
+  .ilerleme .adim{display:flex;gap:8px;align-items:baseline;font-size:13px;flex-wrap:wrap}
+  .ilerleme .adim .simge{min-width:14px}
+  .ilerleme .adim.bekliyor .ad{color:var(--muted)}
+  .ilerleme .adim.suruyor .ad{font-weight:600;color:var(--accent)}
+  .ilerleme .adim .ozet{flex:1;min-width:0}
+  .ilerleme .adim .sure{margin-left:auto;font-variant-numeric:tabular-nums}
+  .donen{display:inline-block;width:11px;height:11px;border:2px solid var(--line);
+         border-top-color:var(--accent);border-radius:50%;animation:don .7s linear infinite}
+  @keyframes don{to{transform:rotate(360deg)}}
   main{max-width:1100px;margin:0 auto;padding:18px}
   nav{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
   nav button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -130,6 +153,9 @@
     <button id="tab-ekipler" aria-selected="false">Ekipler</button>
     <button id="tab-hesaplar" aria-selected="false">Hesap Ekle</button>
   </nav>
+  <!-- Uzun islerin ilerlemesi. Sekmelerin altinda sabit yer: hangi
+       gorunumde olursan ol calisan is gorunur. Bkz. core/ilerleme.ts -->
+  <div id="ilerleme" class="card ilerleme" hidden></div>
   <div id="view-ana"></div>
   <div id="view-kategoriler" hidden></div>
   <div id="view-ekipler" hidden></div>
@@ -277,6 +303,102 @@ function renderHesapSayfasi(el) {
     ${sirali.length
       ? `<div class="liste">${sirali.map(postSatiri).join('')}</div>`
       : `<div class="empty">Bu kategoride henüz öneri yok.<br><br>Yukarıdan <b>içerik getir</b>'e bas.</div>`}`;
+}
+
+/* ============================================================= ILERLEME */
+
+/**
+ * Uzun islerde gecen sureyi ve hangi adimda olundugunu gosterir.
+ *
+ * Sahte yukleme cubugu degil: adimlar sunucudan geliyor (core/ilerleme.ts).
+ * Bir adim uzarsa kullanici nerede beklendigini gorur; "donmus mu"
+ * sorusu ortadan kalkar.
+ */
+let ILERLEME_TIMER = null;
+
+function sureYaz(ms) {
+  const s = Math.floor(ms / 1000);
+  return s < 60 ? `${s} sn` : `${Math.floor(s / 60)} dk ${String(s % 60).padStart(2, '0')} sn`;
+}
+
+function ilerlemeCiz(d) {
+  const kutu = $('#ilerleme');
+  if (!kutu) return;
+
+  if (!d || (!d.calisiyor && !d.adimlar.length)) { kutu.hidden = true; return; }
+
+  const gecen = d.baslangic ? Date.now() - d.baslangic : 0;
+  const bitenAdet = d.adimlar.filter((a) => a.durum === 'bitti' || a.durum === 'hata').length;
+  const yuzde = d.adimlar.length ? Math.round((bitenAdet / d.adimlar.length) * 100) : 0;
+
+  const simge = (a) =>
+    a.durum === 'bitti' ? '<span style="color:var(--ok)">✓</span>'
+    : a.durum === 'hata' ? '<span style="color:var(--bad)">✕</span>'
+    : a.durum === 'suruyor' ? '<span class="donen"></span>'
+    : '<span class="muted">○</span>';
+
+  kutu.hidden = false;
+  kutu.innerHTML = `
+    <div class="row">
+      <b class="grow">${esc(d.baslik)}</b>
+      <span class="sayac">${sureYaz(gecen)}</span>
+    </div>
+    <div class="cubuk ${d.calisiyor ? 'canli' : ''}"><div style="width:${yuzde}%"></div></div>
+    <div class="adimlar">
+      ${d.adimlar.map((a) => `<div class="adim ${a.durum}">
+        <span class="simge">${simge(a)}</span>
+        <span class="ad">${esc(a.ad)}</span>
+        ${a.ozet ? `<span class="ozet muted small">${esc(a.ozet)}</span>` : ''}
+        ${a.sure ? `<span class="muted small sure">${sureYaz(a.sure)}</span>` : ''}
+      </div>`).join('')}
+    </div>
+    ${d.calisiyor
+      ? '<div class="muted small" style="margin-top:8px">Çalışıyor — bu sayfayı kapatma, işlem sunucuda sürüyor.</div>'
+      : '<div class="muted small" style="margin-top:8px">Bitti.</div>'}`;
+}
+
+/** Is basladiginda cagrilir; bitene kadar saniyede bir sunucuya sorar. */
+function ilerlemeIzle() {
+  if (ILERLEME_TIMER) clearInterval(ILERLEME_TIMER);
+
+  /**
+   * ILK SORGU ISTEN ONCE GIDIYOR.
+   *
+   * Dugmeye basildiginda once izleme baslatiliyor, POST ondan sonra
+   * sunucuya ulasiyor. Ilk sorgu bu yuzden "calismiyor" cevabi aliyordu
+   * ve izleyici daha is baslamadan kendini kapatiyordu - ilerleme kutusu
+   * hic gorunmuyordu.
+   *
+   * Cozum: kapanma yalnizca is bir kez CALISIR gorulduyse olur. Is hic
+   * baslamazsa (sunucu hatasi, istek reddedildi) bekleme sonsuz surmesin
+   * diye bos tur sayaci var.
+   */
+  let calisirGoruldu = false;
+  let bosTur = 0;
+
+  const sor = async () => {
+    try {
+      const d = await call('/api/ilerleme');
+      const aktif = d.calisiyor || d.busy;
+
+      if (aktif) { calisirGoruldu = true; bosTur = 0; }
+      else bosTur++;
+
+      // Is baslamadan onceki bos turlarda eski turun ozetini gosterme.
+      if (aktif || calisirGoruldu) ilerlemeCiz(d);
+
+      if ((calisirGoruldu && !aktif) || (!calisirGoruldu && bosTur > 15)) {
+        clearInterval(ILERLEME_TIMER);
+        ILERLEME_TIMER = null;
+      }
+    } catch (e) {
+      /* Sunucuya ulasilamiyorsa sayaci durdurma: is surerken ag hatasi
+         gecici olabilir. Bir sonraki turda tekrar denenir. */
+    }
+  };
+
+  sor();
+  ILERLEME_TIMER = setInterval(sor, 1000);
 }
 
 /* ======================================================== HABER LISTESI */
@@ -656,7 +778,8 @@ document.addEventListener('click', async (e) => {
     const eski = dugme.textContent;
     dugme.textContent = '…';
     URETIM_ACIK = true;
-    if (bilgi) toast(bilgi, 180000);
+    ilerlemeIzle();
+    if (bilgi) toast(bilgi, 6000);
     try {
       toast((await call(yol, govde)).message || 'tamam');
       URETIM_ACIK = false;
@@ -686,11 +809,19 @@ document.addEventListener('click', async (e) => {
       t.disabled = true;
       const eski = t.textContent;
       t.textContent = 'üretiliyor…';
-      toast('yalnızca bu kategoriden üretiliyor…', 120000);
+      /* Ilerleme kutusu adimlari ve gecen sureyi gosterir; is bitene kadar
+         otomatik yenileme durur, yoksa sayfa yeniden cizilip kutu kayboluyor. */
+      URETIM_ACIK = true;
+      ilerlemeIzle();
       try {
         toast((await call('/api/kategoriden-uret', { kategori: t.dataset.katuret })).message, 8000);
+        URETIM_ACIK = false;
         await refresh();
-      } finally { t.disabled = false; t.textContent = eski; }
+      } finally {
+        URETIM_ACIK = false;
+        t.disabled = false;
+        t.textContent = eski;
+      }
       return;
     }
 
@@ -699,9 +830,14 @@ document.addEventListener('click', async (e) => {
       const hepsi = [].slice.call(document.querySelectorAll('header button'));
       hepsi.forEach((b) => (b.disabled = true));
       t.disabled = true;
-      toast('çalışıyor…', 90000);
-      try { toast((await call('/api/run', { stage })).message); }
-      finally { hepsi.forEach((b) => (b.disabled = false)); t.disabled = false; }
+      URETIM_ACIK = true;
+      ilerlemeIzle();
+      try { toast((await call('/api/run', { stage })).message, 6000); }
+      finally {
+        URETIM_ACIK = false;
+        hepsi.forEach((b) => (b.disabled = false));
+        t.disabled = false;
+      }
       return refresh();
     }
 

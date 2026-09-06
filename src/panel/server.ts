@@ -6,6 +6,7 @@ import { cfg } from '../core/config.ts';
 import { log } from '../core/logger.ts';
 import { store } from '../core/store.ts';
 import { accounts, redact } from '../core/accounts.ts';
+import * as ilerleme from '../core/ilerleme.ts';
 import { manuelPaket, manuelIsaretle } from '../allagents/manuel.ts';
 import { platforms, platform } from '../platforms/index.ts';
 import { calistir, gorevYolla, planla, kadro, kategoridenUret } from '../allagents/index.ts';
@@ -119,6 +120,15 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     });
   }
 
+  /**
+   * Panel bunu 1 saniyede bir soruyor. Uzun islerde hangi adimda
+   * olundugu ve her adimin kac saniye surdugu buradan okunur.
+   * Bkz. core/ilerleme.ts
+   */
+  if (path === '/api/ilerleme' && method === 'GET') {
+    return send(res, 200, { ...ilerleme.durum(), busy });
+  }
+
   if (path === '/api/decide' && method === 'POST') {
     const { id, decision } = await readJson<{ id: string; decision: PostStatus }>(req);
     const post = await store.get(id);
@@ -226,19 +236,34 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     post.status = 'scripted';
     await store.upsert(post);
 
+    ilerleme.basla(
+      tur === 'video' ? 'Video üretiliyor' : 'Görseller hazırlanıyor',
+      tur === 'video'
+        ? [
+            { id: 'medya', ad: 'Görseller toplanıyor, seslendirme ve montaj yapılıyor' },
+          ]
+        : [{ id: 'medya', ad: 'Görseller toplanıyor' }],
+    );
+    ilerleme.adimBasladi('medya');
+
     try {
       const n = await yonetmenUret(1);
       const guncel = await store.get(id);
       const gorselAdet = guncel?.media.filter((m) => m.kind === 'image').length ?? 0;
       const videoAdet = guncel?.media.filter((m) => m.kind === 'video').length ?? 0;
+      const ozet = n
+        ? `${gorselAdet} görsel${videoAdet ? ' + video' : ''}`
+        : 'üretilemedi';
+      ilerleme.adimBitti('medya', ozet);
       return send(res, 200, {
         ok: true,
-        message: n
-          ? `${tur === 'video' ? 'video' : 'görsel'} üretildi: ${gorselAdet} görsel${videoAdet ? ' + video' : ''}`
-          : 'üretilemedi',
+        message: n ? `${tur === 'video' ? 'Video' : 'Görsel'} üretildi: ${ozet}` : 'üretilemedi',
       });
     } catch (e) {
+      ilerleme.adimHata('medya', String(e));
       return send(res, 400, { error: String(e).slice(0, 300) });
+    } finally {
+      ilerleme.bitir();
     }
   }
 
