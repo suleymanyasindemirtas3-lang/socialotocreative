@@ -8,6 +8,7 @@ import { ses } from './ses.ts';
 import { videoUretim } from './video-uretim.ts';
 import { video } from './video.ts';
 import { isteKonulu } from './ekipler/arastirma.ts';
+import { seslendirmeYaz } from './senaryo.ts';
 import type { MediaAsset } from '../core/types.ts';
 
 /**
@@ -84,7 +85,15 @@ export async function uret(adet: number): Promise<number> {
       }
 
       if (wantsVideo) {
-        if (!script.narration) throw new Error('video icin seslendirme metni yok');
+        // Metin yazilirken hedef video istemiyorduysa seslendirme uretilmemis
+        // olur. Kullanici sonradan "video" secebilir; eksigi burada tamamla.
+        if (!script.narration) {
+          log.info(`${post.id}: seslendirme metni yok, uretiliyor`);
+          script.narration = await seslendirmeYaz({ topic: post.topic, angle: post.angle });
+          post.script = script;
+          await store.upsert(post);
+        }
+        if (!script.narration) throw new Error('seslendirme metni uretilemedi');
         const stem = `data/media/${post.id}`;
 
         const audio = await ses.run({ text: script.narration, outPath: `${stem}.mp3` });

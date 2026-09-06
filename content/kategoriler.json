@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ne-kirildi",
+    "ad": "Bugün Ne Kırıldı",
+    "aciklama": "Gündemdeki gerçek bir arıza, açık ya da bozulma. Ne kırıldı, neden kırıldı, sen ne yapmalısın.",
+    "yonerge": "Gündemden GERÇEK bir arıza/güvenlik açığı/bozulma seç. Şu sırayla yaz: (1) ne kırıldı, tek cümle. (2) kök sebep, teknik ve somut. (3) okuyucunun bugün atması gereken tek adım. Panik dili kullanma, abartma. Sürüm numarası ya da CVE varsa yaz.",
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "sayilarla",
+    "ad": "Sayılarla",
+    "aciklama": "Tek bir iddia, arkasında ölçüm. Duygu değil rakam.",
+    "yonerge": "Tek bir teknik iddiayı SAYIYLA savun. En az iki somut rakam geçsin (süre, bellek, maliyet, istek/sn, yüzde). Rakamın nereden geldiğini ima et (benchmark, dokümantasyon, sürüm notu). Uydurma sayı YAZMA; emin değilsen o konuyu seçme.",
+    "medya": "gorsel",
+    "agirlik": 3,
+    "aktif": true
+  },
+  {
+    "id": "karsit-gorus",
+    "ad": "Karşıt Görüş",
+    "aciklama": "Herkesin doğru bildiği bir pratiğe gerekçeli itiraz.",
+    "yonerge": "Yaygın kabul gören bir pratiği eleştir. Yapı: (1) herkesin yaptığı şey. (2) neden çoğu durumda yanlış. (3) yerine ne yapılmalı. İtirazın gerekçeli olsun, kışkırtma için kışkırtma yapma. Kimseyi ya da bir ürünü hedef alma; pratiği eleştir.",
+    "medya": "gorsel",
+    "agirlik": 2,
+    "aktif": true
+  },
+  {
+    "id": "bir-satir",
+    "ad": "Bir Satır",
+    "aciklama": "Tek bir ayar, bayrak ya da kod satırı — ve neyi değiştirdiği.",
+    "yonerge": "Tek bir konfigürasyon satırı, komut ya da bayrak ver. Ne yaptığını ve neyi değiştirdiğini anlat. Satırı olduğu gibi yaz (kod bloğu işareti KULLANMA, düz metin). Sonra tek cümleyle ne kazandırdığını söyle.",
+    "medya": "gorsel",
+    "agirlik": 2,
+    "aktif": true
+  },
+  {
+    "id": "sozluk",
+    "ad": "Sözlük",
+    "aciklama": "Bir jargon terimi, jargonsuz açıklama.",
+    "yonerge": "Gündemde geçen bir teknik terimi seç. Jargon kullanmadan açıkla. Yapı: (1) terim ne demek, günlük dille. (2) neden var, hangi sorunu çözüyor. (3) ne zaman gerekmez. Kısa ve net ol.",
+    "medya": "gorsel",
+    "agirlik": 2,
+    "aktif": true
+  },
+  {
+    "id": "kisa-video",
+    "ad": "Kısa Video",
+    "aciklama": "Aynı içerik dikey video olarak — Shorts, Reels ve TikTok için.",
+    "yonerge": "Anlatıma güçlü bir cümleyle başla, izleyiciyi ilk üç saniyede tut. Tek fikri aç. Sonunda net bir kapanış cümlesi olsun. Konuşma dili kullan, liste yapma.",
+    "medya": "video",
+    "agirlik": 1,
+    "aktif": true
+  }
+]

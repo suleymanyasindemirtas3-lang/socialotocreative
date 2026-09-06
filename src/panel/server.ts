@@ -15,6 +15,7 @@ import { senaryo } from '../allagents/senaryo.ts';
 import { uret as yonetmenUret } from '../allagents/yonetmen.ts';
 import { accounts as hesapDeposu } from '../core/accounts.ts';
 import { platform as platformBul } from '../platforms/index.ts';
+import { tumKategoriler, kategoriBul, kategoriYaz, kategoriSil, type Kategori } from '../kategoriler/index.ts';
 import type { Account, MedyaTercihi, PostStatus } from '../core/types.ts';
 import type { GorevTuru } from '../allagents/types.ts';
 
@@ -102,6 +103,7 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
         setupHint: p.setupHint,
       })),
       teams: kadro(),
+      kategoriler: await tumKategoriler(),
       plan: await planla(),
       config: {
         dryRun: cfg.safety.dryRun,
@@ -176,8 +178,10 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
         (post.medya !== 'gorsel' && post.medya !== 'yok' &&
           [...platformIds].some((pid) => platformBul(pid)?.needs === 'video'));
 
+      const kat = post.kategori ? await kategoriBul(post.kategori) : undefined;
       const script = await senaryo.run({
         fikir: { topic: post.topic, angle: post.angle },
+        ...(kat ? { kategori: { id: kat.id, ad: kat.ad, yonerge: kat.yonerge } } : {}),
         platforms: [...platformIds].map((pid) => ({ pid, limit: platformBul(pid)?.limits.text ?? 500 }))
           .map((x) => ({ id: x.pid, limit: x.limit })),
         narrationNeeded: wantsVideo,
@@ -269,6 +273,59 @@ async function api(req: IncomingMessage, res: ServerResponse, path: string): Pro
     } catch (e) {
       return send(res, 400, { error: String(e).slice(0, 250) });
     }
+  }
+
+  /** Postun kategorisini degistir; bicim ve varsayilan medya ondan gelir. */
+  if (path === '/api/post/kategori' && method === 'POST') {
+    const { id, kategori } = await readJson<{ id: string; kategori: string }>(req);
+    const post = await store.get(id);
+    if (!post) return send(res, 404, { error: 'post yok' });
+
+    if (!kategori) {
+      delete post.kategori;
+      await store.upsert(post);
+      return send(res, 200, { ok: true, message: 'kategori kaldirildi' });
+    }
+
+    const kat = await kategoriBul(kategori);
+    if (!kat) return send(res, 400, { error: 'kategori yok' });
+
+    post.kategori = kat.id;
+    post.medya = kat.medya;
+
+    // Metin zaten yazilmissa eski bicimde kalmis olur; yeniden yazilmali.
+    if (Object.keys(post.variants).length) {
+      post.variants = {};
+      delete post.script;
+      post.media = [];
+      post.status = 'draft';
+    }
+    await store.upsert(post);
+    return send(res, 200, {
+      ok: true,
+      message: `kategori: ${kat.ad}${post.status === 'draft' ? ' — metin yeniden yazilmali' : ''}`,
+    });
+  }
+
+  if (path === '/api/kategori/kaydet' && method === 'POST') {
+    const k = await readJson<Kategori>(req);
+    if (!k.id || !k.ad) return send(res, 400, { error: 'id ve ad zorunlu' });
+    // Eksik alanlar varsayilanla tamamlanir; panel formu hepsini gondermeyebilir.
+    await kategoriYaz({
+      ...k,
+      agirlik: k.agirlik ?? 1,
+      aktif: k.aktif ?? true,
+      medya: k.medya ?? 'gorsel',
+      aciklama: k.aciklama ?? '',
+      yonerge: k.yonerge ?? '',
+    });
+    return send(res, 200, { ok: true, message: 'kategori kaydedildi' });
+  }
+
+  if (path === '/api/kategori/sil' && method === 'POST') {
+    const { id } = await readJson<{ id: string }>(req);
+    await kategoriSil(id);
+    return send(res, 200, { ok: true, message: 'kategori silindi' });
   }
 
   if (path === '/api/post/media' && method === 'POST') {

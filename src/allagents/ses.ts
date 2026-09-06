@@ -1,4 +1,5 @@
 import { cfg } from '../core/config.ts';
+import { log } from '../core/logger.ts';
 import { getTts, duration } from '../providers/tts/index.ts';
 import type { Agent, SesIstegi, SesSonucu } from './types.ts';
 
@@ -19,7 +20,29 @@ export const ses: Agent<SesIstegi, SesSonucu> = {
 
   async run({ text, outPath, voice }): Promise<SesSonucu> {
     const tts = getTts();
-    await tts.speak(text, outPath, voice ?? cfg.tts.voice);
+
+    /**
+     * Sure siniri. Uretilen seslendirme 85 saniyeye kadar cikti; Shorts,
+     * Reels ve TikTok'ta 60 saniyeyi asan dikey video izlenme oranini
+     * dusuruyor. Metin cumle sinirindan kirpilir - kelime ortasindan
+     * kesmek sesi bozar.
+     */
+    const saniyeBasinaHarf = 14;
+    const sinir = cfg.video.maxSaniye * saniyeBasinaHarf;
+    let konusulacak = text.trim();
+
+    if (konusulacak.length > sinir) {
+      const cumleler = konusulacak.split(/(?<=[.!?])\s+/);
+      let biriken = '';
+      for (const c of cumleler) {
+        if ((biriken + ' ' + c).trim().length > sinir) break;
+        biriken = (biriken + ' ' + c).trim();
+      }
+      konusulacak = biriken || konusulacak.slice(0, sinir);
+      log.warn(`seslendirme ${text.length} -> ${konusulacak.length} harfe kirpildi (${cfg.video.maxSaniye}s siniri)`);
+    }
+
+    await tts.speak(konusulacak, outPath, voice ?? cfg.tts.voice);
     return { path: outPath, seconds: await duration(outPath), provider: tts.id };
   },
 };

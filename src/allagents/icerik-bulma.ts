@@ -29,11 +29,17 @@ export const icerikBulma: Agent<FikirIstegi, Fikir[]> = {
   role: 'Konu havuzu cikarir, tekrar edenleri eler',
   uses: ['llm'],
 
-  async run({ count, recent, seen, gundem = [] }): Promise<Fikir[]> {
+  async run({ count, recent, seen, gundem = [], kategori }): Promise<Fikir[]> {
     const llm = getLlm();
 
     const prompt = [
       `Nis: ${cfg.brand.niche}. Dil: ${cfg.brand.language}.`,
+      kategori
+        ? `ICERIK KATEGORISI: ${kategori.ad}
+${kategori.yonerge}
+` +
+          'Uretecegin fikirler bu bicime uygun olmali.'
+        : '',
       gundem.length
         ? 'Asagidaki GERCEK gundem maddelerinden yola cikarak fikir uret. ' +
           'Her fikir bir maddeye dayansin; genel gecer konu uydurma.\n' +

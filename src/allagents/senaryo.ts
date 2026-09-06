@@ -20,10 +20,15 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
   role: 'Post metni, seslendirme metni ve gorsel istemi yazar',
   uses: ['llm'],
 
-  async run({ fikir, platforms, narrationNeeded }): Promise<Senaryo> {
+  async run({ fikir, platforms, narrationNeeded, kategori }): Promise<Senaryo> {
     const llm = getLlm();
     const voice = await brandVoice();
-    const konu = [`Konu: ${fikir.topic}`, fikir.angle ? `Bakis acisi: ${fikir.angle}` : ''].filter(Boolean);
+    const konu = [
+      `Konu: ${fikir.topic}`,
+      fikir.angle ? `Bakis acisi: ${fikir.angle}` : '',
+      // Kategori yonergesi bicimi belirler; markanin sesi ustune biner.
+      kategori ? `BICIM (${kategori.ad}): ${kategori.yonerge}` : '',
+    ].filter(Boolean);
 
     const variants: Record<string, string> = {};
     for (const p of platforms) {
@@ -94,3 +99,27 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
     return { variants, narration, visualPrompt };
   },
 };
+
+/**
+ * Yalnizca seslendirme metni uretir.
+ *
+ * Neden ayri: metin ilk yazildiginda hedef platform video istemiyorsa
+ * seslendirme uretilmiyor. Kullanici sonradan panelden "video" secince
+ * senaryoda seslendirme olmuyor ve uretim cokuyordu. Tercih degisimi
+ * kendi kendini onarabilmeli.
+ */
+export async function seslendirmeYaz(fikir: { topic: string; angle?: string }): Promise<string> {
+  const llm = getLlm();
+  return tidy(
+    await llm.complete(
+      [
+        `Konu: ${fikir.topic}`,
+        fikir.angle ? `Bakis acisi: ${fikir.angle}` : '',
+        'Bu konuyu 30-40 saniyede anlatan bir seslendirme metni yaz.',
+        'Konusma dili kullan. Tek fikri ac ve somut bitir.',
+        'Sadece seslendirilecek metni yaz; sahne yonergesi, baslik ya da etiket yazma.',
+      ].filter(Boolean).join('\n'),
+      { system: await brandVoice(), maxTokens: 500 },
+    ),
+  );
+}

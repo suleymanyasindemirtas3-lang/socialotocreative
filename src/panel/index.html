@@ -92,10 +92,12 @@
 <main>
   <nav>
     <button id="tab-queue" aria-selected="true">Kuyruk</button>
+    <button id="tab-kategoriler" aria-selected="false">Kategoriler</button>
     <button id="tab-teams" aria-selected="false">Ekipler</button>
     <button id="tab-accounts" aria-selected="false">Hesaplar</button>
   </nav>
   <div id="view-queue"></div>
+  <div id="view-kategoriler" hidden></div>
   <div id="view-teams" hidden></div>
   <div id="view-accounts" hidden></div>
 </main>
@@ -104,7 +106,7 @@
 
 <script>
 const $ = (s, r = document) => r.querySelector(s);
-let STATE = { posts: [], accounts: [], platforms: [], teams: [], plan: [], config: {} };
+let STATE = { posts: [], accounts: [], platforms: [], teams: [], plan: [], kategoriler: [], config: {} };
 
 function toast(msg, ms = 2600) {
   const t = $('#toast');
@@ -138,6 +140,7 @@ async function refresh() {
   $('#c-auto').textContent = c.autoApprove ? 'açık' : 'kapalı';
   renderQueue();
   renderTeams();
+  renderKategoriler();
   renderAccounts();
 }
 
@@ -284,6 +287,11 @@ function renderQueue() {
       ${media}
       ${STATE.accounts.length ? `<div class="targets">${targets}</div>` : '<div class="muted small">Hedef hesap yok — Hesaplar sekmesinden ekle.</div>'}
       <div class="row" style="margin-top:10px">
+        <label style="margin:0;font-size:12px">Kategori</label>
+        <select data-kategori="${p.id}" style="width:auto;min-width:170px">
+          <option value="">— yok —</option>
+          ${STATE.kategoriler.map((k) => `<option value="${k.id}" ${p.kategori === k.id ? 'selected' : ''}>${esc(k.ad)}</option>`).join('')}
+        </select>
         <label style="margin:0;font-size:12px">Medya</label>
         <select data-medya="${p.id}" style="width:auto;min-width:190px">
           ${[['otomatik','Otomatik (hedefe göre)'],['gorsel','Sadece görsel'],['video','Video üret'],['yok','Medyasız (yalnız metin)']]
@@ -311,6 +319,66 @@ function renderQueue() {
       </div>
     </div>`;
   }).join('');
+}
+
+/* --------------------------------------------------------------- kategoriler */
+
+function renderKategoriler() {
+  const el = $('#view-kategoriler');
+  const ks = STATE.kategoriler ?? [];
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="row">
+        <b class="grow">İçerik kategorileri</b>
+        <span class="muted small">${ks.length} kategori · sırayla kullanılır</span>
+      </div>
+      <div class="muted small" style="margin-top:6px">
+        Kategori bir konu değil, bir <b>biçim sözleşmesi</b>. Aynı kalıbın üst üste
+        gelmemesi için en uzun süredir kullanılmayan kategori seçilir; ağırlık bekleme
+        süresini kısaltır.
+      </div>
+    </div>
+
+    ${ks.map((k) => `<div class="card">
+      <div class="row">
+        <b class="grow">${esc(k.ad)}</b>
+        <span class="chip">${esc(k.medya)}</span>
+        <span class="chip">ağırlık <b>${k.agirlik}</b></span>
+        ${k.aktif ? '<span class="status s-approved">açık</span>' : '<span class="status s-rejected">kapalı</span>'}
+      </div>
+      <div class="muted small" style="margin-top:4px">${esc(k.aciklama)}</div>
+      <label>Biçim yönergesi (doğrudan modele gider)</label>
+      <textarea data-kyonerge="${k.id}">${esc(k.yonerge)}</textarea>
+      <div class="row" style="margin-top:8px">
+        <label style="margin:0;font-size:12px">Medya</label>
+        <select data-kmedya="${k.id}" style="width:auto">
+          ${['otomatik','gorsel','video','yok'].map((v) => `<option value="${v}" ${k.medya === v ? 'selected' : ''}>${v}</option>`).join('')}
+        </select>
+        <label style="margin:0;font-size:12px">Ağırlık</label>
+        <input type="number" min="0" max="9" value="${k.agirlik}" data-kagirlik="${k.id}" style="width:70px">
+        <button data-ktoggle="${k.id}">${k.aktif ? 'Kapat' : 'Aç'}</button>
+        <span class="grow"></span>
+        <button data-kkaydet="${k.id}" class="primary">Kaydet</button>
+        <button data-ksil="${k.id}" class="bad" style="opacity:.7">Sil</button>
+      </div>
+      ${k.sonKullanim ? `<div class="muted small" style="margin-top:6px">son kullanım: ${new Date(k.sonKullanim).toLocaleString('tr')}</div>` : '<div class="muted small" style="margin-top:6px">henüz kullanılmadı</div>'}
+    </div>`).join('')}
+
+    <div class="card">
+      <b>Yeni kategori</b>
+      <label>Kimlik (küçük harf, tire)</label>
+      <input id="yk-id" placeholder="ornek-kategori">
+      <label>Ad</label>
+      <input id="yk-ad" placeholder="Örnek Kategori">
+      <label>Açıklama</label>
+      <input id="yk-aciklama" placeholder="Ne tür içerik üretir">
+      <label>Biçim yönergesi</label>
+      <textarea id="yk-yonerge" placeholder="Modele verilecek talimat: yapı, ton, ne yapılmayacak"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button class="primary" id="yk-kaydet">Ekle</button>
+      </div>
+    </div>`;
 }
 
 /* ----------------------------------------------------------------- hesaplar */
@@ -449,6 +517,39 @@ document.addEventListener('click', async (e) => {
       return refresh();
     }
 
+    if (t.dataset.kkaydet) {
+      const id = t.dataset.kkaydet;
+      const k = STATE.kategoriler.find((x) => x.id === id);
+      await call('/api/kategori/kaydet', {
+        ...k,
+        yonerge: $(`[data-kyonerge="${id}"]`).value,
+        medya: $(`[data-kmedya="${id}"]`).value,
+        agirlik: Number($(`[data-kagirlik="${id}"]`).value) || 1,
+      });
+      toast('kategori kaydedildi');
+      return refresh();
+    }
+    if (t.dataset.ktoggle) {
+      const k = STATE.kategoriler.find((x) => x.id === t.dataset.ktoggle);
+      await call('/api/kategori/kaydet', { ...k, aktif: !k.aktif });
+      return refresh();
+    }
+    if (t.dataset.ksil) {
+      await call('/api/kategori/sil', { id: t.dataset.ksil });
+      toast('silindi');
+      return refresh();
+    }
+    if (t.id === 'yk-kaydet') {
+      await call('/api/kategori/kaydet', {
+        id: $('#yk-id').value.trim(),
+        ad: $('#yk-ad').value.trim(),
+        aciklama: $('#yk-aciklama').value.trim(),
+        yonerge: $('#yk-yonerge').value.trim(),
+      });
+      toast('kategori eklendi');
+      return refresh();
+    }
+
     if (t.dataset.decide) {
       await call('/api/decide', { id: t.dataset.id, decision: t.dataset.decide });
       return refresh();
@@ -491,7 +592,7 @@ document.addEventListener('click', async (e) => {
 
     if (t.id.startsWith('tab-')) {
       const which = t.id.slice(4);
-      for (const name of ['queue', 'teams', 'accounts']) {
+      for (const name of ['queue', 'kategoriler', 'teams', 'accounts']) {
         $(`#tab-${name}`).setAttribute('aria-selected', name === which);
         $(`#view-${name}`).hidden = name !== which;
       }
@@ -508,6 +609,11 @@ document.addEventListener('change', async (e) => {
     if (el.dataset.text) {
       await call('/api/post/text', { id: el.dataset.text, platform: el.dataset.platform, text: el.value });
       toast('metin kaydedildi');
+    }
+    if (el.dataset.kategori !== undefined && el.tagName === 'SELECT') {
+      const r = await call('/api/post/kategori', { id: el.dataset.kategori, kategori: el.value });
+      toast(r.message);
+      return refresh();
     }
     if (el.dataset.medya) {
       const r = await call('/api/post/media', { id: el.dataset.medya, tercih: el.value });

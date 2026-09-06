@@ -52,6 +52,8 @@ export interface Post {
   script?: { visualPrompt: string; narration?: string };
   /** Bos ise 'otomatik'. Panelden degistirilir. */
   medya?: MedyaTercihi;
+  /** Icerik kategorisi id'si. Bicimi ve varsayilan medyayi belirler. */
+  kategori?: string;
   scheduledAt?: string;
   results: PublishResult[];
   approvalRef?: string;

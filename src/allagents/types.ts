@@ -38,12 +38,16 @@ export interface FikirIstegi {
    * ve icerik jeneriklesir - hat durmaz ama kalite duser.
    */
   gundem?: { title: string; source: string }[];
+  /** Bu turda uretilecek icerik kategorisi; bicimi belirler. */
+  kategori?: { id: string; ad: string; yonerge: string };
 }
 
 // ------------------------------------------------------------------- 5. senaryo
 
 export interface SenaryoIstegi {
   fikir: Fikir;
+  /** Kategori yonergesi metnin bicimini belirler. */
+  kategori?: { id: string; ad: string; yonerge: string };
   /** Metin uretilecek platformlar ve karakter sinirlari. */
   platforms: { id: string; limit: number }[];
   /** Seslendirme metni de istensin mi (video hedefi varsa). */

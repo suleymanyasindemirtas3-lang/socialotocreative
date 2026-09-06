@@ -55,6 +55,10 @@ export const cfg = {
     elevenModel: env('ELEVENLABS_MODEL', 'eleven_multilingual_v2'),
   },
   // Videonun goruntu kaynagi: durgun gorsel (bedelsiz) ya da AI video (ucretli).
+  video: {
+    // Shorts/Reels/TikTok'ta 60sn ustu izlenme oranini dusuruyor.
+    maxSaniye: Number(env('VIDEO_MAX_SANIYE', '55')),
+  },
   clip: {
     chain: list('CLIP_SOURCE', ['still']),
     falKey: env('FAL_API_KEY'),

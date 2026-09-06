@@ -6,6 +6,7 @@ import { fingerprint } from '../../core/fingerprint.ts';
 import { platform } from '../../platforms/index.ts';
 import { icerikBulma } from '../icerik-bulma.ts';
 import { senaryo } from '../senaryo.ts';
+import { siradakiKategori, kullanildiIsaretle, kategoriBul } from '../../kategoriler/index.ts';
 import type { Ekip, Gorev, GorevSonucu } from '../types.ts';
 import type { Post } from '../../core/types.ts';
 
@@ -22,11 +23,17 @@ import type { Post } from '../../core/types.ts';
 
 async function fikirBul(adet: number, gundem: { title: string; source: string }[]): Promise<Post[]> {
   const targets = (await enabledAccounts()).map((a) => a.id);
+
+  // Rotasyon: en uzun suredir kullanilmayan kategori secilir. Ayni kalibin
+  // ust uste gelmesi hem okuyucuyu hem algoritmayi yoruyor.
+  const kategori = await siradakiKategori();
+  if (kategori) log.info(`kategori: ${kategori.ad}`);
   const fikirler = await icerikBulma.run({
     count: adet,
     recent: (await store.all()).slice(-40).map((p) => p.topic),
     seen: await store.fingerprints(),
     gundem,
+    ...(kategori ? { kategori: { id: kategori.id, ad: kategori.ad, yonerge: kategori.yonerge } } : {}),
   });
 
   const out: Post[] = [];
@@ -42,11 +49,13 @@ async function fikirBul(adet: number, gundem: { title: string; source: string }[
       targets,
       results: [],
       fingerprint: fingerprint(f.topic),
+      ...(kategori ? { kategori: kategori.id, medya: kategori.medya } : {}),
     };
     await store.upsert(post);
     out.push(post);
     log.ok(`fikir ${post.id}: ${post.topic}`);
   }
+  if (kategori && out.length) await kullanildiIsaretle(kategori.id);
   return out;
 }
 
@@ -67,8 +76,10 @@ async function yaz(adet: number): Promise<number> {
 
       const wantsVideo = [...platformIds].some((id) => platform(id)?.needs === 'video');
 
+      const kat = post.kategori ? await kategoriBul(post.kategori) : undefined;
       const script = await senaryo.run({
         fikir: { topic: post.topic, angle: post.angle },
+        ...(kat ? { kategori: { id: kat.id, ad: kat.ad, yonerge: kat.yonerge } } : {}),
         platforms: [...platformIds].map((id) => ({ id, limit: platform(id)?.limits.text ?? 500 })),
         narrationNeeded: wantsVideo,
       });
