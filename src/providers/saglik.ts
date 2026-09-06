@@ -1,7 +1,7 @@
-import { log } from '../../core/logger.ts';
+import { log } from '../core/logger.ts';
 
 /**
- * SAGLAYICI SAGLIK TAKIBI
+ * SAGLAYICI SAGLIK TAKIBI (tum zincirler icin ortak)
  *
  * Zincir onceden yalnizca hata aninda dusuyordu ve hatirlamiyordu: kotasi
  * dolmus bir saglayici her istekte yeniden deneniyor, uc kez tekrar edip

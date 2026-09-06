@@ -1,6 +1,6 @@
 import { cfg } from '../../core/config.ts';
 import { log } from '../../core/logger.ts';
-import { kullanilabilir, hataBildir, basariBildir, kotaHatasiMi, kalanBekleme } from './saglik.ts';
+import { kullanilabilir, hataBildir, basariBildir, kotaHatasiMi, kalanBekleme } from '../saglik.ts';
 import type { LlmProvider } from '../../core/types.ts';
 
 /**

@@ -86,3 +86,34 @@ panelin formunu **kendisi üretir**, panelde platforma özel kod yazılmaz.
 `verify()` kaydetmeden önce kimliği doğrular; hatalı hesap eklenmez.
 `needs` alanı (`none`/`image`/`video`) üretim aşamasına ne hazırlaması
 gerektiğini söyler.
+
+## Kotalar bitince üretim nasıl devam ediyor
+
+Her zincir (LLM, görsel, ses, klip) aynı sağlık takibini kullanır:
+`src/providers/saglik.ts`.
+
+Bir sağlayıcı kota hatası verdiğinde (429/402/kredi tükendi) **kenara
+ayrılır**; bekleme süresi arka arkaya hatada katlanır (90 sn → 3 dk →
+6 dk, en fazla 1 saat) ve ilk başarıda sıfırlanır. Sıradaki istek
+doğrudan çalışan sağlayıcıya gider — kotası dolmuş olan tekrar denenmez.
+
+Hepsi beklemedeyse zincir yine de hepsini dener: beklemek üretmemekten
+iyidir.
+
+Durumu görmek için: `npm run saglik`
+
+### Görsel sağlayıcıları
+
+| id | Katman | Anahtar | Not |
+|---|---|---|---|
+| `gemini` | ücretsiz kota | `GEMINI_API_KEY` | Günlük kota, istemi iyi takip eder |
+| `cloudflare` | ücretsiz kota | `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN` | **Günlük yenilenen** 10.000 neuron, kart istemez |
+| `pollinations` | ücretsiz | yok | Sınırsız ama yavaş ve daha jenerik |
+
+Sıralama `.env` içindeki `IMAGE_PROVIDER` satırından gelir; soldan sağa
+denenir. Yeni bir sağlayıcı eklemek `ImageProvider` arayüzünü uygulayan
+bir nesne yazıp `registry`'ye eklemekten ibarettir.
+
+**Cloudflare anahtarı nereden:** `dash.cloudflare.com` → sağ sütunda
+*Account ID* → *My Profile* → *API Tokens* → *Create Token* → **Workers AI**
+şablonu. Kart istemez.

@@ -4,7 +4,7 @@ import { store } from './core/store.ts';
 import { platforms } from './platforms/index.ts';
 import { accounts } from './core/accounts.ts';
 import { resolveChain } from './providers/llm/index.ts';
-import { saglikOzeti } from './providers/llm/saglik.ts';
+import { saglikOzeti } from './providers/saglik.ts';
 import { ttsRegistry, getTts } from './providers/tts/index.ts';
 import { clipRegistry, getClipSource } from './providers/clip/index.ts';
 import { agents, kadro, planla, calistir, gorevYolla } from './allagents/index.ts';

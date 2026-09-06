@@ -33,6 +33,13 @@ export const cfg = {
     // Zincir: kota biterse ucretsiz saglayiciya duser.
     chain: list('IMAGE_PROVIDER', ['pollinations']),
     geminiModel: env('GEMINI_IMAGE_MODEL', 'gemini-3.1-flash-image'),
+    /**
+     * Cloudflare Workers AI: gunluk yenilenen ucretsiz kota, kart yok.
+     * Kredi veren servisler bir kez tukenince biter; bu her gun sifirlanir.
+     */
+    cloudflareAccount: env('CLOUDFLARE_ACCOUNT_ID', ''),
+    cloudflareToken: env('CLOUDFLARE_API_TOKEN', ''),
+    cloudflareModel: env('CLOUDFLARE_IMAGE_MODEL', '@cf/black-forest-labs/flux-1-schnell'),
     width: Number(env('IMAGE_WIDTH', '1024')),
     height: Number(env('IMAGE_HEIGHT', '1024')),
   },
