@@ -24,6 +24,28 @@ import type { Agent, Fikir, FikirIstegi } from './types.ts';
  * Gundemi KENDISI TOPLAMAZ: arastirma ekibinden gelir. Dis dunyaya uzanan
  * tek yer o ekip; boylece kaynak coktugunde nerede oldugu belli oluyor.
  */
+/**
+ * Iki metnin kelime ortusmesi (0-1).
+ * Modelin verdigi kaynak indeksi guvenilir degil: zayif modeller yanlis
+ * numara veriyor ve haberin ozeti bambaska bir habere ait oluyor.
+ * Bu yuzden indeks dogrulaniyor, tutmuyorsa en cok ortusen haber secilir.
+ */
+function ortusme(a: string, b: string): number {
+  const kelime = (t: string) =>
+    new Set(
+      t.toLocaleLowerCase('tr')
+        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .split(/\s+/)
+        .filter((w) => w.length > 3),
+    );
+  const A = kelime(a);
+  const B = kelime(b);
+  if (!A.size || !B.size) return 0;
+  let kesisim = 0;
+  for (const w of A) if (B.has(w)) kesisim++;
+  return kesisim / Math.min(A.size, B.size);
+}
+
 export const icerikBulma: Agent<FikirIstegi, Fikir[]> = {
   id: 'icerik-bulma',
   role: 'Konu havuzu cikarir, tekrar edenleri eler',
@@ -48,16 +70,41 @@ ${kategori.yonerge}
       `${count * 2} adet ozgun sosyal medya post fikri uret.`,
       recent.length ? `Bunlara benzeme:\n${recent.map((t) => '- ' + t).join('\n')}` : '',
       'Yalnizca su semada JSON dizisi dondur, baska hicbir metin yazma:',
-      '[{"topic":"tek cumlelik konu","angle":"bakis acisi"}]',
+      '[{"topic":"tek cumlelik konu","angle":"bakis acisi","kaynak":0}]',
+      '"kaynak" alani, fikrin dayandigi haberin kose parantez icindeki numarasi olsun.',
     ].filter(Boolean).join('\n\n');
 
     const raw = await llm.complete(prompt, { system: await brandVoice(), maxTokens: 1200, json: true });
 
     const ideas = extractObjects(raw)
-      .map((o) => ({
-        topic: str(o, 'topic', 'konu', 'title', 'baslik'),
-        angle: str(o, 'angle', 'aci', 'bakis', 'bakis_acisi'),
-      }))
+      .map((o) => {
+        const topic = str(o, 'topic', 'konu', 'title', 'baslik');
+        const idx = Number(o['kaynak'] ?? o['source'] ?? -1);
+
+        // Once modelin verdigi indeks; ortusme dusukse benzerlikle duzelt.
+        let g = Number.isInteger(idx) && idx >= 0 ? gundem[idx] : undefined;
+        if (!g || ortusme(topic, g.title) < 0.3) {
+          const enIyi = gundem
+            .map((h) => ({ h, p: ortusme(topic, h.title) }))
+            .sort((x, y) => y.p - x.p)[0];
+          if (enIyi && enIyi.p >= 0.3) g = enIyi.h;
+          else g = undefined;
+        }
+        return {
+          topic,
+          angle: str(o, 'angle', 'aci', 'bakis', 'bakis_acisi'),
+          ...(g
+            ? {
+                kaynak: {
+                  ...(g.ozet ? { ozet: g.ozet } : {}),
+                  ...(g.url ? { url: g.url } : {}),
+                  ...(g.gorsel ? { gorsel: g.gorsel } : {}),
+                  site: g.source,
+                },
+              }
+            : {}),
+        };
+      })
       .filter((i) => i.topic.length > 8);
 
     if (!ideas.length) {

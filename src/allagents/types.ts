@@ -24,6 +24,11 @@ export interface Agent<In, Out> {
 export interface Fikir {
   topic: string;
   angle: string;
+  /**
+   * Fikrin dayandigi haber. Modelin yazarken kullanacagi GERCEK bilgi
+   * burada; olmadan basligi yeniden yazmaktan oteye gidemez.
+   */
+  kaynak?: { ozet?: string; url?: string; gorsel?: string; tarih?: string; site?: string };
 }
 
 export interface FikirIstegi {
@@ -37,7 +42,7 @@ export interface FikirIstegi {
    * Arastirma ekibinden gelen gercek gundem. Bos gelirse model konu uydurur
    * ve icerik jeneriklesir - hat durmaz ama kalite duser.
    */
-  gundem?: { title: string; source: string }[];
+  gundem?: { title: string; source: string; ozet?: string; gorsel?: string; url?: string }[];
   /** Bu turda uretilecek icerik kategorisi; bicimi belirler. */
   kategori?: { id: string; ad: string; yonerge: string };
 }

@@ -26,6 +26,12 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
     const konu = [
       `Konu: ${fikir.topic}`,
       fikir.angle ? `Bakis acisi: ${fikir.angle}` : '',
+      // Haberin ozeti modelin elindeki tek gercek bilgi kaynagi. Olmadan
+      // basligi yeniden yazmaktan oteye gidemiyordu.
+      fikir.kaynak?.ozet
+        ? `HABERIN OZETI (yalnizca buradaki bilgileri kullan, ekleme yapma):
+${fikir.kaynak.ozet}`
+        : '',
       // Kategori yonergesi bicimi belirler; markanin sesi ustune biner.
       kategori ? `BICIM (${kategori.ad}): ${kategori.yonerge}` : '',
     ].filter(Boolean);
@@ -46,6 +52,8 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
             ...konu,
             `Platform: ${p.id}. Metin ${hedef} karakteri gecmesin (kesin ust sinir ${p.limit}).`,
             'Tek bir post metni yaz. Aciklama, baslik, tirnak ya da secenek sunma.',
+            'Haber basligini OLDUGU GIBI kopyalama; ozetteki bilgiyi kullanarak kendi cumleni kur.',
+            'Ozette olmayan sayi, isim ya da iddia UYDURMA.',
             'Metin TURKCE olsun. Kaynak ingilizce olsa bile birebir cevirme, ' +
             'Turk okuyucuya gore yerellestir. Ozel isimleri (film, oyun, sanatci, ' +
             'marka) orijinal haliyle birak.',
@@ -72,7 +80,7 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
         if (kisa && kisa.length <= p.limit) clean = kisa;
       }
 
-      const issues = inspect(clean, p.limit);
+      const issues = inspect(clean, p.limit, fikir.topic);
       if (issues.length) {
         throw new Error(`kalite kapisi (${p.id}): ${issues.map((i) => `${i.code}=${i.detail}`).join(', ')}`);
       }
@@ -97,7 +105,7 @@ export const senaryo: Agent<SenaryoIstegi, Senaryo> = {
               { system: voice, maxTokens: 600 },
             ),
           );
-          if (alt && alt.length <= p.limit && !inspect(alt, p.limit).length) adaylar.push({ metin: alt });
+          if (alt && alt.length <= p.limit && !inspect(alt, p.limit, fikir.topic).length) adaylar.push({ metin: alt });
         } catch (e) {
           log.warn(`aday uretilemedi (${p.id}): ${String(e).slice(0, 70)}`);
         }

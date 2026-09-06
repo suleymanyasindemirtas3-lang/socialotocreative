@@ -33,7 +33,26 @@ const TELLTALES: [RegExp, string][] = [
   [/^\s*[-*]\s+.*\n\s*[-*]\s+/m, 'madde listesi (post degil, not gibi duruyor)'],
 ];
 
-export function inspect(text: string, limit: number): QualityIssue[] {
+/**
+ * Iki metnin kelime ortusmesi (0-1). Baslik kopyasini yakalamak icin.
+ */
+function ortusme(a: string, b: string): number {
+  const kelime = (t: string) =>
+    new Set(
+      t.toLocaleLowerCase('tr')
+        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .split(/\s+/)
+        .filter((w) => w.length > 2),
+    );
+  const A = kelime(a);
+  const B = kelime(b);
+  if (!A.size || !B.size) return 0;
+  let kesisim = 0;
+  for (const w of A) if (B.has(w)) kesisim++;
+  return kesisim / Math.min(A.size, B.size);
+}
+
+export function inspect(text: string, limit: number, kaynakBaslik?: string): QualityIssue[] {
   const issues: QualityIssue[] = [];
   const t = text.trim();
 
@@ -53,6 +72,19 @@ export function inspect(text: string, limit: number): QualityIssue[] {
   const sentences = t.split(/[.!?\n]+/).map((s) => s.trim().toLowerCase()).filter((s) => s.length > 15);
   if (sentences.length > 2 && new Set(sentences).size < sentences.length) {
     issues.push({ code: 'repetition', detail: 'tekrar eden cumle' });
+  }
+
+  /**
+   * BASLIK KOPYASI.
+   * Zayif modeller haber basligini oldugu gibi yapistiriyor. Bu post degil,
+   * RSS yankisi: ne katma deger var ne ozgunluk. Ustelik ayni basligi
+   * paylasan yuzlerce hesap arasinda kaybolur.
+   */
+  if (kaynakBaslik) {
+    const oran = ortusme(t, kaynakBaslik);
+    if (oran > 0.8) {
+      issues.push({ code: 'baslik_kopyasi', detail: `kaynak basligiyla %${Math.round(oran * 100)} ayni` });
+    }
   }
 
   const hashtags = t.match(/#\w+/g) ?? [];

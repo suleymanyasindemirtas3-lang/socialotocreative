@@ -292,6 +292,12 @@ function postKarti(p) {
       <span class="muted small">${p.id}</span>
     </div>
     ${p.angle ? `<div class="muted small">açı: ${esc(p.angle)}</div>` : ''}
+    ${p.kaynak && p.kaynak.ozet ? `<details style="margin-top:8px">
+      <summary class="muted small" style="cursor:pointer">kaynak haber${p.kaynak.site ? ' · ' + esc(p.kaynak.site) : ''}</summary>
+      <div class="small muted" style="margin-top:6px;padding:8px;background:var(--bg);border-radius:8px">
+        ${esc(p.kaynak.ozet)}
+        ${p.kaynak.url ? `<br><a href="${esc(p.kaynak.url)}" target="_blank" rel="noreferrer">habere git →</a>` : ''}
+      </div></details>` : ''}
     ${puanKutu}
     ${metin ? `<div class="variant">
         <h4>${esc((platformOf(platformId) || {}).label || platformId)} · ${metin.length}/${lim}</h4>

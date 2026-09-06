@@ -25,6 +25,16 @@ export interface TrendItem {
   /** Populerlik gostergesi (oy, yildiz, reaksiyon). Siralamada kullanilir. */
   score?: number;
   source: string;
+  /**
+   * Haberin ozeti. Modelin yazacak GERCEK bilgisi budur; yoksa elinde
+   * yalnizca baslik kalir ve basligi yeniden yazmaktan oteye gidemez.
+   */
+  ozet?: string;
+  /** Haberin kendi fotografi. Soyut AI gorseli uretmekten cok daha iyi. */
+  gorsel?: string;
+  tarih?: string;
+  /** Kaynagin kendi kategori etiketi; kategori eslesmesini dogrulamaya yarar. */
+  kaynakKategori?: string;
 }
 
 export interface TrendSource {
@@ -105,40 +115,92 @@ const github: TrendSource = {
   },
 };
 
+/** CDATA, HTML etiketi ve varlik kodlarini temizler. */
+function temizle(ham: string | undefined): string {
+  if (!ham) return '';
+  return ham
+    .replace(/<!\[CDATA\[|\]\]>/g, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function etiket(blok: string, ad: string): string {
+  const m = new RegExp(`<${ad}[^>]*>([\\s\\S]*?)</${ad}>`, 'i').exec(blok);
+  return temizle(m?.[1]);
+}
+
 /**
- * Genel RSS. Kendi nisinin kaynaklarini eklemenin en kolay yolu.
- * Tam bir XML ayristiricisi yerine desen eslesmesi kullaniliyor: bagimlilik
- * eklememek icin bilincli tercih, RSS ve Atom'un ikisinde de calisiyor.
+ * Genel RSS okuyucu.
+ *
+ * Onceden yalnizca BASLIK aliniyordu. Model basliktan baska veri gormedigi
+ * icin yapabildigi tek sey basligi yeniden yazmakti - icerigin zayif
+ * olmasinin kok sebebi buydu.
+ *
+ * Simdi RSS'in verdigi her seyi aliyoruz:
+ *   description - haberin ozeti; modelin yazacak gercek bilgisi olur
+ *   enclosure   - haberin GERCEK fotografi; soyut AI gorseli uretmekten iyi
+ *   pubDate     - tazelik; eski haber one cikmasin
+ *   category    - kaynagin kendi kategorisi; kategori eslesmesini dogrular
+ *
+ * Tam XML ayristiricisi yerine desen eslesmesi: bagimlilik eklememek icin
+ * bilincli tercih, RSS ve Atom'un ikisinde de calisiyor.
  */
 async function rssOku(feedler: string[], limit: number): Promise<TrendItem[]> {
-  {
-    const out: TrendItem[] = [];
-    const perFeed = Math.max(1, Math.ceil(limit / feedler.length));
+  const out: TrendItem[] = [];
+  const perFeed = Math.max(1, Math.ceil(limit / feedler.length));
 
-    for (const feed of feedler) {
-      try {
-        const res = await fetch(feed, { headers: UA });
-        if (!res.ok) throw new Error(`${res.status}`);
-        const xml = await res.text();
+  for (const feed of feedler) {
+    try {
+      const res = await fetch(feed, { headers: UA });
+      if (!res.ok) throw new Error(`${res.status}`);
+      const xml = await res.text();
 
-        const blocks = xml.split(/<(?:item|entry)[\s>]/i).slice(1, perFeed + 1);
-        for (const b of blocks) {
-          const title = /<title[^>]*>([\s\S]*?)<\/title>/i
-            .exec(b)?.[1]
-            ?.replace(/<!\[CDATA\[|\]\]>/g, '')
-            .replace(/<[^>]+>/g, '')
-            .trim();
-          const link =
-            /<link[^>]*href=["']([^"']+)/i.exec(b)?.[1] ??
-            /<link[^>]*>([\s\S]*?)<\/link>/i.exec(b)?.[1]?.trim();
-          if (title) out.push({ title, url: link, source: new URL(feed).hostname });
-        }
-      } catch (e) {
-        log.warn(`rss ${feed}: ${String(e).slice(0, 80)}`);
+      const blocks = xml.split(/<(?:item|entry)[\s>]/i).slice(1, perFeed + 1);
+      for (const b of blocks) {
+        const title = etiket(b, 'title');
+        if (!title) continue;
+
+        const link =
+          /<link[^>]*href=["']([^"']+)/i.exec(b)?.[1] ??
+          temizle(/<link[^>]*>([\s\S]*?)<\/link>/i.exec(b)?.[1]);
+
+        // Ozet birkac yerde olabilir; en dolgun olani secilir.
+        const ozet = [
+          etiket(b, 'content:encoded'),
+          etiket(b, 'description'),
+          etiket(b, 'summary'),
+          etiket(b, 'content'),
+        ].sort((x, y) => y.length - x.length)[0];
+
+        // Haberin kendi fotografi: enclosure ya da media:content.
+        const gorsel =
+          /<enclosure[^>]*url=["']([^"']+\.(?:jpe?g|png|webp)[^"']*)/i.exec(b)?.[1] ??
+          /<media:(?:content|thumbnail)[^>]*url=["']([^"']+)/i.exec(b)?.[1];
+
+        const tarih = etiket(b, 'pubDate') || etiket(b, 'published') || etiket(b, 'updated');
+
+        out.push({
+          title,
+          url: link,
+          source: new URL(feed).hostname,
+          ...(ozet && ozet !== title ? { ozet: ozet.slice(0, 600) } : {}),
+          ...(gorsel ? { gorsel } : {}),
+          ...(tarih ? { tarih } : {}),
+          ...(etiket(b, 'category') ? { kaynakKategori: etiket(b, 'category') } : {}),
+        });
       }
+    } catch (e) {
+      log.warn(`rss ${feed}: ${String(e).slice(0, 80)}`);
     }
-    return out;
   }
+  return out;
 }
 
 const rss: TrendSource = {

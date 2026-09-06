@@ -62,6 +62,8 @@ export interface Post {
   medya?: MedyaTercihi;
   /** Icerik kategorisi id'si. Bicimi ve varsayilan medyayi belirler. */
   kategori?: string;
+  /** Dayandigi haber: ozet, link ve haberin kendi fotografi. */
+  kaynak?: { ozet?: string; url?: string; gorsel?: string; tarih?: string; site?: string };
   /**
    * Platform basina METIN SECENEKLERI, her biri puanli.
    * Tek metin uretip dayatmak yerine secenek sunuluyor: ayni haber farkli

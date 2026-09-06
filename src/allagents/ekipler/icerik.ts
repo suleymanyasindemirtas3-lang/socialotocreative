@@ -35,6 +35,9 @@ async function fikirBul(adet: number, gundem: { title: string; source: string }[
     gundem = (await gundemTopla(20, kategori.kaynaklar).catch(() => [])).map((g) => ({
       title: g.title,
       source: g.source,
+      ...(g.ozet ? { ozet: g.ozet } : {}),
+      ...(g.gorsel ? { gorsel: g.gorsel } : {}),
+      ...(g.url ? { url: g.url } : {}),
     }));
     log.info(`kategori kaynaklarindan ${gundem.length} madde`);
   }
@@ -59,6 +62,7 @@ async function fikirBul(adet: number, gundem: { title: string; source: string }[
       targets,
       results: [],
       fingerprint: fingerprint(f.topic),
+      ...(f.kaynak ? { kaynak: f.kaynak } : {}),
       ...(kategori ? { kategori: kategori.id, medya: kategori.medya } : {}),
     };
     await store.upsert(post);
@@ -88,7 +92,11 @@ async function yaz(adet: number): Promise<number> {
 
       const kat = post.kategori ? await kategoriBul(post.kategori) : undefined;
       const script = await senaryo.run({
-        fikir: { topic: post.topic, angle: post.angle },
+        fikir: {
+          topic: post.topic,
+          angle: post.angle,
+          ...(post.kaynak ? { kaynak: post.kaynak } : {}),
+        },
         ...(kat ? { kategori: { id: kat.id, ad: kat.ad, yonerge: kat.yonerge } } : {}),
         platforms: [...platformIds].map((id) => ({ id, limit: platform(id)?.limits.text ?? 500 })),
         narrationNeeded: wantsVideo,

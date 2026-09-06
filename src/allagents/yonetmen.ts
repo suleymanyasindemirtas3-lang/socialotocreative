@@ -9,6 +9,7 @@ import { videoUretim } from './video-uretim.ts';
 import { video } from './video.ts';
 import { isteKonulu } from './ekipler/arastirma.ts';
 import { seslendirmeYaz } from './senaryo.ts';
+import { adayiIndir } from '../providers/image/arama.ts';
 import type { MediaAsset } from '../core/types.ts';
 
 /**
@@ -71,17 +72,42 @@ export async function uret(adet: number): Promise<number> {
       const media: MediaAsset[] = [];
 
       if (wantsImage) {
-        if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
+        /**
+         * ONCE HABERIN KENDI FOTOGRAFI.
+         *
+         * AI gorsel uretimi haber icerigi icin kotu calisiyor: soyut, konudan
+         * kopuk ve tanidik gelmiyor. Haberin kendi fotografi hem konuyla
+         * birebir ilgili hem de okuyucunun akista tanidigi gorsel dil.
+         * AI uretimi yalnizca fotograf yoksa devreye giriyor.
+         */
+        let eklendi = false;
+        if (post.kaynak?.gorsel) {
+          try {
+            const foto = await adayiIndir(
+              {
+                kaynak: post.kaynak.site ?? 'haber',
+                url: post.kaynak.gorsel,
+                thumb: post.kaynak.gorsel,
+                baslik: post.topic,
+              },
+              `data/media/${post.id}-haber.jpg`,
+            );
+            media.push(foto);
+            eklendi = true;
+            log.ok(`${post.id}: haberin kendi fotografi kullanildi`);
+          } catch (e) {
+            log.warn(`${post.id}: haber fotografi alinamadi, AI uretimine dusuluyor`);
+          }
+        }
 
-        // Gorsel istemi konudan kopuk kalabiliyordu (bir postta AI konusu icin
-        // alakasiz karakter cizimi cikti). Arastirma ekibinden konuyla ilgili
-        // baglam alinip isteme ekleniyor.
-        const ilgili = await isteKonulu(post.topic, 2).catch(() => []);
-        const zenginIstem = ilgili.length
-          ? `${script.visualPrompt}. Context: ${ilgili.map((i) => i.title).join('; ').slice(0, 160)}`
-          : script.visualPrompt;
-
-        media.push(await getImage().generate(zenginIstem, `data/media/${post.id}.jpg`));
+        if (!eklendi) {
+          if (!imageEnabled()) throw new Error('hedef gorsel istiyor ama IMAGE_PROVIDER=none');
+          const ilgili = await isteKonulu(post.topic, 2).catch(() => []);
+          const zenginIstem = ilgili.length
+            ? `${script.visualPrompt}. Context: ${ilgili.map((i) => i.title).join('; ').slice(0, 160)}`
+            : script.visualPrompt;
+          media.push(await getImage().generate(zenginIstem, `data/media/${post.id}.jpg`));
+        }
       }
 
       if (wantsVideo) {

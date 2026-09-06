@@ -1,9 +1,9 @@
 [
   {
-    "id": "d086b35d",
-    "createdAt": "2026-09-06T08:31:34.089Z",
-    "topic": "Fenerbahçe-Beşiktaş derbisini yazdılar: Hezimete tanıklık edebilirdik! Koca bir sıfır, puan sıfır",
-    "angle": "Spor",
+    "id": "58c44d59",
+    "createdAt": "2026-09-06T09:15:04.140Z",
+    "topic": "Kuji Furumiya's Unnamed Memory -after the end- Sequel Light Novel Series Ends in December",
+    "angle": "Hayranlar için en son rüya hikayesi!",
     "status": "draft",
     "variants": {},
     "media": [],
@@ -11,24 +11,13 @@
       "x-d30409"
     ],
     "results": [],
-    "fingerprint": "1331675867e9ae56",
-    "kategori": "muzik",
-    "medya": "gorsel"
-  },
-  {
-    "id": "da762d72",
-    "createdAt": "2026-09-06T08:34:35.071Z",
-    "topic": "Çanakkale lezzetlerinin geleceği belirlendi",
-    "angle": "Müşteri tercihlerine dayalı yeni uygulamalar",
-    "status": "draft",
-    "variants": {},
-    "media": [],
-    "targets": [
-      "x-d30409"
-    ],
-    "results": [],
-    "fingerprint": "a59e1d20811e95e0",
-    "kategori": "haber",
+    "fingerprint": "a6f6aa4aec3eccf1",
+    "kaynak": {
+      "ozet": "Can the relaxed bear overcome the “world's toughest obstacle course”?",
+      "url": "https://www.animenewsnetwork.com/interest/2026-09-05/rilakkuma-heads-to-mount-midoriyama-in-new-ninja-warrior-crossover/.241003",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
     "medya": "gorsel"
   }
 ]
