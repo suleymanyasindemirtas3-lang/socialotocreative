@@ -1,29 +1,63 @@
-# socialmediai
+# socialotocreative
 
-Sağlayıcı bağımsız otomatik sosyal medya üretim ve yayın hattı.
-Sıfır maliyetle çalışır; ücretli sağlayıcıya geçiş tek `.env` satırıdır.
+Otomatik sosyal medya içerik üretim ve yayın hattı.
+Gerçek gündemden konu bulur, metin ve görsel üretir, video kurgular, onayından
+geçirir ve birden fazla hesaba aynı anda yayınlar.
 
-Tasarım gerekçeleri: [docs/PRINCIPLES.md](docs/PRINCIPLES.md)
-**Nereye müdahale edilir: [docs/MUDAHALE.md](docs/MUDAHALE.md)**
-Sağlayıcı ekleme: [docs/PROVIDERS.md](docs/PROVIDERS.md)
+**Sıfır maliyetle çalışır.** Ücretli bir servise geçmek her zaman tek bir `.env`
+satırıdır — kod değişmez.
 
-## Ajanlar
+---
 
-Altı ajan, her biri tek işten sorumlu: `icerik-bulma` · `senaryo` · `ses` ·
-`video-uretim` · `video` · `yonetmen`.
-Ayrinti: [src/allagents/README.md](src/allagents/README.md)
+## Nereden başlamalı
 
-## Akış
+| Ne arıyorsun | Dosya |
+|---|---|
+| **Bir sorunu düzeltmek istiyorum** | [docs/MUDAHALE.md](docs/MUDAHALE.md) — şikâyet → dosya → ne yapılır |
+| Neden böyle tasarlandı | [docs/PRINCIPLES.md](docs/PRINCIPLES.md) — 9 madde |
+| Ücretli/yeni servis bağlayacağım | [docs/PROVIDERS.md](docs/PROVIDERS.md) |
+| Ajanlar nasıl çalışıyor | [src/allagents/README.md](src/allagents/README.md) |
+| İçerik kalitesini düzeltmek | [content/brand.md](content/brand.md) — **en değerli dosya** |
+
+Kodda müdahale gereken yerler `MUDAHALE NOKTASI` yorumuyla işaretli:
+
+```bash
+grep -rn "MUDAHALE" src/ content/
+```
+
+---
+
+## Nasıl çalışıyor
 
 ```
-ideate    LLM konu havuzu üretir, daha önce üretilenleri eler
-   ↓
-generate  her platform için metin + görsel üretir
-   ↓
-approve   panelde (ya da npm run review ile) onaylanır
-   ↓
-publish   onaylananları platform adaptörleriyle yayınlar
+                        ┌─────────┐
+                        │  LİDER  │  durumu okur, ihtiyaca göre görev dağıtır
+                        └────┬────┘
+        ┌────────────┬───────┴───────┬────────────┐
+        ▼            ▼               ▼            ▼
+   ┌─────────┐  ┌─────────┐  ┌──────────────┐  ┌────────┐
+   │araştırma│  │ içerik  │  │  prodüksiyon │  │ yayın  │
+   └─────────┘  └─────────┘  └──────────────┘  └────────┘
+   HN, GitHub    icerik-bulma   ses               8 platform
+   dev.to, RSS   senaryo        video-uretim      adaptörü
+                                video
+                                (lider: yönetmen)
 ```
+
+Bir postun yolculuğu:
+
+```
+draft  ──► scripted  ──► pending_approval ──► approved ──► published
+  ▲          ▲                  ▲                              │
+  │          │                  │                              │
+fikir      metin             onayın                       hesaplara
+bulundu    yazıldı           bekleniyor                    dağıtıldı
+```
+
+`scripted` ayrı bir durum çünkü **metin ucuz, medya pahalı.** Metin kalite
+kapısına takılırsa boşuna ses ve video üretilmiyor.
+
+---
 
 ## Kurulum
 
@@ -33,90 +67,99 @@ cp .env.example .env
 npm run doctor
 ```
 
-`doctor` hangi sağlayıcının hazır, hangisinin eksik olduğunu söyler.
-Hiçbir anahtar girmeden bile hattın tamamı `mock` LLM + `console` hedefiyle çalışır:
-
-```bash
-npm run dev
-```
-
-## Panel
+`doctor` her sağlayıcıya canlı istek atar, neyin çalışıp neyin eksik olduğunu
+söyler. Hiçbir anahtar girmeden bile hat baştan sona çalışır (`console` hedefi).
 
 ```bash
 npm run panel
 ```
 
-Tarayicidan kuyrugu gorur, metni duzenler, onaylar/reddeder ve **hesap eklersin**.
-Hesap ekleme formu platformun kendi alan tanimindan uretilir; panelde platforma
-ozel kod yoktur. Kaydetmeden once kimlik dogrulanir, hatali hesap eklenmez.
+Tarayıcıdan kuyruğu görür, metni düzenler, onaylar ve **hesap eklersin**.
 
-Panel `PANEL_TOKEN` ile korunur ve varsayilan olarak yalniz `127.0.0.1` dinler.
-Uzaktan erismek icin tunel kullan (`cloudflared tunnel --url http://localhost:8787`),
-`PANEL_HOST=0.0.0.0` yapip paneli dogrudan aga acma.
-
-## Coklu hesap
-
-Hedef artik platform degil **hesap**. Ayni platformda birden fazla hesap olabilir
-(iki Bluesky, uc Discord kanali) ve bir post hepsine ayni anda gider.
-Metin platform basina uretilir; ayni platformdaki hesaplar ayni metni paylasir.
-
-Hesaplar `data/accounts.json` icinde durur ve **repoya girmez** (kimlik bilgisi tasir).
-GitHub Actions'ta tek bir `ACCOUNTS_JSON` secret'indan okunur.
+---
 
 ## Komutlar
 
 | Komut | İş |
 |---|---|
-| `npm run doctor` | ayar ve bağlantı taraması |
-| `npm run ideate` | sadece konu üret |
-| `npm run generate` | taslakları metne/görsele çevir |
+| `npm run doctor` | her sağlayıcıya canlı bağlantı testi |
+| `npm run saglik` | **iş üretiyor mu** kontrolü + ne yapman gerektiği |
+| `npm run plan` | liderin sıradaki görev planı ve gerekçeleri |
+| `npm run panel` | web paneli (onay + hesap yönetimi) |
+| `npm run dev` | lideri bir kez çalıştır |
+| `npm start` | sürekli çalışma modu |
+| `npm run ideate` | sadece fikir bul |
+| `npm run write` | taslakları metne çevir |
+| `npm run generate` | metinleri medyaya çevir |
 | `npm run publish` | onaylananları yayınla |
-| `npm run status` | kuyruğun durumu |
-| `npm run dev` | hepsini sırayla çalıştır |
-| `npm run panel` | web paneli (onay + hesap yonetimi) |
-| `npm run saglik` | sistem sagligi + ne yapman gerektigi |
-| `npm run plan` | liderin siradaki gorev plani |
-| `npm run temizle` | eski medya dosyalarini sil |
 | `npm run review` | terminalden onayla |
-| `npm run retry` | basarisiz taslaklari geri al |
+| `npm run retry` | başarısızları geri al |
+| `npm run status` | kuyruğun durumu |
+| `npm run temizle` | eski medya dosyalarını sil |
 
-## Sağlayıcı seçimi
+---
 
-`LLM_PROVIDER` virgullu bir zincirdir; ilki çökerse sıradakine geçilir:
-`LLM_PROVIDER=ollama,pollinations,gemini`
+## Sağlayıcılar
 
+Her katman virgüllü bir **zincir**: ilki çökerse ya da kredisi biterse
+sıradakine düşülür. Ücretsiz krediyle çalışan servisler için tasarım budur.
 
-Sağlayıcı ekleme rehberi: [docs/PROVIDERS.md](docs/PROVIDERS.md)
+| Katman | Ücretsiz | Ücretli geçiş | `.env` |
+|---|---|---|---|
+| Metin | `gemini`, `ollama` (yerel), `groq`, `pollinations` | `claude` | `LLM_PROVIDER` |
+| Görsel | `pollinations` (anahtarsız) | fal / replicate | `IMAGE_PROVIDER` |
+| Seslendirme | `edge` (Türkçe, anahtarsız) | `elevenlabs` | `TTS_PROVIDER` |
+| Video görüntüsü | `still` (görsel + Ken Burns) | `fal` (AI video) | `CLIP_SOURCE` |
+| Gündem | HN, dev.to, GitHub, RSS | — | `TREND_SOURCES` |
 
-| Katman | Ücretsiz | Ücretli geçiş |
-|---|---|---|
-| LLM | `ollama` (yerel, sinirsiz), `pollinations` (anahtarsiz), `gemini`, `groq` | `claude` |
-| Görsel | `pollinations` (anahtarsız) | fal / replicate adaptörü yaz |
-| Seslendirme | `edge` (anahtarsız, Türkçe) | `elevenlabs` |
-| Video görüntüsü | `still` (görsel + Ken Burns) | `fal` (AI video üretimi) |
-| Depo | `JsonStore` (repo içi) | `SupabaseStore` yaz |
-| Compute | GitHub Actions cron | kalıcı VM |
+---
 
-## Platform kurulum sırası
+## Platformlar
 
-Panelden eklenebilen platformlar:
+Hedef **platform değil hesap**: aynı platformda birden fazla hesap olabilir ve
+bir post hepsine aynı anda gider. Hesaplar panelden eklenir, kaydedilmeden önce
+kimlik doğrulanır.
 
-| Platform | Kurulum zorlugu | Gereken |
-|---|---|---|
-| console | yok | — (test hedefi) |
-| discord | cok dusuk | kanal webhook URL'i |
-| bluesky | dusuk | app password |
-| mastodon | dusuk | sunucu + access token |
+| Platform | Kurulum | Gereken | İçerik |
+|---|---|---|---|
+| `console` | yok | — | test hedefi |
+| `discord` | çok kolay | webhook URL | metin + görsel |
+| `bluesky` | kolay | app password | metin + görsel |
+| `mastodon` | kolay | sunucu + token | metin + görsel |
+| `x` | orta | 4 anahtar (OAuth 1.0a) | metin + görsel |
+| `youtube` | zor | OAuth refresh token | **video** |
+| `instagram` | zor | Business hesap + Meta app | görsel / Reels |
+| `tiktok` | en zor | app audit **onayı şart** | **video** |
 
-Telegram, X, Instagram, LinkedIn ve YouTube su an yok. Ilk ucu disindakiler developer hesabi ve app onayi gerektirir;
-adaptorleri `src/platforms/` altina ayni `PlatformDef` arayuzuyle eklenir.
+TikTok uyarısı: app audit onaylanmadan `video.publish` açılmaz; onaysız app
+videoları `SELF_ONLY` (gizli) yükler. Kod hazır, engel TikTok tarafında.
+
+Kimlik bilgileri `data/accounts.json` içinde ve **repoya girmez**.
+GitHub Actions'ta tek bir `ACCOUNTS_JSON` secret'ından okunur.
+
+---
+
+## Güvenlik
+
+- `.env` ve `data/accounts.json` `.gitignore`'da — sır repoya girmez
+- Panel `PANEL_TOKEN` ister, varsayılan olarak yalnız `127.0.0.1` dinler
+- Varsayılan `DRY_RUN=true` ve `AUTO_APPROVE=false`: projeyi yanlışlıkla
+  çalıştıran hiçbir yere hiçbir şey göndermez
+- Yalnızca resmi API'ler kullanılır; scraping ve tarayıcı otomasyonu yok
+
+> **Bu repo public.** `data/queue.json` ve `data/media/` içindeki taslaklar
+> yayınlanmadan önce herkese görünür. Instagram medyayı public URL olarak
+> istediği için repo public olmak zorunda; rahatsız ediciyse Cloudflare R2
+> gibi ayrı bir barındırıcıya geçip repoyu private yapabilirsin.
+
+---
 
 ## Otomasyon
 
-`.github/workflows/` altındaki iki cron:
+`.github/workflows/` altında iki cron:
 
 - `pipeline.yml` — günde iki kez üretir ve onaya gönderir
-- `publish.yml` — iki saatte bir onayları toplayıp yayınlar
+- `publish.yml` — iki saatte bir onaylananları yayınlar
 
 Anahtarlar repo **Secrets**, ayarlar repo **Variables** altına girilir.
-İlk hafta `DRY_RUN=true` bırak; logları okuyup içerik kalitesinden emin olunca kapat.
+İlk hafta `DRY_RUN=true` bırak; logları okuyup içerikten emin olunca kapat.
