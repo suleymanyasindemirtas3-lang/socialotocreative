@@ -1958,11 +1958,24 @@
     "createdAt": "2026-09-06T19:56:11.479Z",
     "topic": "Serhat Kılıç'ın cenaze töreni ne zaman?",
     "angle": "Programın detayları ve katılım koşulları",
-    "status": "scripted",
+    "status": "pending_approval",
     "variants": {
       "x": "Serhat Kılıç'ın cenaze töreni 15 Mayıs Çarşamba günü saat 14:00'te Kağıthane Cenaze Salonu'nda gerçekleşecek. Katılım için aile onayı gerekiyor."
     },
-    "media": [],
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/26d0bf08-haber.jpg",
+        "alt": "Serhat Kılıç'ın cenaze töreni ne zaman?",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/26d0bf08-ilgili1.jpg",
+        "alt": "Serhat Kılıç'ın cenaze töreni ne zaman?",
+        "mime": "image/jpeg"
+      }
+    ],
     "targets": [
       "x-d30409"
     ],
@@ -3677,6 +3690,20 @@
       "site": "www.animenewsnetwork.com"
     },
     "kategori": "anime",
+    "medya": "gorsel"
+  },
+  {
+    "id": "5f1deb0e",
+    "createdAt": "2026-09-07T18:01:21.867Z",
+    "topic": "Ornek konu 1",
+    "angle": "karsit gorus",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [],
+    "results": [],
+    "fingerprint": "398fbb159cd65263",
+    "kategori": "haber",
     "medya": "gorsel"
   }
 ]
