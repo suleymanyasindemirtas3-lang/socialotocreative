@@ -7,7 +7,8 @@
     "kaynaklar": [
       "https://www.hurriyet.com.tr/rss/anasayfa",
       "https://www.hurriyet.com.tr/rss/gundem",
-      "https://feeds.bbci.co.uk/news/world/rss.xml"
+      "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "https://www.sozcu.com.tr/rss/tum-haberler.xml"
     ],
     "medya": "gorsel",
     "agirlik": 3,
@@ -21,7 +22,9 @@
     "yonerge": "Gelişmeyi anlat ve neden önemli olduğunu açıkla. Yapı: ne oldu, kim etkilendi, bundan sonra ne olur. Tarafsız kal, duygusal dil kullanma.",
     "kaynaklar": [
       "https://www.hurriyet.com.tr/rss/gundem",
-      "https://feeds.bbci.co.uk/news/world/rss.xml"
+      "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "https://www.sozcu.com.tr/rss/tum-haberler.xml",
+      "https://www.ntv.com.tr/gundem.rss"
     ],
     "medya": "gorsel",
     "agirlik": 3,
@@ -49,7 +52,9 @@
     "aciklama": "Maç sonuçları, transferler, sakatlıklar.",
     "yonerge": "Skor, transfer ya da gelişmeyi net ver. Sayı ve isimleri doğru yaz. Taraftar kavgası çıkaracak dil kullanma, takım tutma. Maç anlatıyorsan dakika ve golcüyü belirt.",
     "kaynaklar": [
-      "https://www.hurriyet.com.tr/rss/spor"
+      "https://www.hurriyet.com.tr/rss/spor",
+      "https://www.ntv.com.tr/sporskor.rss",
+      "https://www.sabah.com.tr/rss/spor.xml"
     ],
     "medya": "gorsel",
     "agirlik": 3,
@@ -62,12 +67,14 @@
     "aciklama": "Yeni sezonlar, duyurular, manga uyarlamaları.",
     "yonerge": "Anime/manga adını orijinal haliyle yaz. Duyuruyu ver: hangi seri, ne oluyor, ne zaman. SPOILER VERME. Stüdyo ya da yayın tarihi biliniyorsa ekle. Hayran kitlesinin diline yakın yaz ama abartma.",
     "kaynaklar": [
-      "https://www.animenewsnetwork.com/all/rss.xml"
+      "https://www.animenewsnetwork.com/all/rss.xml",
+      "https://www.animenewsnetwork.com/newsfeed/rss.xml",
+      "https://www.kayiprihtim.com/feed/"
     ],
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true,
-    "sonKullanim": "2026-09-06T20:02:07.204Z"
+    "sonKullanim": "2026-09-07T07:46:03.620Z"
   },
   {
     "id": "sinema",
@@ -77,7 +84,8 @@
     "kaynaklar": [
       "https://www.beyazperde.com/rss/haberler.xml",
       "https://deadline.com/feed/",
-      "https://variety.com/feed/"
+      "https://variety.com/feed/",
+      "https://www.kayiprihtim.com/feed/"
     ],
     "medya": "gorsel",
     "agirlik": 3,
@@ -91,7 +99,8 @@
     "yonerge": "Sanatçı ve parça/albüm adını net yaz. Çıkış tarihi ya da konser bilgisi kaynakta varsa ekle; yoksa uydurma. Övgü yağdırma; neyin yeni ya da farklı olduğunu söyle.",
     "kaynaklar": [
       "https://www.hurriyet.com.tr/rss/kelebek",
-      "https://www.billboard.com/feed/"
+      "https://www.billboard.com/feed/",
+      "https://pitchfork.com/feed/feed-news/rss"
     ],
     "medya": "gorsel",
     "agirlik": 2,
@@ -106,7 +115,11 @@
     "kaynaklar": [
       "https://www.merlininkazani.com/rss",
       "https://tr.ign.com/feed.xml",
-      "https://www.pcgamer.com/rss/"
+      "https://www.pcgamer.com/rss/",
+      "https://www.log.com.tr/feed/",
+      "https://www.gamespot.com/feeds/news/",
+      "https://www.eurogamer.net/feed",
+      "https://www.youtube.com/feeds/videos.xml?channel_id=UCKy1dAqELo0zrOtPkf0eTMw"
     ],
     "medya": "gorsel",
     "agirlik": 3,
@@ -122,12 +135,15 @@
       "https://shiftdelete.net/feed",
       "https://www.webtekno.com/rss.xml",
       "https://www.theverge.com/rss/index.xml",
-      "https://feeds.bbci.co.uk/news/technology/rss.xml"
+      "https://feeds.bbci.co.uk/news/technology/rss.xml",
+      "https://www.teknoblog.com/feed/",
+      "https://www.chip.com.tr/rss/",
+      "https://www.donanimhaber.com/rss/tum/"
     ],
     "medya": "gorsel",
     "agirlik": 3,
     "aktif": true,
-    "sonKullanim": "2026-09-06T19:47:32.022Z"
+    "sonKullanim": "2026-09-06T22:22:45.108Z"
   },
   {
     "id": "ai",
@@ -136,7 +152,8 @@
     "yonerge": "Gelişmeyi sıradan bir okuyucunun anlayacağı dille anlat. 'Bu senin için ne değiştiriyor' sorusuna cevap ver. Abartılı gelecek vaadi kurma; ne yapabildiğini ve ne yapamadığını birlikte söyle.",
     "kaynaklar": [
       "https://www.artificialintelligence-news.com/feed/",
-      "https://techcrunch.com/feed/"
+      "https://techcrunch.com/feed/",
+      "https://www.hurriyet.com.tr/rss/teknoloji"
     ],
     "medya": "gorsel",
     "agirlik": 2,
@@ -149,7 +166,8 @@
     "aciklama": "Yeni modeller, elektrikli araçlar, fiyatlar.",
     "yonerge": "Marka ve model adını net yaz. Motor, menzil ya da fiyat gibi somut veri varsa MUTLAKA ekle — okuyucunun aradığı odur. Reklam gibi yazma, teknik veriye dayan.",
     "kaynaklar": [
-      "https://tr.motor1.com/rss/news/all/"
+      "https://tr.motor1.com/rss/news/all/",
+      "https://www.carmedya.com/rss"
     ],
     "medya": "gorsel",
     "agirlik": 2,
@@ -162,10 +180,12 @@
     "aciklama": "Yaşam, sağlık, ilişkiler, günlük hayat.",
     "yonerge": "Konuyu günlük hayattan bir örnekle bağla. Uygulanabilir tek bir öneri ver. Sağlık konusunda kesin hüküm kurma; tavsiye verirken 'uzmana danış' vurgusunu koru.",
     "kaynaklar": [
-      "https://www.hurriyet.com.tr/rss/yasam"
+      "https://www.hurriyet.com.tr/rss/yasam",
+      "https://www.ntv.com.tr/gundem.rss"
     ],
     "medya": "gorsel",
     "agirlik": 2,
-    "aktif": true
+    "aktif": true,
+    "sonKullanim": "2026-09-06T22:28:30.548Z"
   }
 ]

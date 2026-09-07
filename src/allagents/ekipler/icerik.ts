@@ -48,6 +48,35 @@ async function fikirBul(
     }));
     log.info(`kategori kaynaklarindan ${gundem.length} madde`);
   }
+  /**
+   * KULLANILMIS HABERLERI GUNDEMDEN CIKAR.
+   *
+   * Olcum: kuyruktaki 35 postun 9'u yalnizca 4 haberden uretilmisti;
+   * bir haber tek basina dort post dogurmustu.
+   *
+   * Sebep: tekrar filtresi KONU METNINE bakiyordu. Model ayni haberi her
+   * turda birazcik farkli yaziyor ("Sword Art Online: Material 1 - Sugary
+   * Days Agustos 2026'da..." / "Sword Art Online Material 1 'Sugary Days'
+   * Oricon...") ve iki metnin parmak izi tutmadigi icin ikisi de geciyordu.
+   *
+   * Cozum konu metni degil KAYNAK LINKI: bir haberden post uretildiyse o
+   * haber gundemden dusuyor ve model onu hic gormuyor. Boylece hem tekrar
+   * bitiyor hem de modelin dikkati kalan taze haberlere kaliyor.
+   */
+  const kullanilmis = new Set(
+    (await store.all()).map((p) => p.kaynak?.url).filter((u): u is string => Boolean(u)),
+  );
+  const oncekiAdet = gundem.length;
+  gundem = gundem.filter((g) => !g.url || !kullanilmis.has(g.url));
+  if (oncekiAdet !== gundem.length) {
+    log.info(`${oncekiAdet - gundem.length} haber daha once kullanilmis, gundemden cikarildi`);
+  }
+
+  if (!gundem.length) {
+    log.warn('bu kaynaklardaki butun haberler kullanilmis; yeni haber bekleniyor');
+    return [];
+  }
+
   const fikirler = await icerikBulma.run({
     count: adet,
     recent: (await store.all()).slice(-40).map((p) => p.topic),
@@ -80,8 +109,18 @@ async function fikirBul(
   return out;
 }
 
-async function yaz(adet: number): Promise<number> {
-  const drafts = (await store.byStatus('draft')).slice(0, adet);
+/**
+ * `kategori` verilirse yalniz o kategorinin taslaklari yazilir.
+ *
+ * Medya ve puanlama adimlarinda duzeltilen ayni kapsam hatasi burada da
+ * vardi ve gozden kacmisti: kullanici "Anime icerigi getir" dedi, uc
+ * anime fikri uretildi, sonra metin adimi kuyruktaki en eski uc taslagi
+ * aldi - onlar baska kategorilerdendi. Ekranda "3 fikir bulundu, 1 metin
+ * yazildi" yaziyor ama yazilan metin o uc fikre ait degildi.
+ */
+async function yaz(adet: number, kategori?: string): Promise<number> {
+  const tumu = await store.byStatus('draft');
+  const drafts = (kategori ? tumu.filter((p) => p.kategori === kategori) : tumu).slice(0, adet);
   let ok = 0;
 
   for (const post of drafts) {
@@ -159,7 +198,7 @@ export const icerikEkibi: Ekip = {
           ozet: `${n} fikir bulundu${gundem.length ? ` (${gundem.length} gundem maddesinden)` : ' (gundemsiz)'}`,
         };
       }
-      const n = await yaz(gorev.adet);
+      const n = await yaz(gorev.adet, gorev.kategori);
       return { ...head, ok: true, ozet: `${n} metin yazildi` };
     } catch (e) {
       return { ...head, ok: false, ozet: 'basarisiz', error: String(e) };

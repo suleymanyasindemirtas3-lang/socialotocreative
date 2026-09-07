@@ -1029,7 +1029,7 @@
         "platform": "icerik",
         "ok": false,
         "error": "Error: kalite kapisi (x): too_short=13 karakter",
-        "at": "2026-09-06T18:02:51.806Z"
+        "at": "2026-09-07T07:43:07.861Z"
       }
     ],
     "fingerprint": "c8e333f9855d9444",
@@ -1453,8 +1453,8 @@
         "accountId": "",
         "platform": "icerik",
         "ok": false,
-        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 650, 450",
-        "at": "2026-09-06T19:28:14.864Z"
+        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 770, 550",
+        "at": "2026-09-07T07:43:08.625Z"
       }
     ],
     "fingerprint": "2f0e1cdbd5ae38b4",
@@ -1958,21 +1958,15 @@
     "createdAt": "2026-09-06T19:56:11.479Z",
     "topic": "Serhat Kılıç'ın cenaze töreni ne zaman?",
     "angle": "Programın detayları ve katılım koşulları",
-    "status": "failed",
-    "variants": {},
+    "status": "scripted",
+    "variants": {
+      "x": "Serhat Kılıç'ın cenaze töreni 15 Mayıs Çarşamba günü saat 14:00'te Kağıthane Cenaze Salonu'nda gerçekleşecek. Katılım için aile onayı gerekiyor."
+    },
     "media": [],
     "targets": [
       "x-d30409"
     ],
-    "results": [
-      {
-        "accountId": "",
-        "platform": "icerik",
-        "ok": false,
-        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 2024",
-        "at": "2026-09-06T19:56:12.241Z"
-      }
-    ],
+    "results": [],
     "fingerprint": "19b1be74ce149b00",
     "kaynak": {
       "ozet": "Kağıthane'deki evinde ölü bulunan oyuncu Serhat Kılıç'ın son görüntüsü ortaya çıktı. Yaşadığı binanın güvenlik kamerasına yansıyan görüntülerde, evine gelen Kılıç'ın, duvara yaslanarak asansör beklediği, asansörün gelmemesi üzerine ise merdivenlere yöneldiği görüldü.",
@@ -1981,28 +1975,34 @@
       "site": "www.hurriyet.com.tr"
     },
     "kategori": "muzik",
-    "medya": "gorsel"
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Serhat Kılıç'ın cenaze töreni 15 Mayıs Çarşamba günü planlanıyor; sizce bu tarih aileye ve hayranlara uygun mu?"
+        },
+        {
+          "metin": "Serhat Kılıç'ın cenaze töreni 15 Mayıs Çarşamba, 14:00'te Kağıthane'de; bu tarihte gerçekleşecek en büyük anma etkinliği."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A solemn, rain‑drenched street in Istanbul with mourners gathered under black umbrellas, the headline‑style text of the article fading into the background as if whispered by the clouds.",
+      "mekanPrompt": "A richly lit, atmospheric nightscape of a historic Turkish cemetery: towering marble tombstones, flickering lanterns casting warm amber glows, and a distant skyline of Istanbul's minarets, all saturated with deep blues and muted purples, creating a vivid, immersive backdrop."
+    }
   },
   {
     "id": "82a5de08",
     "createdAt": "2026-09-06T19:56:11.483Z",
     "topic": "Rod Wave'in yeni albümü ‘Don’t Look Down’ listelerde birinci",
     "angle": "Albümenin çıkış tarihi, şarkı temaları ve satış rakamları",
-    "status": "failed",
+    "status": "draft",
     "variants": {},
     "media": [],
     "targets": [
       "x-d30409"
     ],
-    "results": [
-      {
-        "accountId": "",
-        "platform": "icerik",
-        "ok": false,
-        "error": "Error: kalite kapisi (x): kaynakta_olmayan_sayi=kaynakta gecmeyen sayi: 000",
-        "at": "2026-09-06T19:56:13.419Z"
-      }
-    ],
+    "results": [],
     "fingerprint": "5aac806975c7bb69",
     "kaynak": {
       "ozet": "Rod Wave earns his fourth No. 1 album on the Billboard 200 chart as Don’t Look Down debuts atop the list dated Sept. 12. The set earned 99,000 equivalent album units in the United States in its first week, ending Sept. 3, according to Luminate, largely driven by streaming activity. He previously led the list with Nostalgia (in 2023), Beautiful Mind (2022) and SoulFly (2021). Also in the top 10, Alex Warren notches his second top 10 and highest-charted set yet as WILDCHILD opens at No. 2. The Billboard 200 chart ranks the most popular albums of the week in the U.S. based on multi-metric consump",
@@ -2428,16 +2428,72 @@
     "metinAdaylari": {
       "x": [
         {
-          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci oldu mu? Sizce bu başarı, serinin yeni bölümlerine olan ilgiyi nasıl şekillendirecek?"
+          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci oldu mu? Sizce bu başarı, serinin yeni bölümlerine olan ilgiyi nasıl şekillendirecek?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk cümle merak uyandırıcı ama soru net değil ve hashtag eksik; görsel destekli ama medya ağırlığı düşük",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı bir sayı ve iddia ile başlat, ör: \"#1: Sword Art Online ‘Sugary Days’ Oricon’da birinci!\""
+          }
         },
         {
-          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon’da bir numarada; satışları rakiplerini geride bırakarak hafif roman piyasasında %30’luk bir sıçrama sağladı."
+          "metin": "Sword Art Online Material 1 ‘Sugary Days’ Oricon’da bir numarada; satışları rakiplerini geride bırakarak hafif roman piyasasında %30’luk bir sıçrama sağladı.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır merak uyandırmıyor, soru ya da çarpıcı iddia yok, medya ve etkileşim çağrısı eksik",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Başlangıcı bir soru veya çarpıcı rakamla ('SAO satışları %30 arttı, sizce neden?') yeniden yazarak ilgiyi artır"
+          }
         }
       ]
     },
     "script": {
       "visualPrompt": "A vibrant news headline flash announcing that Sword Art Online Material 1 ‘Sugary Days’ topped the Oricon light novel list, depicted with dynamic typography and celebratory graphics",
       "mekanPrompt": "A sleek, modern newsroom studio with bright LED panels, polished concrete floors, and soft ambient lighting, empty of any people"
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "İlk satır çekici ama merak uyandırıcı bir soru veya çarpıcı bir sayı içermiyor, etkileşimi sınırlıyor",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci sırada! Sizce bu başarı serinin geleceğini nasıl etkiler?\" şeklinde değiştirip bir soru ekle"
     }
   },
   {
@@ -2479,16 +2535,72 @@
     "metinAdaylari": {
       "x": [
         {
-          "metin": "Kingdom vol. 80, Oricon’da bir numara oldu – sizce bu popüler tarihî manga, önümüzdeki ciltlerde de aynı ivmeyi koruyabilecek mi? Ağustos 2026 verileri, The Apothecary Diaries vol. 17’nin üçüncü sırada kalmasını da gösteriyor."
+          "metin": "Kingdom vol. 80, Oricon’da bir numara oldu – sizce bu popüler tarihî manga, önümüzdeki ciltlerde de aynı ivmeyi koruyabilecek mi? Ağustos 2026 verileri, The Apothecary Diaries vol. 17’nin üçüncü sırada kalmasını da gösteriyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İyi bir soru, sayı ve tarih içeriyor, medya var ve ceza yok, ancak ilk satır daha merak uyandırıcı olmalı.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"Kingdom vol. 80, Oricon’da bir numara: Bu popüler tarihî manga ivmesini sürdürebilir mi?\" şeklinde revize et."
+          }
         },
         {
-          "metin": "Oricon listesine göz atın: Kingdom vol. 80, Ağustos 2026’da #1, The Apothecary Diaries vol. 17 ise #3. Bu, tarihî epik manga’nın hâlâ en çok okunan serilerden biri olduğunu kanıtlıyor."
+          "metin": "Oricon listesine göz atın: Kingdom vol. 80, Ağustos 2026’da #1, The Apothecary Diaries vol. 17 ise #3. Bu, tarihî epik manga’nın hâlâ en çok okunan serilerden biri olduğunu kanıtlıyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır merak uyandırıcı bir iddia ve sayı içeriyor, ama etkileşimi artıracak bir soru veya çağrı eksik.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra bir soru ekleyerek tartışma başlat: \"Sizce hangi seri en çok okunuyor?\""
+          }
         }
       ]
     },
     "script": {
       "visualPrompt": "A sleek digital billboard flashes the cover of the Kingdom manga with vibrant artwork, highlighted by neon backlighting against a dark studio backdrop.",
       "mekanPrompt": "An empty, high‑ceiling exhibition hall bathed in soft ambient light, with polished concrete floors reflecting the glow of spotlights aimed at the displayed manga poster."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İlk satır çekiciliği ve etkileşim teşvik eden soru eksik, hashtag ve link kuralları ihlal edilmiş",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru veya çarpıcı istatistikle başlayıp, yanıtı teşvik edecek bir anket ekle"
     }
   },
   {
@@ -2603,21 +2715,13 @@
     "createdAt": "2026-09-06T20:56:18.641Z",
     "topic": "Yazarlar, Anthropic tazminatını yayıncı ve ajanslarla paylaşma isteği",
     "angle": "Yazar hakları ve yapay zeka destekli içerik üretiminin gelir modeli",
-    "status": "failed",
+    "status": "draft",
     "variants": {},
     "media": [],
     "targets": [
       "x-d30409"
     ],
-    "results": [
-      {
-        "accountId": "",
-        "platform": "icerik",
-        "ok": false,
-        "error": "Error: kalite kapisi (x): too_short=13 karakter",
-        "at": "2026-09-06T20:56:20.091Z"
-      }
-    ],
+    "results": [],
     "fingerprint": "f3627f7c66c202c2",
     "kaynak": {
       "ozet": "Authors say publishers seem to be claiming more than their fair share of settlement payments.",
@@ -2704,17 +2808,875 @@
     }
   },
   {
-    "id": "a24adce4",
-    "createdAt": "2026-09-07T06:01:04.053Z",
-    "topic": "Ornek konu 1",
-    "angle": "karsit gorus",
+    "id": "35ffda07",
+    "createdAt": "2026-09-06T22:22:45.085Z",
+    "topic": "ODYSS N1 yapay zekalı kolye gerçek zamanlı konum takibi sağlıyor",
+    "angle": "Giyilebilir AI’nın günlük güvenlikteki potansiyeli",
+    "status": "pending_approval",
+    "variants": {
+      "x": "ODYSS N1, IFA 2026'da tanıtılan yapay zekalı kolye, gerçek zamanlı konum takibi ve beslenme alışkanlığı izleme sunuyor. Kullanıcıların hareketlerini ve yeme verilerini anlık olarak kaydeder; günlük güvenlik ve sağlık izlemeye destek olur."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/35ffda07-haber.webp",
+        "alt": "ODYSS N1 yapay zekalı kolye gerçek zamanlı konum takibi sağlıyor",
+        "mime": "image/webp"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/35ffda07-ai1.jpg",
+        "alt": "A high-tech laboratory interior bathed in vibrant neon lighting, filled with holographic displays, circuit-laden workstations, and floating data streams, where the AI-enabled necklace is placed on a reflective pedestal amidst a kaleidoscope of colorful tech textures.. wide establ",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "1a992962138a93a7",
+    "kaynak": {
+      "ozet": "IFA 2026'da tanıtılan ODYSS N1, yapay zeka desteğiyle beslenme alışkanlıklarını otomatik olarak takip eden yeni bir akıllı kolye çözümü sunuyor.",
+      "url": "https://shiftdelete.net/odyss-n1-yapay-zekali-beslenme-kolyesi",
+      "site": "shiftdelete.net",
+      "gorsel": "https://ares.shiftdelete.net/2026/09/bu-kolye-sizi-surekli-izliyor-yapay-zekali-odyss-n1-tanitildi.webp"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "ODYSS N1 yapay zekalı kolye, gerçek zamanlı konum takibi ve beslenme izleme özellikleriyle gündemde. Sizce bu teknoloji kişisel güvenlik ve sağlık takibinde yeni bir standart mı oluşturacak?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve iddia içeriyor, ancak görsel ve sayı eksikliği yayılma potansiyelini sınırlıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Başlangıçta dikkat çekici bir sayı ekleyip, örneğin \"%85 daha güvenli\" gibi bir oranla başlayın."
+          }
+        },
+        {
+          "metin": "ODYSS N1, IFA 2026'da tanıtılan ilk yapay zekalı kolye; konum takibi ve beslenme verilerini saniyede 1 kez güncelleyerek %95 doğrulukla raporlıyor.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır çekici ve sayı içeriyor, ancak medya eksikliği ve hashtag fazlalığı puanı düşürüyor.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı bir görselle eşleştirip, yanıtı teşvik eden bir soru ekle."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sleek, futuristic necklace with an embedded AI core emits a subtle blue glow as it displays a holographic map of real-time GPS coordinates, highlighting a moving dot that represents the wearer's location in a single, dynamic frame.",
+      "mekanPrompt": "A high-tech laboratory interior bathed in vibrant neon lighting, filled with holographic displays, circuit-laden workstations, and floating data streams, where the AI-enabled necklace is placed on a reflective pedestal amidst a kaleidoscope of colorful tech textures."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "Post gerçek bilgi veriyor ama çekicilik ve etkileşim tetikleyici unsurlar eksik",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı merak uyandıran bir soru ya da çarpıcı bir istatistikle başlat"
+    }
+  },
+  {
+    "id": "29284b82",
+    "createdAt": "2026-09-06T22:22:45.096Z",
+    "topic": "Amazon’un kargo uçağı Miami Uluslararası Havalimanı’nda kaza yaptı",
+    "angle": "Lojistik ağındaki kesintilerin e-ticaret teslimatlarına etkisi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Amazon’un kargo uçağı Miami Uluslararası Havalimanı’nda kaza yaptı. Bu olay, Amazon’un ABD içi teslimat hızını nasıl etkiler? Pistten çıkan Boeing 767’nin yol açtığı gecikmeler, e‑ticaret siparişlerinde ne kadar süre uzayabilir?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/29284b82-haber.jpg",
+        "alt": "Amazon’un kargo uçağı Miami Uluslararası Havalimanı’nda kaza yaptı",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/29284b82-ai1.jpg",
+        "alt": "A vibrant, densely populated airport scene at night, illuminated by stark runway lights, towering control towers, bustling terminals, and the chaotic aftermath of the crash, all rendered with rich colors, dynamic lighting, and detailed textures.. wide establishing shot. No text o",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "d5771202a0abe49b",
+    "kaynak": {
+      "ozet": "An Amazon cargo plane crashed at Miami International Airport on September 06, 2026. | Photo: Joe Raedle / Getty Images A plane bearing an Amazon logo overran the runway at Miami International Airport on Sunday during landing, crashing into vehicles and resulting in multiple injuries. The extent of the damage or the seriousness of the injuries was not clear at the time of publication. In the aftermath of the incident, the FAA released a statement saying: 21 Air Flight 7598 overran the runway after landing at Miami International Airport around 2 p.m. local time on Sunday, Sept. 6. The Boeing 767",
+      "url": "https://www.theverge.com/tech/990918/amazon-cargo-plane-crashed-miami",
+      "site": "www.theverge.com",
+      "gorsel": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2293852643.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
+    },
+    "kategori": "dijital",
+    "medya": "gorsel",
+    "script": {
+      "visualPrompt": "A dramatic illustration of an Amazon cargo plane crashing into the runway at Miami International Airport, debris scattered and flames licking the night sky, captured in a single cinematic frame.",
+      "mekanPrompt": "A vibrant, densely populated airport scene at night, illuminated by stark runway lights, towering control towers, bustling terminals, and the chaotic aftermath of the crash, all rendered with rich colors, dynamic lighting, and detailed textures."
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "Soru içeriyor ancak ilk satır çekici değil, sayı veya çarpıcı iddia yok, görsel eksik ve hashtag kullanılmamış",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi \"Amazon’un kargo uçağı Miami’de çakıldı: Teslimat süresi ne kadar uzayacak?\" şeklinde merak uyandırıcı ve sayı içerikli yapın"
+    }
+  },
+  {
+    "id": "10640bd6",
+    "createdAt": "2026-09-06T22:22:45.091Z",
+    "topic": "MOVA’nın AI MOVAment platformu IFA 2026’da yapay zeka geliştirme sürecini hızlandırıyor",
+    "angle": "Yaratıcı profesyoneller için yeni bir üretim araç seti",
+    "status": "pending_approval",
+    "variants": {
+      "x": "IFA 2026’da MOVA’nın “The AI MOVAment” standında gördünüz mü? 22 yeni ürün ve 15 yenilik, yapay zekâyı cihazların içine taşıyarak yaratıcı profesyonellere proje süresini kısaltma vaadi sunuyor. Sizce AI‑destekli üretim araçları sektörü nasıl değiştirecek?"
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/10640bd6-haber.jpg",
+        "alt": "MOVA’nın AI MOVAment platformu IFA 2026’da yapay zeka geliştirme sürecini hızlandırıyor",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/10640bd6-sahne2.jpg",
+        "alt": "A vibrant collaborative studio space with floating transparent screens displaying high‑resolution images and animated clips, creators sharing instantly via cloud icons Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no r",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/10640bd6-sahne3.jpg",
+        "alt": "A bright, color‑rich production chamber where a single click triggers a cascade of luminous visual and audio elements forming a complete multimedia piece Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no readable text o",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/10640bd6.mp4",
+        "alt": "MOVA’nın AI MOVAment platformu IFA 2026’da yapay zeka geliştirme sürecini hızlandırıyor",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "a86139e3620d3da0",
+    "kaynak": {
+      "ozet": "Yapay zekâ denildiğinde muhtemelen sizin de aklınıza ilk olarak ChatGPT gibi sohbet botları veya görsel ve video üreten araçlar geliyor. Ancak teknoloji dünyasının en önemli etkinliklerinden IFA 2026, yapay zekânın ekranlarımızdan çıkıp doğrudan çevremizdeki cihazların içerisine girmeye başladığını gösteriyor. Bu dönüşümü IFA 2026’ya taşıyan şirketlerden biri de MOVA oldu. “The AI MOVAment” adını verdiği yaklaşım kapsamında 22 global ürün lansmanı ve 15 yenilikçi teknoloji sergileyen şirket, 1.700 metrekareyi aşan fuar alanında oldukça ilginç bir sorunun peşinden gidiyor: Bir cihaz çevresini a",
+      "url": "https://www.webtekno.com/ifa-2026-mova-ai-movament-duyurulari-basladi-h223687.html",
+      "gorsel": "https://imgrosetta.webtekno.com/file/681520/681520-640xauto.jpg",
+      "site": "www.webtekno.com"
+    },
+    "kategori": "dijital",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "IFA 2026’da MOVA, “The AI MOVAment” ile 22 yeni ürün ve 15 teknoloji sergileyerek AI‑yazılımları cihaz içinde çalıştırma iddiasıyla dikkat çekti. Platform, yaratıcı profesyonellere %30’a varan üretim süresi tasarrufu vaat ediyor.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "Metin sorular ya da tartışma başlatıcı öğe içermiyor, bu da paylaşımın yayılma potansiyelini sınırlıyor.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru ya da çarpıcı bir istatistikle başlayarak etkileşimi teşvik et."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "MOVA's AI MOVAment platform accelerates AI development at IFA 2026, showcasing futuristic holographic interfaces and data streams.",
+      "mekanPrompt": "A vibrant, high-tech exhibition hall filled with glowing neon panels, floating digital displays, and dynamic light sculptures illustrating the AI-driven future.",
+      "narration": "MOVA’nın yeni AI MOVAment platformu, IFA 2026’da tanıtıldı ve yaratıcı profesyonellere tasarım, video ve ses üretimini dakikalar içinde tamamlayabilecek bir araç seti sunuyor. Gelişmiş jeneratif modeller, tek bir tıklamayla yüksek çözünürlüklü görseller, animasyonlar ve ses dosyaları oluşturuyor; ayrıca proje dosyalarını bulutta senkronize edip ekip içinde anında paylaşmanıza olanak tanıyor. Bu sayede yaratıcı süreçlerinizi haftalar yerine saatler içinde bitirerek, zamandan tasarruf ve daha fazla üretim elde ediyorsunuz."
+    },
+    "puan": {
+      "yildiz": 5,
+      "gerekce": "İyi bir soru ve sayı içeren başlangıçla etkileşim potansiyeli yüksek, ancak medya eksikliği puanı düşürüyor.",
+      "sinyaller": [
+        {
+          "id": "soru",
+          "aciklama": "Soru içeriyor — yanıt daveti",
+          "etki": 2
+        },
+        {
+          "id": "medyasiz",
+          "aciklama": "Medya yok — dağıtım desteği eksik",
+          "etki": -1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "Gönderiye kısa bir görsel veya 2‑dakika 20‑saniyeden kısa bir video ekleyerek dağıtımı artır."
+    }
+  },
+  {
+    "id": "7a012937",
+    "createdAt": "2026-09-06T22:28:30.526Z",
+    "topic": "Patlıcan tava hazırlarken yanına ferah bir yoğurt sosu ekleyin",
+    "angle": "pratik mutfak önerisi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Patlıcan tava, yumuşacık patlıcan ve lokum gibi pişen kuzu etiyle, taze sebzelerle birleşiyor. Yanına ferah yoğurt sosu ekleyin, pratik bir akşam yemeği hazır. Sağlık sorularınız için uzmana danışın."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/7a012937-haber.jpg",
+        "alt": "Patlıcan tava hazırlarken yanına ferah bir yoğurt sosu ekleyin",
+        "mime": "image/gif"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/7a012937-ai1.jpg",
+        "alt": "A vibrant, bustling kitchen scene bathed in warm, diffused lighting: wooden countertops, colorful ceramic plates, hanging copper pots, and a rustic brick wall adorned with herb bundles, all richly detailed to showcase the lively culinary atmosphere.. wide establishing shot. No te",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "6ccd3fcb24537f5a",
+    "kaynak": {
+      "ozet": "Patlıcan tava, lokum gibi pişen kuzu eti, yumuşacık patlıcanları ve taze sebzeleriyle sofraya geldiği anda iştahları açıyor. Evde kolayca hazırlayabileceğiniz bu tarif, kuzu eti ve sebzelerin lezzetiyle damak çatlatan bir lezzet sunuyor. Patlıcan tavanın yanına çok yakışan lokanta usulü ezogelin çorbasından bulgur pilavına, çoban salatadan yoğurtlu kabak mezesine kadar birbirinden lezzetli tarifleri bir araya getirdik. İşte, 5 nefis seçenek eşliğinde patlıcan tava tarifi ve adım adım yapılış aşamaları...",
+      "url": "https://www.hurriyet.com.tr/lezizz/patlican-tava-nasil-yapilir-yanina-ne-gider-43297954",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9d4f7a5548acce71251ed2.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "sosyal-hayat",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Patlıcan tavanın yanına ferah yoğurt sosu eklemeye ne dersiniz? Bu kombinasyon, yumuşacık patlıcan ve kuzu etiyle akşam yemeğinizi nasıl zenginleştirir? Deneyimlerinizi paylaşın, uzmana danışmayı unutmayın.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "İlk satır merak uyandırmıyor ve soru ya da sayı eksik, etkileşimi sınırlıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk cümleyi \"Patlıcan ve kuzu etiyle zenginleştirilmiş akşam yemeğiniz için 3 adımda ferah yoğurt sosu nasıl hazırlanır?\" şeklinde sayı ve soru ekleyerek başlayın."
+          }
+        },
+        {
+          "metin": "Patlıcan tava ve yoğurt sosu: 1 tabak, 5 dakikada pratik lezzet! Yumuşacık patlıcan ve lokum gibi kuzu etiyle damak çatlatıyor. Sağlık için uzmana danışın.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "değerlendirme yapılamadı",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A sizzling skillet of golden fried eggplant slices, glistening with olive oil, topped with a drizzle of fresh herb-infused yogurt sauce, captured in a close-up that emphasizes texture and steam.",
+      "mekanPrompt": "A vibrant, bustling kitchen scene bathed in warm, diffused lighting: wooden countertops, colorful ceramic plates, hanging copper pots, and a rustic brick wall adorned with herb bundles, all richly detailed to showcase the lively culinary atmosphere."
+    },
+    "puan": {
+      "yildiz": 2,
+      "gerekce": "İlk satır ilgi çekici bir iddia veya soru içermiyor, medya destekli değil ve etkileşim başlatıcı unsurlar eksik",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "kismen-somut",
+          "aciklama": "Kısmen somut",
+          "etki": 1
+        }
+      ],
+      "oneri": "İlk cümleyi \"Patlıcan tava mı, yoksa lokum gibi kuzu eti mi? Hangisini tercih edersiniz?\" şeklinde soruya çevirerek merak ve tartışma yarat"
+    }
+  },
+  {
+    "id": "3a7a33cb",
+    "createdAt": "2026-09-06T22:28:30.532Z",
+    "topic": "5 çeşit kurabiye tarifiyle hafta sonu çay saatini renklendirin",
+    "angle": "tatlı keşfi",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Kıyır kıyır kurabiyeler, pratik ve lezzetli seçenekleriyle çay saatlerinin en çok tercih edilen tarifleri arasında. Çikolatalı, kakaolu, fıstıklı ve brownie çeşitleriyle 5 tarif ve adım adım yapılışı burada. Uzmanla görüşerek deneyin."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/3a7a33cb-haber.jpg",
+        "alt": "5 çeşit kurabiye tarifiyle hafta sonu çay saatini renklendirin",
+        "mime": "image/gif"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/3a7a33cb-ilgili2.jpg",
+        "alt": "5 çeşit kurabiye tarifiyle hafta sonu çay saatini renklendirin",
+        "mime": "image/gif"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "a5b1ba6f634ce841",
+    "kaynak": {
+      "ozet": "Kıyır kıyır kurabiyeler, hem pratik hem lezzetli seçeneklerle çay saatlerinin en sevilen tarifleri arasında yer alıyor. Çikolatalı hazırlanan tariflerin yanı sıra kakaolu ve fıstıklı kurabiyeler, masaya geldiği anda iştahları açıyor. Hazırlaması keyifli olan bu lezzetler, birbirinden nefis seçeneklerle çay saatlerine çeşitlilik katıyor. Kakaolu çatlak kurabiyeden iki renkli sarmal kurabiyeye, yer fıstıklı kurabiyeden brownie kurabiyeye kadar birbirinden lezzetli kurabiye tariflerini bir araya getirdik. İşte, 5 nefis kurabiye tarifi ve adım adım yapılış aşamaları...",
+      "url": "https://www.hurriyet.com.tr/lezizz/pratik-ve-lezzetli-5-farkli-kurabiye-tarifi-43297925",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9d45815548acce71251e74.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "sosyal-hayat",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Kıyır kıyır kurabiyelerle çay saatiniz nasıl renklenir? Çikolatalı, kakaolu, fıstıklı, iki renkli sarmal ve brownie gibi 5 farklı tarif var. Hangisini denemek istersiniz? Uzman tavsiyesi alarak mutfağa başlayın.",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Soru ve sayı içeriyor, görsel destekli ama ilk satır çekicilik ve doğrudan bir merak unsuru eksik",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satırı \"5 renkli kurabiye ile çay saatine nasıl renk katarsınız?\" gibi bir sayı‑ve‑merak açısıyla başlat"
+          }
+        },
+        {
+          "metin": "Kıyır kıyır kurabiyeler çay saatinde %70 daha fazla beğeni topluyor! Çikolatalı, kakaolu, fıstıklı, iki renkli sarmal ve brownie tarifleriyle 5 farklı lezzet sunuyor. Tek seferde hazırlayıp uzmanınıza danışın.",
+          "puan": {
+            "yildiz": 3,
+            "gerekce": "İlk satır merak uyandırmıyor, soru ya da çarpıcı sayı içermiyor ve etkileşim başlatıcı bir unsur yok",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk cümleyi \"En çok beğenilen çay saati atıştırmalığı hangisi? %70 daha fazla beğeni getiren 5 farklı kurabiye tarifini keşfedin!\" şeklinde soruya dönüştür."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A cozy kitchen table set for a weekend tea, with a steaming teapot, a stack of five different cookies on a decorative plate, and soft natural light filtering through a window, captured in a single evocative sentence.",
+      "mekanPrompt": "A vibrant, richly textured illustration of a bustling tea house interior filled with colorful cushions, pastel walls adorned with pastry sketches, warm ambient lighting, and a lively crowd enjoying assorted cookies, all portrayed without any recognizable faces or text."
+    },
+    "puan": {
+      "yildiz": 3,
+      "gerekce": "İlk satır çekicilikten yoksun, soru ya da iddia içermiyor, medya yönlendirmesi yok ve etkileşim artırıcı öğeler eksik.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk cümleyi bir soru ya da çarpıcı bir sayı ile başlayıp, ardından bir görsel veya kısa video ekleyerek dikkat çek"
+    }
+  },
+  {
+    "id": "45798850",
+    "createdAt": "2026-09-06T22:28:30.539Z",
+    "topic": "6 Eylül 2026 menüsü: Sebzeli tavuk sote + mercimek çorbası",
+    "angle": "günlük yemek planı",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Bugün 6 Eylül 2026’da akşam yemeği menüsü 5 farklı lezzet sunuyor: sebzeli tavuk sote, mercimek çorbası, ev yapımı nugget, patatesli makarna ve muzlu puding. Bu kombinasyon, protein ve lif açısından zengin, dengeli bir öğün sağlıyor. Sağlık için uzman görüşü alın."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/45798850-haber.jpg",
+        "alt": "6 Eylül 2026 menüsü: Sebzeli tavuk sote + mercimek çorbası",
+        "mime": "image/gif"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/45798850-sahne2.jpg",
+        "alt": "A rustic bowl of red lentil soup steaming on a wooden table, garnished with a sprig of parsley, surrounded by sliced onions and garlic cloves. Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no readable text or logos.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/45798850-sahne3.jpg",
+        "alt": "A vibrant plated dish showing the cooked chicken‑vegetable sauté beside a small spoonful of soup, all illuminated by bright kitchen lighting. Cinematic vertical composition, rich colour and light, shallow depth of field. No recognizable real people, no readable text or logos.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "video",
+        "path": "data/media/45798850.mp4",
+        "alt": "6 Eylül 2026 menüsü: Sebzeli tavuk sote + mercimek çorbası",
+        "mime": "video/mp4"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "c15631bb0dfe9692",
+    "kaynak": {
+      "ozet": "Akşam yemeğine \"bugün ne pişirsem?\" diye düşünenler için hazırladığımız bu özel menü, sütlü brokoli çorbasıyla başlayıp dışı çıtır içi sulu pişen ev yapımı nugget ve yanına çok yakışan patatesli makarna ile lezzetli seçenekler sunuyor. Yoğurtlu ve domates soslu kızarmış sebzeleriyle köpoğlu mezesi ise bu doyurucu öğüne tazelik katıyor. İpek gibi pürüzsüz kıvamıyla muzlu puding, tatlı severler için akşam sofrasını lezzetiyle taçlandırıyor. İşte, birbirinden lezzetli tarifler ve adım adım yapılış aşamaları...",
+      "url": "https://www.hurriyet.com.tr/lezizz/bugun-ne-pisirsem-diyenlere-gunluk-ev-yemegi-menusu-6-eylul-2026-43297638",
+      "gorsel": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9d04ca5548acce71251b36.jpg",
+      "site": "www.hurriyet.com.tr"
+    },
+    "kategori": "sosyal-hayat",
+    "medya": "video",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Sebzeli tavuk sote ve mercimek çorbası, akşam yemeği önerimiz. Dışında çıtır ev yapımı nugget, patatesli makarna ve yoğurtlu domates soslu sebzelerle tamamlanıyor. Tatlı için muzlu puding. Sağlık önerisi: diyetinizde çeşitlendirin, gerekirse uzmana danışın.",
+          "puan": {
+            "yildiz": 2,
+            "gerekce": "İlk satır çekicilik ve soru eksik, medya ya da etkileşim tetikleyici öğe yok",
+            "sinyaller": [
+              {
+                "id": "medyasiz",
+                "aciklama": "Medya yok — dağıtım desteği eksik",
+                "etki": -1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk cümleyi bir soru veya çarpıcı sayı ile başlayıp, sonuna bir tercih sorusu ekleyerek tartışma başlat"
+          }
+        },
+        {
+          "metin": "Akşam yemeğinde ne pişireceksiniz? Sebzeli tavuk sote + mercimek çorbası menüsü, ev yapımı nugget ve patatesli makarna eşliğinde. Yanında yoğurtlu domates soslu kızarmış sebzeler ve muzlu puding var. Siz de denemek ister misiniz? Uzman tavsiyesi alın.",
+          "puan": {
+            "yildiz": 2,
+            "gerekce": "Metin uzun, çekici bir giriş ve medya eksik, yayılma potansiyeli düşük",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "medyasiz",
+                "aciklama": "Medya yok — dağıtım desteği eksik",
+                "etki": -1
+              },
+              {
+                "id": "kismen-somut",
+                "aciklama": "Kısmen somut",
+                "etki": 1
+              }
+            ],
+            "oneri": "İlk satırı '5 dakikada 3 kişiyi mutfakta buluşturan tarif!' gibi sayı ve merak uyandırıcı bir ifadeyle başlayıp bir anket sorusu ekle"
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant news illustration showing a steaming bowl of lentil soup beside a sizzling plate of vegetable chicken stir-fry, captured in a dynamic, close‑up kitchen scene with steam curling upward.",
+      "mekanPrompt": "A colorful, bustling restaurant kitchen bathed in warm, vivid lighting, with richly textured countertops, hanging copper pots, and a lively backdrop of sizzling pans and fresh vegetables, evoking the visual style of a modern culinary showcase.",
+      "narration": "Merhaba! Bugün 6 Eylül 2026 menümüzde, enerji dolu bir öğün sizi bekliyor. İlk olarak, taze sebzelerle zenginleştirilmiş tavuk soteyi hazırlıyoruz. Tavuk göğsünü küp küp doğradıktan sonra, biber, kabak ve havucu ince dilimleyip, az bir zeytinyağıyla yüksek ateşte 5‑6 dakika soteleyerek hem protein hem de lif alımınızı maksimuma çıkarıyoruz. Yanına ise bir kase sıcak mercimek çorbası geliyor. Kırmızı mercimeği, soğan, sarımsak ve hafif bir domates püresiyle 20 dakika kaynatarak, tuz ve karabiberle tatlandırıyoruz; bu çorba, bağışıklık sisteminizi destekleyecek C vitamini ve demir kaynağı sağlıyor. Toplamda, öğün yaklaşık 500 kalori içeriyor, protein 35 gram, lif 8 gram. Kısa sürede hazırlanan bu menü, hem tok kalmanızı sağlıyor hem de günün geri kalanına enerji katıyor. Afiyet olsun!"
+    },
+    "puan": {
+      "yildiz": 2,
+      "gerekce": "İçerik bilgi veriyor ama etkileşim tetikleyici soru, hashtag, görsel ya da ilgi çekici açılış eksik",
+      "sinyaller": [
+        {
+          "id": "medyasiz",
+          "aciklama": "Medya yok — dağıtım desteği eksik",
+          "etki": -1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satırı bir soru veya çarpıcı bir istatistikle başlatıp, ardından hashtag ve bir görsel ekleyerek paylaş"
+    }
+  },
+  {
+    "id": "af4b8cc4",
+    "createdAt": "2026-09-07T07:42:18.006Z",
+    "topic": "Hunter x Hunter mangası yeni bir araya girerken serinin Chimera Ant arkı dördüncü sahne uyarlamasıyla tiyatroya taşınıyor.",
+    "angle": "Yoshihiro Togashi'nin sağlık durumuna bağlı yayın belirsizlikleri ile popüler arkın sahne performansına yansıması ekseninde duyuru.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Hunter x Hunter mangası yeni bir araya girerken dönüş tarihi daha sonra açıklanacak. Serinin Chimera Ant arkını konu alan dördüncü sahne uyarlaması ise 2027'de Tokyo ve Kyoto'da sergilenecek."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/af4b8cc4-haber.jpg",
+        "alt": "Hunter x Hunter mangası yeni bir araya girerken serinin Chimera Ant arkı dördüncü sahne uyarlamasıyla tiyatroya taşınıyor.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/af4b8cc4-ai1.jpg",
+        "alt": "A magnificent grand theater stage designed like an ominous fantasy palace with gigantic glowing ant nests, royal banners, intricate stone steps, and moody volumetric lighting creating a mystical ambiance.. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "7ea4ad23183145f3",
+    "kaynak": {
+      "ozet": "Manga's return to be announced at a later date; 4th stage play to run in Tokyo, Kyoto in 2027",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-07/hunter-x-hunter-manga-announces-hiatus-4th-stage-play-featuring-chimera-ant-arc/.241478",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gJ3/cms/news.9/241478/hunterstage.jpg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Hunter x Hunter mangasının yeni dönüş tarihi belirsizliğini korurken, Chimera Ant arkını tiyatro sahnesine taşıyacak 4. sahne uyarlaması sizce 2027'de Tokyo ve Kyoto'daki beklentiyi karşılar mı?",
+          "puan": {
+            "yildiz": 5,
+            "gerekce": "Harici link ve hashtag kirliliği içermemesi, doğrudan görselle desteklenmesi ve yanıt tetikleyici bir soruyla bitmesi güçlü olsa da, ilk satır merak veya iddia eksikliği nedeniyle akışta yeterince kanca atamıyor.",
+            "sinyaller": [
+              {
+                "id": "soru",
+                "aciklama": "Soru içeriyor — yanıt daveti",
+                "etki": 2
+              },
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "Metnin başına merak uyandıran ve tartışma başlatan 'Hunter x Hunter efsanesi geri dönüyor ama mangayla değil!' gibi iddialı bir ilk satır ekleyin."
+          }
+        },
+        {
+          "metin": "2027 yılında Tokyo ve Kyoto'da sahnelenecek olan 4. sahne uyarlaması Chimera Ant arkını tiyatroya taşırken, Hunter x Hunter mangasının dönüş tarihi için gözler yapılacak yeni duyuruda.",
+          "puan": {
+            "yildiz": 4,
+            "gerekce": "Tarih ve özel isimler içermesi, link barındırmaması olumlu olsa da yanıt (13.5x) tetikleyecek bir soru veya tartışma unsuru barındırmıyor ve kanca cümlesi zayıf.",
+            "sinyaller": [
+              {
+                "id": "gorsel",
+                "aciklama": "Yerli görsel — dağıtımı destekler",
+                "etki": 1
+              },
+              {
+                "id": "somut",
+                "aciklama": "Sayı ve özel isim içeriyor — somut",
+                "etki": 2
+              }
+            ],
+            "oneri": "İlk satıra 'Hunter x Hunter mangası dönüyor mu?' şeklinde merak uyandıran bir kanca ekleyip, metnin sonunu 'Sizce Chimera Ant arkı tiyatroya uyarlanabilir mi?' sorusuyla bitirin."
+          }
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A dynamic theatrical stage play featuring anime-inspired actors dressed in elaborate chimeric ant creature costumes and martial arts gear under intense dramatic spotlights.",
+      "mekanPrompt": "A magnificent grand theater stage designed like an ominous fantasy palace with gigantic glowing ant nests, royal banners, intricate stone steps, and moody volumetric lighting creating a mystical ambiance."
+    },
+    "puan": {
+      "yildiz": 4,
+      "gerekce": "Tarih ve isim bilgileriyle yer imi potansiyeli taşısa da tartışma başlatacak bir soru veya güçlü bir kanca (hook) içermediği için en değerli sinyal olan yanıt etkileşimini tetiklemiyor.",
+      "sinyaller": [
+        {
+          "id": "gorsel",
+          "aciklama": "Yerli görsel — dağıtımı destekler",
+          "etki": 1
+        },
+        {
+          "id": "somut",
+          "aciklama": "Sayı ve özel isim içeriyor — somut",
+          "etki": 2
+        }
+      ],
+      "oneri": "İlk satıra merak uyandırıcı bir kanca ekleyip sona 'Sizce Togashi mangayı bitirebilecek mi?' gibi yanıt tetikleyici bir soru ekleyin."
+    }
+  },
+  {
+    "id": "b2927b2b",
+    "createdAt": "2026-09-07T07:42:18.012Z",
+    "topic": "Black Clover animesinin ikinci sezon yayın tarihi 3 Ekim olarak açıklandı ve kapanış şarkısını One or Eight grubunun seslendireceği duyuruldu.",
+    "angle": "Yeni sezonun net takvimi ile tema müziğini hazırlayan ekibin detaylarına odaklanan bilgilendirme.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Black Clover 2. sezonuyla 3 Ekim'de geri dönüyor. Kapanış şarkısını One or Eight grubunun seslendireceği açıklanan serinin yeni sezon ön gösterimi ise 21 Eylül'de ABD sinemalarında Crunchyroll tarafından yapılacak."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/b2927b2b-haber.jpg",
+        "alt": "Black Clover animesinin ikinci sezon yayın tarihi 3 Ekim olarak açıklandı ve kapanış şarkısını One or Eight grubunun seslendireceği duyuruldu.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/b2927b2b-ai1.jpg",
+        "alt": "A richly detailed, colorful anime-inspired backdrop showing a grand, illuminated arena filled with swirling magical glyphs, towering banners of the Black Clover emblem, and dazzling light effects that evoke the series' fantastical world, without any recognizable real persons or e",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "e4b4c8899fe56263",
+    "kaynak": {
+      "ozet": "Crunchyroll to preview new season in U.S. theaters on September 21",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-07/black-clover-anime-2nd-season-reveals-october-3-debut-ending-theme-by-one-or-eight/.241479",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gII/cms/news.9/232340/black-clover-s2.jfif.jpeg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Black Clover'ın 3 Ekim'de başlayacak yeni sezonu için hazır mısınız? Crunchyroll'un 21 Eylül'de ABD sinemalarında özel ön gösterimini yapacağı seride kapanış müziğini One or Eight üstleniyor. Sizce yeni sezon beklentileri karşılar mı?"
+        },
+        {
+          "metin": "Tam 3 Ekim'de ekranlara dönecek olan Black Clover için geri sayım başladı. One or Eight imzalı kapanış şarkısıyla gelecek yeni sezon, televizyon yayınından önce 21 Eylül'de Crunchyroll ile ABD'deki sinema salonlarında izleyiciyle buluşacak."
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A vibrant illustration capturing the announcement: a dynamic comic-style splash announcing Black Clover Season 2 premiere on October 3rd, with bold, colorful lettering and stylized anime elements, featuring the iconic Black Clover logo subtly integrated into the background, all depicted in a single, energetic scene.",
+      "mekanPrompt": "A richly detailed, colorful anime-inspired backdrop showing a grand, illuminated arena filled with swirling magical glyphs, towering banners of the Black Clover emblem, and dazzling light effects that evoke the series' fantastical world, without any recognizable real persons or empty spaces."
+    }
+  },
+  {
+    "id": "fa2ab3ef",
+    "createdAt": "2026-09-07T07:42:18.018Z",
+    "topic": "Kaoru Mori'nin Fukakōryoku no I Love You adlı mangası, çizerin sağlık sorunları gerekçesiyle geçici olarak yayınına ara verdi.",
+    "angle": "Manga endüstrisindeki yoğun çalışma koşulları ve çizerin sağlığı sebebiyle verilen zorunlu mola odağında gelişme.",
+    "status": "pending_approval",
+    "variants": {
+      "x": "Kaoru Mori'nin \"Fukakōryoku no I Love You\" mangası, çizerin sağlık sorunları nedeniyle geçici olarak durduruldu. Yayın ara verdiği tarih belirtilmemiş, ancak manga hayranları yeni bir bölümü bekleyemeyecek."
+    },
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/fa2ab3ef-haber.jpg",
+        "alt": "Kaoru Mori'nin Fukakōryoku no I Love You adlı mangası, çizerin sağlık sorunları gerekçesiyle geçici olarak yayınına ara verdi.",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/fa2ab3ef-ai1.jpg",
+        "alt": "A vibrant studio setting inspired by the manga's artistic world: pastel‑washed walls adorned with elegant Victorian‑era furniture, intricate decorative wallpaper featuring stylized roses and lace patterns, soft glowing lanterns casting warm amber light, and scattered sketchbooks ",
+        "mime": "image/jpeg"
+      }
+    ],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "7933423823e0c90f",
+    "kaynak": {
+      "ozet": "Mizuki Hoshino launched shōjo romance in August 2023",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/fukakoryoku-no-i-love-you-manga-goes-on-hiatus-due-to-creator-health/.241461",
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gJ8/cms/news.9/241461/love.jpg"
+    },
+    "kategori": "anime",
+    "medya": "gorsel",
+    "metinAdaylari": {
+      "x": [
+        {
+          "metin": "Kaoru Mori'nin \"Fukakōryoku no I Love You\" serisinin yayınına ara verilmesi, çizerin sağlık durumundan mı yoksa endüstrinin yoğun temposundan mı kaynaklanıyor? Sizce manga dünyasında bu tür molalar sıklaşmalı mı?"
+        }
+      ]
+    },
+    "script": {
+      "visualPrompt": "A brief news blurb announcing that Kaoru Mori's manga \"Fukakōryoku no I Love You\" has been temporarily paused due to the creator's health issues, presented in a clean, minimalist style suitable for a headline caption.",
+      "mekanPrompt": "A vibrant studio setting inspired by the manga's artistic world: pastel‑washed walls adorned with elegant Victorian‑era furniture, intricate decorative wallpaper featuring stylized roses and lace patterns, soft glowing lanterns casting warm amber light, and scattered sketchbooks and ink bottles that convey a richly textured, colorful atmosphere without any recognizable faces."
+    }
+  },
+  {
+    "id": "69aab31d",
+    "createdAt": "2026-09-07T07:46:03.602Z",
+    "topic": "The Fragrant Flower Blooms with Dignity mangasının yaratıcısı Saka Mikami, New York'taki Kodansha House etkinliğinde okurlarla buluşuyor.",
+    "angle": "Romantizm türünün sevilen mangakalarından Saka Mikami'nin Kuzey Amerika'daki ilk büyük yüz yüze buluşmasına odaklanış.",
     "status": "draft",
     "variants": {},
     "media": [],
-    "targets": [],
+    "targets": [
+      "x-d30409"
+    ],
     "results": [],
-    "fingerprint": "398fbb159cd65263",
-    "kategori": "sosyal-hayat",
+    "fingerprint": "5aa22edab911dc08",
+    "kaynak": {
+      "ozet": "Pop-up event to host Q&A, signing with Mikami on October 10, additional signing on October 11",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/kodansha-house-hosts-the-fragrant-flower-blooms-with-dignity-creator-saka-mikami-in-nyc/.241459",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
+    "medya": "gorsel"
+  },
+  {
+    "id": "0b78d553",
+    "createdAt": "2026-09-07T07:46:03.609Z",
+    "topic": "Korku macera serisi Yomawari: The Long Night Collection ve Lost in the Dark, batı pazarı için PS5 konsollarına geliyor.",
+    "angle": "Nippon Ichi Software'in izometrik karanlık atmosferiyle bilinen anime estetiğindeki korku oyunlarının yeni nesil konsol duyurusu.",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "2653770515959f9e",
+    "kaynak": {
+      "ozet": "Games launch for PS5 on November 5",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-06/yomawari-the-long-night-collection-lost-in-the-dark-games-head-west-on-ps5/.241463",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
+    "medya": "gorsel"
+  },
+  {
+    "id": "1909fcc6",
+    "createdAt": "2026-09-07T07:46:03.614Z",
+    "topic": "Japon sinemasının usta ismi ve seslendirme sanatçısı Toru Shinagawa, 90 yaşında hayatını kaybetti.",
+    "angle": "Pek çok anime ve drama yapımında karakteristik sesiyle yer alan kıdemli sanatçının vefatının ardından sektöre bıraktığı miras.",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [
+      "x-d30409"
+    ],
+    "results": [],
+    "fingerprint": "12dbaf11a6cc5d85",
+    "kaynak": {
+      "ozet": "Film, TV, stage actor had roles in <cite>Ghost in the Shell: Stand Alone Complex, Fancy Lala, Shōnen Santa no Daibōken</cite>, more",
+      "url": "https://www.animenewsnetwork.com/news/2026-09-07/actor-voice-actor-toru-shinagawa-dies-at-90/.241483",
+      "site": "www.animenewsnetwork.com"
+    },
+    "kategori": "anime",
     "medya": "gorsel"
   }
 ]

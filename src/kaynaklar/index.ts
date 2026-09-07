@@ -177,6 +177,8 @@ async function rssOku(feedler: string[], limit: number): Promise<TrendItem[]> {
           etiket(b, 'description'),
           etiket(b, 'summary'),
           etiket(b, 'content'),
+          // YouTube kanal beslemeleri ozeti burada tasiyor; digerlerinde bos.
+          etiket(b, 'media:description'),
         ].sort((x, y) => y.length - x.length)[0];
 
         /**
