@@ -2394,11 +2394,24 @@
     "createdAt": "2026-09-06T20:02:07.184Z",
     "topic": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci",
     "angle": "Hafif romanın satış başarısı ve yeni bölümlerin beklentisi",
-    "status": "scripted",
+    "status": "pending_approval",
     "variants": {
       "x": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci sırada. Bu konum, serinin satış başarısını gösteriyor ve yeni bölümlerin çıkışı için beklentileri artırıyor."
     },
-    "media": [],
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/93a4e46e-haber.jpg",
+        "alt": "Sword Art Online Material 1 ‘Sugary Days’ Oricon hafif roman listesinde birinci",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/93a4e46e-ai1.jpg",
+        "alt": "A sleek, modern newsroom studio with bright LED panels, polished concrete floors, and soft ambient lighting, empty of any people. wide establishing shot. No text or letters.",
+        "mime": "image/jpeg"
+      }
+    ],
     "targets": [
       "x-d30409"
     ],
@@ -2407,7 +2420,8 @@
     "kaynak": {
       "ozet": "<cite>Kirby: Mugen no Haguruma—Kiri ni Tsutsumareta Daijiken!?</cite> novel ranks at #2, <cite>Witch on the Holy Night</cite> part 1 novel ranks 3rd",
       "url": "https://www.animenewsnetwork.com/news/2026-09-06/sword-art-online-material-1-sugary-days-tops-oricon-monthly-light-novel-ranking-for-august-2026/.241453",
-      "site": "www.animenewsnetwork.com"
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315gJ3/cms/news.9/241453/sword.jpg"
     },
     "kategori": "anime",
     "medya": "gorsel",
@@ -2431,11 +2445,24 @@
     "createdAt": "2026-09-06T20:02:07.195Z",
     "topic": "Kingdom manga Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
     "angle": "Tarihi epik manga’nın popülerliği ve gelecek cilt planları",
-    "status": "scripted",
+    "status": "pending_approval",
     "variants": {
       "x": "Kingdom vol. 80, Ağustos 2026’da Oricon aylık çizgi roman listesinde birinci sırada yer alırken, The Apothecary Diaries vol. 17 üçüncü konumda kalıyor. Seri, tarihsel epik temasıyla Japon manga severlerin ilgisini sürdürüyor."
     },
-    "media": [],
+    "media": [
+      {
+        "kind": "image",
+        "path": "data/media/eedaf0c8-haber.jpg",
+        "alt": "Kingdom manga Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+        "mime": "image/jpeg"
+      },
+      {
+        "kind": "image",
+        "path": "data/media/eedaf0c8-ilgili2.jpg",
+        "alt": "Kingdom manga Ağustos 2026’da Oricon aylık çizgi roman sıralamasında zirvede",
+        "mime": "image/jpeg"
+      }
+    ],
     "targets": [
       "x-d30409"
     ],
@@ -2444,7 +2471,8 @@
     "kaynak": {
       "ozet": "<cite>Kingdom</cite> volume 80 ranks at #1, <cite>The Apothecary Diaries</cite> volume 17 stays at #3",
       "url": "https://www.animenewsnetwork.com/news/2026-09-06/kingdom-manga-tops-oricon-monthly-comic-ranking-for-august-2026/.241450",
-      "site": "www.animenewsnetwork.com"
+      "site": "www.animenewsnetwork.com",
+      "gorsel": "https://www.animenewsnetwork.com/thumbnails/crop600x315g3K/cms/news.9/241450/kingdom-80.jpg"
     },
     "kategori": "anime",
     "medya": "gorsel",
@@ -2674,5 +2702,19 @@
       ],
       "oneri": "İlk satırı bir soru veya çarpıcı bir istatistikle açıp, okuyucuyu yanıt vermeye teşvik edecek bir anket sorusu ekle."
     }
+  },
+  {
+    "id": "a24adce4",
+    "createdAt": "2026-09-07T06:01:04.053Z",
+    "topic": "Ornek konu 1",
+    "angle": "karsit gorus",
+    "status": "draft",
+    "variants": {},
+    "media": [],
+    "targets": [],
+    "results": [],
+    "fingerprint": "398fbb159cd65263",
+    "kategori": "sosyal-hayat",
+    "medya": "gorsel"
   }
 ]
